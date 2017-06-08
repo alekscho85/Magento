@@ -1,0 +1,268 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_Sales_Order_View_Tab_Lading
+ */
+?>
+<?php $_loading = $this->getLoading(); ?>
+<div>
+    <?php if ($_loading['error']): ?><p class="error-msg"><?php echo $_loading['message']; ?></p><?php endif; ?>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head"><?php echo $this->getTabTitle(); ?></h4>
+            <div class="tools">
+                <a href="<?php echo Mage::helper('extensa_econt')->getCourierUrl(); ?>"><?php echo Mage::helper('extensa_econt')->__('Заявка за куриер'); ?></a>
+            </div>
+        </div>
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Номер на пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['loading_num']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Задействана'); ?></label></td>
+                    <td class="value"><strong><?php if ((int)$_loading['is_imported']): ?><?php echo Mage::helper('extensa_econt')->__('Yes'); ?><?php else: ?><?php echo Mage::helper('extensa_econt')->__('No'); ?><?php endif; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Името на офиса или линията, в която в момента се намира пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['storage']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Лице получило пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['receiver_person']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Телефон на получателя'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['receiver_person_phone']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Служител предал пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['receiver_courier']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Телефон на служителя предал пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['receiver_courier_phone']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Време на предаване на пратката към клиента'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['receiver_time']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Събрана сума от наложен платеж по пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['cd_get_sum']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Време на събиране на наложения платеж'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['cd_get_time']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Изплатена сума на наложния платеж по пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['cd_send_sum']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Време на изплащане на наложения платеж'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['cd_send_time']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Стойност на пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['total_sum']; ?> <?php echo $_loading['currency']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Дължима сума от подателя'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['sender_ammount_due']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Дължима сума от получателя'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['receiver_ammount_due']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Дължима сума от 3-та страна'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['other_ammount_due']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Брой опити за разнос на пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_loading['delivery_attempt_count']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('PDF-a за товарителницата върху бланка'); ?></label></td>
+                    <td class="value"><?php if ($_loading['blank_yes']): ?><a href="<?php echo $_loading['blank_yes']; ?>" target="_blank"><strong><?php echo Mage::helper('extensa_econt')->__('Преглеждане'); ?></strong></a><?php endif; ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('PDF-a за товарителницата без бланка'); ?></label></td>
+                    <td class="value"><?php if ($_loading['blank_no']): ?><a href="<?php echo $_loading['blank_no']; ?>" target="_blank"><strong><?php echo Mage::helper('extensa_econt')->__('Преглеждане'); ?></strong></a><?php endif; ?></td>
+                </tr>
+                <?php if ($_loading['pdf_url']): ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('PDF-a за товарителницата на обратната пратка'); ?></label></td>
+                    <td class="value"><a href="<?php echo $_loading['pdf_url']; ?>" target="_blank"><strong><?php echo Mage::helper('extensa_econt')->__('Преглеждане'); ?></strong></a></td>
+                </tr>
+                <?php endif; ?>
+            </table>
+        </div>
+        <?php if ($_loading['trackings']): ?>
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head"><?php echo Mage::helper('extensa_econt')->__('Тракинг на пратката'); ?></h4>
+            </div>
+            <div class="grid">
+                <div class="hor-scroll">
+                    <table cellspacing="0" class="data">
+                        <thead>
+                            <tr class="headings">
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Време на събитието'); ?></span></th>
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Движение на обратна разписка ли е'); ?></span></th>
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Събитие'); ?></span></th>
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Име на склада, служителя, маршрутната линия'); ?></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($_loading['trackings'] as $_tracking): ?>
+                            <?php $class = (empty($class) ? 'even' : ''); ?>
+                            <tr class="<?php echo $class; ?>">
+                                <td><?php echo $_tracking['time']; ?></td>
+                                <td><?php echo $_tracking['is_receipt']; ?></td>
+                                <td><?php echo $_tracking['event']; ?></td>
+                                <td><?php echo $_tracking['name']; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <?php if ($_loading['next_parcels']): ?>
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head"><?php echo Mage::helper('extensa_econt')->__('Последвали пратки'); ?></h4>
+        </div>
+        <div class="fieldset">
+            <?php foreach ($_loading['next_parcels'] as $_next_parcel): ?>
+            <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Номер на пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['loading_num']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Задействана'); ?></label></td>
+                    <td class="value"><strong><?php if ((int)$_next_parcel['is_imported']): ?><?php echo Mage::helper('extensa_econt')->__('Yes'); ?><?php else: ?><?php echo Mage::helper('extensa_econt')->__('No'); ?><?php endif; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Името на офиса или линията, в която в момента се намира пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['storage']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Лице получило пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['receiver_person']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Телефон на получателя'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['receiver_person_phone']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Служител предал пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['receiver_courier']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Телефон на служителя предал пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['receiver_courier_phone']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Време на предаване на пратката към клиента'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['receiver_time']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Събрана сума от наложен платеж по пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['cd_get_sum']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Време на събиране на наложения платеж'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['cd_get_time']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Изплатена сума на наложния платеж по пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['cd_send_sum']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Време на изплащане на наложения платеж'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['cd_send_time']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Стойност на пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['total_sum']; ?> <?php echo $_next_parcel['currency']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Дължима сума от подателя'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['sender_ammount_due']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Дължима сума от получателя'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['receiver_ammount_due']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Дължима сума от 3-та страна'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['other_ammount_due']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Брой опити за разнос на пратката'); ?></label></td>
+                    <td class="value"><strong><?php echo $_next_parcel['delivery_attempt_count']; ?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('PDF-a за товарителницата върху бланка'); ?></label></td>
+                    <td class="value"><?php if ($_next_parcel['blank_yes']): ?><a href="<?php echo $_next_parcel['blank_yes']; ?>" target="_blank"><strong><?php echo Mage::helper('extensa_econt')->__('Преглеждане'); ?></strong></a><?php endif; ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('PDF-a за товарителницата без бланка'); ?></label></td>
+                    <td class="value"><?php if ($_next_parcel['blank_no']): ?><a href="<?php echo $_next_parcel['blank_no']; ?>" target="_blank"><strong><?php echo Mage::helper('extensa_econt')->__('Преглеждане'); ?></strong></a><?php endif; ?></td>
+                </tr>
+                <?php if ($_next_parcel['pdf_url']): ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('PDF-a за товарителницата на обратната пратка'); ?></label></td>
+                    <td class="value"><a href="<?php echo $_next_parcel['pdf_url']; ?>" target="_blank"><strong><?php echo Mage::helper('extensa_econt')->__('Преглеждане'); ?></strong></a></td>
+                </tr>
+                <?php endif; ?>
+            </table>
+            <?php endforeach; ?>
+        </div>
+        <?php if ($_next_parcel['trackings']): ?>
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head"><?php echo Mage::helper('extensa_econt')->__('Тракинг на пратката'); ?></h4>
+            </div>
+            <div class="grid">
+                <div class="hor-scroll">
+                    <table cellspacing="0" class="data">
+                        <thead>
+                            <tr class="headings">
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Време на събитието'); ?></span></th>
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Движение на обратна разписка ли е'); ?></span></th>
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Събитие'); ?></span></th>
+                                <th><span class="nobr"><?php echo Mage::helper('extensa_econt')->__('Име на склада, служителя, маршрутната линия'); ?></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($_next_parcel['trackings'] as $_tracking): ?>
+                            <?php $class = (empty($class) ? 'even' : ''); ?>
+                            <tr class="<?php echo $class; ?>">
+                                <td><?php echo $_tracking['time']; ?></td>
+                                <td><?php echo $_tracking['is_receipt']; ?></td>
+                                <td><?php echo $_tracking['event']; ?></td>
+                                <td><?php echo $_tracking['name']; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+</div>

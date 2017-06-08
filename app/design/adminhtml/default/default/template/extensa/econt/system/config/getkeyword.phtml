@@ -1,0 +1,59 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Getkeyword
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_get_key_word() {
+        $('carriers_extensa_econt_key_word_id').update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Please wait...')); ?></option>');
+
+        new Ajax.Request(
+            '<?php echo $this->getGetKeyWordUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    username: $F('carriers_extensa_econt_username'),
+                    password: $F('carriers_extensa_econt_password'),
+                    test    : $F('carriers_extensa_econt_test')
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response.key_words) {
+                            html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+
+                            for (i = 0; i < response.key_words.length; i++) {
+                                if (response.key_words[i] && response.key_words[i].length) {
+                                    html += '<option value="' + response.key_words[i] + '">' + response.key_words[i] + '</option>';
+                                }
+                            }
+
+                            $('carriers_extensa_econt_key_word_id').update(html);
+                            $$('select#carriers_extensa_econt_key_word_id option').each(function(o) {
+                                if (o.readAttribute('value') == $F('carriers_extensa_econt_key_word')) {
+                                    o.selected = true;
+                                    throw $break;
+                                }
+                            });
+                        } else if (response.error) {
+                            alert(response.message);
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    document.observe('dom:loaded', function() {
+        $('carriers_extensa_econt_key_word_id').observe('change', function() {
+            $('carriers_extensa_econt_key_word').setValue($F(this));
+        });
+    });
+    //]]>
+</script>

@@ -1,0 +1,70 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Getofficelocator
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_get_office_locator() {
+        url = '<?php echo Mage::helper('extensa_econt')->getOfficeLocatorUrl(); ?>' + '&shop_url=<?php echo Mage::getUrl('', array('_secure' => true)); ?>';
+
+        if ($F('carriers_extensa_econt_office_city_id')) {
+            url += '&address=' + $('carriers_extensa_econt_office_city_id').options[$('carriers_extensa_econt_office_city_id').selectedIndex].text;
+        }
+
+        extensa_econt_win = new Window({url: url, width: 1000, height: 800, destroyOnClose: true, minimizable: false, maximizable: false, recenterAuto: false, zIndex:9999});
+        extensa_econt_win.showCenter(false, 50);
+    }
+
+    function extensa_econt_receive_message(event) {
+        if (event.origin !== '<?php echo Mage::helper('extensa_econt')->getOfficeLocatorDomain(); ?>')
+            return;
+
+        map_data = event.data.split('||');
+
+        new Ajax.Request(
+            '<?php echo Mage::helper('extensa_econt')->getOfficeByCodeUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    office_code: map_data[0]
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+
+                        if ($F('carriers_extensa_econt_office_city_id') == response['city_id']) {
+                            options = $('carriers_extensa_econt_office_id').options;
+
+                            for (i = 0; i < options.length; i++) {
+                                if (options[i].readAttribute('value') == response['office_id']) {
+                                    options[i].selected = true;
+                                    break;
+                                }
+                            }
+
+                            $('carriers_extensa_econt_office_code').setValue(response['office_code']);
+                        } else {
+                            $('carriers_extensa_econt_office_city_id').setValue(response['city_id']);
+                            extensa_econt_get_offices(response);
+                        }
+                    }
+                }
+            }
+        );
+
+        extensa_econt_win.destroy();
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener('message', extensa_econt_receive_message, false);
+    } else if (window.attachEvent) {
+        window.attachEvent('onmessage', extensa_econt_receive_message);
+    }
+    //]]>
+</script>

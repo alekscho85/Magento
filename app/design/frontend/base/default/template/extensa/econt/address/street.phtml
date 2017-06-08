@@ -1,0 +1,10 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<ul>
+<?php foreach ($items as $item): ?>
+    <li><strong><?php echo $this->htmlEscape($item['name']); ?></strong></li>
+<?php endforeach; ?>
+</ul>

@@ -1,0 +1,44 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Getdata
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    var extensa_econt_get_data_step = 0;
+
+    function extensa_econt_get_data() {
+        new Ajax.Request(
+            '<?php echo $this->getGetDataUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    username: $F('carriers_extensa_econt_username'),
+                    password: $F('carriers_extensa_econt_password'),
+                    test    : $F('carriers_extensa_econt_test'),
+                    step    : extensa_econt_get_data_step
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response.step) {
+                            extensa_econt_get_data_step = response.step;
+                            extensa_econt_get_data();
+                        } else if (response.error || response.success) {
+                            alert(response.message);
+                        }
+                    }
+                },
+                onFailure: function(){
+                    alert('<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Възникна грешка! Моля, опитайте отново!')); ?>');
+                }
+            }
+        );
+    }
+    //]]>
+</script>

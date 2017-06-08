@@ -1,0 +1,212 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Array_Address
+ */
+?>
+<input type="hidden" class="carriers_extensa_econt_address_all" value="" />
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_autocomplete_address_all() {
+        $$('.carriers_extensa_econt_address_city').each(function(item) {
+            extensa_econt_autocomplete_address_city(item.readAttribute('id'));
+        });
+
+        $$('.carriers_extensa_econt_address_quarter').each(function(item) {
+            extensa_econt_autocomplete_address_quarter(item.readAttribute('id'));
+        });
+
+        $$('.carriers_extensa_econt_address_street').each(function(item) {
+            extensa_econt_autocomplete_address_street(item.readAttribute('id'));
+        });
+    }
+
+    function extensa_econt_autocomplete_address_city(city_id) {
+        $(city_id).stopObserving();
+        new Ajax.Autocompleter(
+            city_id,
+            city_id + '_autocomplete',
+            '<?php echo Mage::helper('extensa_econt')->getAutocompleteCityUrl(); ?>',
+            {
+                indicator         : city_id + '_indicator',
+                callback          : extensa_econt_autocomplete_address_city_callback,
+                afterUpdateElement: extensa_econt_autocomplete_address_city_update,
+                onSuccess         : function (response) {
+                    if (response.responseText.search('li') == -1) {
+                        $(city_id).setValue('');
+                    }
+                },
+                onShow            : function (element, update) {
+                    Effect.Appear(update, {duration:0});
+                }
+            }
+        );
+    }
+
+    function extensa_econt_autocomplete_address_city_callback(input, query) {
+        city_name = input.readAttribute('name');
+        $$('input[name="' + city_name.replace('city', 'city_id') + '"]')[0].setValue('');
+        $$('input[name="' + city_name.replace('city', 'post_code') + '"]')[0].setValue('');
+        $$('input[name="' + city_name.replace('city', 'quarter') + '"]')[0].setValue('');
+        $$('input[name="' + city_name.replace('city', 'street') + '"]')[0].setValue('');
+        $$('input[name="' + city_name.replace('city', 'street_num') + '"]')[0].setValue('');
+        $$('input[name="' + city_name.replace('city', 'other') + '"]')[0].setValue('');
+
+        return query;
+    }
+
+    function extensa_econt_autocomplete_address_city_update(input, li) {
+        city_name = input.readAttribute('name');
+        $$('input[name="' + city_name.replace('city', 'city_id') + '"]')[0].setValue(li.readAttribute('city_id'));
+        $$('input[name="' + city_name.replace('city', 'post_code') + '"]')[0].setValue(li.readAttribute('post_code'));
+    }
+
+    function extensa_econt_autocomplete_address_quarter(quarter_id) {
+        $(quarter_id).stopObserving();
+        new Ajax.Autocompleter(
+            quarter_id,
+            quarter_id + '_autocomplete',
+            '<?php echo Mage::helper('extensa_econt')->getAutocompleteQuarterUrl(); ?>',
+            {
+                indicator         : quarter_id + '_indicator',
+                callback          : extensa_econt_autocomplete_address_quarter_callback,
+                onSuccess         : function (response) {
+                    if (response.responseText.search('li') == -1) {
+                        $(quarter_id).setValue('');
+                    }
+                },
+                onShow            : function (element, update) {
+                    Effect.Appear(update, {duration:0});
+                }
+            }
+        );
+    }
+
+    function extensa_econt_autocomplete_address_quarter_callback(input, query) {
+        quarter_id = input.readAttribute('id');
+        return query + '&city_id=' + $F(quarter_id.replace('quarter', 'city_id'));
+    }
+
+    function extensa_econt_autocomplete_address_street(street_id) {
+        $(street_id).stopObserving();
+        new Ajax.Autocompleter(
+            street_id,
+            street_id + '_autocomplete',
+            '<?php echo Mage::helper('extensa_econt')->getAutocompleteStreetUrl(); ?>',
+            {
+                indicator         : street_id + '_indicator',
+                callback          : extensa_econt_autocomplete_address_street_callback,
+                onSuccess         : function (response) {
+                    if (response.responseText.search('li') == -1) {
+                        $(street_id).setValue('');
+                    }
+                },
+                onShow            : function (element, update) {
+                    Effect.Appear(update, {duration:0});
+                }
+            }
+        );
+    }
+
+    function extensa_econt_autocomplete_address_street_callback(input, query) {
+        street_id = input.readAttribute('id');
+        return query + '&city_id=' + $F(street_id.replace('street', 'city_id'));
+    }
+
+    document.observe('dom:loaded', extensa_econt_autocomplete_address_all);
+
+    Event.observe('addToEndBtn<?php echo $this->getHtmlId(); ?>', 'click', extensa_econt_autocomplete_address_all);
+    Event.observe('emptyAddBtn<?php echo $this->getHtmlId(); ?>', 'click', extensa_econt_autocomplete_address_all);
+
+    function extensa_econt_set_address() {
+        index = $F(this);
+        if (index && addresses && addresses[index]) {
+            $('grid<?php echo $this->getHtmlId(); ?>').show();
+            $('empty<?php echo $this->getHtmlId(); ?>').hide();
+            arrayRow<?php echo $this->getHtmlId(); ?>.add('', '');
+            extensa_econt_autocomplete_address_all();
+            index = $F(this);
+            city_name = $$('.carriers_extensa_econt_address_city').last().readAttribute('name');
+
+            $$('input[name="' + city_name.replace('city', 'post_code') + '"]')[0].setValue(addresses[index]['city_post_code']);
+
+            $$('input[name="' + city_name + '"]')[0].setValue(addresses[index]['city']);
+
+            if (addresses[index]['city_id'] && addresses[index]['city_id'].length) {
+                $$('input[name="' + city_name.replace('city', 'city_id') + '"]')[0].setValue(addresses[index]['city_id']);
+            }
+
+            if (addresses[index]['quarter'] && addresses[index]['quarter'].length) {
+                $$('input[name="' + city_name.replace('city', 'quarter') + '"]')[0].setValue(addresses[index]['quarter']);
+            } else {
+                $$('input[name="' + city_name.replace('city', 'quarter') + '"]')[0].setValue('');
+            }
+
+            if (addresses[index]['street'] && addresses[index]['street'].length) {
+                $$('input[name="' + city_name.replace('city', 'street') + '"]')[0].setValue(addresses[index]['street']);
+            } else {
+                $$('input[name="' + city_name.replace('city', 'street') + '"]')[0].setValue('');
+            }
+
+            if (addresses[index]['street_num'] && addresses[index]['street_num'].length) {
+                $$('input[name="' + city_name.replace('city', 'street_num') + '"]')[0].setValue(addresses[index]['street_num']);
+            } else {
+                $$('input[name="' + city_name.replace('city', 'street_num') + '"]')[0].setValue('');
+            }
+
+            if (addresses[index]['other'] && addresses[index]['other'].length) {
+                $$('input[name="' + city_name.replace('city', 'other') + '"]')[0].setValue(addresses[index]['other']);
+            } else {
+                $$('input[name="' + city_name.replace('city', 'other') + '"]')[0].setValue('');
+            }
+        }
+    }
+
+    document.observe('dom:loaded', function() {
+        $('carriers_extensa_econt_address_id').observe('change', extensa_econt_set_address);
+    });
+
+    Validation.addAllThese([
+        ['carriers_extensa_econt_address_all', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, въведете адрес.')); ?>', function(v, elm) {
+                if ($$('.carriers_extensa_econt_address_city')[0]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }],
+        ['carriers_extensa_econt_address_city', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, изберете населено място.')); ?>', function(v, elm) {
+                return !Validation.get('IsEmpty').test(v);
+            }],
+        ['carriers_extensa_econt_address_quarter', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, изберете квартал или улица.')); ?>', function(v, elm) {
+                quarter_id = elm.readAttribute('id');
+                return !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($F(quarter_id.replace('quarter', 'street')));
+            }],
+        /*['carriers_extensa_econt_address_street', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, изберете улица или квартал.')); ?>', function(v, elm) {
+                street_id = elm.readAttribute('id');
+                return !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($F(street_id.replace('street', 'quarter')));
+            }],*/
+        ['carriers_extensa_econt_address_street_num', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, попълнете номер.')); ?>', function(v, elm) {
+                street_num_name = elm.readAttribute('name');
+                return Validation.get('IsEmpty').test($$('input[name="' + street_num_name.replace('street_num', 'street') + '"]')[0].getValue()) ||
+                    !Validation.get('IsEmpty').test($$('input[name="' + street_num_name.replace('street_num', 'street') + '"]')[0].getValue()) &&
+                    !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($$('input[name="' + street_num_name.replace('street_num', 'quarter') + '"]')[0].getValue()) &&
+                    !Validation.get('IsEmpty').test($$('input[name="' + street_num_name.replace('street_num', 'other') + '"]')[0].getValue());
+            }],
+        ['carriers_extensa_econt_address_other', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, попълнете друго.')); ?>', function(v, elm) {
+                other_name = elm.readAttribute('name');
+                return Validation.get('IsEmpty').test($$('input[name="' + other_name.replace('other', 'quarter') + '"]')[0].getValue()) ||
+                    !Validation.get('IsEmpty').test($$('input[name="' + other_name.replace('other', 'quarter') + '"]')[0].getValue()) &&
+                    !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($$('input[name="' + other_name.replace('other', 'street') + '"]')[0].getValue()) &&
+                    !Validation.get('IsEmpty').test($$('input[name="' + other_name.replace('other', 'street_num') + '"]')[0].getValue());
+            }]
+    ]);
+    //]]>
+</script>

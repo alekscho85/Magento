@@ -1,0 +1,39 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Getinstructionform
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_get_instructions_form() {
+        new Ajax.Request(
+            '<?php echo $this->getGetAddressUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    username: $F('carriers_extensa_econt_username'),
+                    password: $F('carriers_extensa_econt_password'),
+                    test    : $F('carriers_extensa_econt_test')
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response.error) {
+                            alert(response.message);
+                        } else {
+                            if (response.instructions_form_url) {
+                                window.open(response.instructions_form_url, '', 'width=1050,height=800,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no');
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    }
+    //]]>
+</script>

@@ -1,0 +1,69 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Getinstruction
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_get_instruction() {
+        <?php foreach ($this->getInstructionsTypes() as $_instructions_type) { ?>
+        $('carriers_extensa_econt_instructions_id_<?php echo $_instructions_type['value']; ?>').update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Please wait...')); ?></option>');
+        $$('input[name=\'groups[extensa_econt][fields][instructions][value][all][<?php echo $_instructions_type['value']; ?>][]\']').each(function(item) {
+            item.remove();
+        });
+        <?php } ?>
+
+        new Ajax.Request(
+            '<?php echo $this->getGetInstructionUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    username: $F('carriers_extensa_econt_username'),
+                    password: $F('carriers_extensa_econt_password'),
+                    test    : $F('carriers_extensa_econt_test')
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response) {
+                            <?php foreach ($this->getInstructionsTypes() as $_instructions_type) { ?>
+                            html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+                            html_hidden = '';
+
+                            if (response.instructions && response.instructions['<?php echo $_instructions_type['value']; ?>']) {
+                                for (i = 0; i < response.instructions['<?php echo $_instructions_type['value']; ?>'].length; i++) {
+                                    if (response.instructions['<?php echo $_instructions_type['value']; ?>'][i] && response.instructions['<?php echo $_instructions_type['value']; ?>'][i].length) {
+                                        html += '<option value="' + response.instructions['<?php echo $_instructions_type['value']; ?>'][i] + '">' + response.instructions['<?php echo $_instructions_type['value']; ?>'][i] + '</option>';
+                                        html_hidden += '<input type="hidden" name="groups[extensa_econt][fields][instructions][value][all][<?php echo $_instructions_type['value']; ?>][]" value="' + response.instructions['<?php echo $_instructions_type['value']; ?>'][i] + '" />';
+                                    }
+                                }
+                            }
+
+                            $('carriers_extensa_econt_instructions_id_<?php echo $_instructions_type['value']; ?>').update(html);
+                            $$('select#carriers_extensa_econt_instructions_id_<?php echo $_instructions_type['value']; ?> option').each(function(o) {
+                                if (o.readAttribute('value') == $F('carriers_extensa_econt_instructions_<?php echo $_instructions_type['value']; ?>')) {
+                                    o.selected = true;
+                                    throw $break;
+                                }
+                            });
+                            $('carriers_extensa_econt_instructions_id_<?php echo $_instructions_type['value']; ?>').insert({after: html_hidden});
+                            <?php } ?>
+                        } else if (response.error) {
+                            alert(response.message);
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    function extensa_econt_fill_instructions(type) {
+        $('carriers_extensa_econt_instructions_' + type).setValue($F('carriers_extensa_econt_instructions_id_' + type));
+    }
+    //]]>
+</script>

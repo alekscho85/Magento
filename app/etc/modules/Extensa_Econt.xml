@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Module initial config
+ *
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+-->
+<config>
+    <modules>
+        <Extensa_Econt>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Adminhtml />
+                <Mage_Payment />
+                <Mage_Shipping />
+            </depends>
+        </Extensa_Econt>
+    </modules>
+</config>

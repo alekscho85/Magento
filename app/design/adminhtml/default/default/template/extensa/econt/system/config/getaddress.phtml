@@ -1,0 +1,77 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Getaddress
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    var addresses;
+
+    function extensa_econt_get_address() {
+        $('carriers_extensa_econt_address_id').update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Please wait...')); ?></option>');
+
+        new Ajax.Request(
+            '<?php echo $this->getGetAddressUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    username: $F('carriers_extensa_econt_username'),
+                    password: $F('carriers_extensa_econt_password'),
+                    test    : $F('carriers_extensa_econt_test')
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response.error) {
+                            alert(response.message);
+                        } else {
+                            if (response.name) {
+                                $('carriers_extensa_econt_name_person').setValue(response.name);
+                            }
+
+                            if (response.phone) {
+                                $('carriers_extensa_econt_phone').setValue(response.phone);
+                            }
+
+                            if (response.addresses) {
+                                addresses = response.addresses;
+                                html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+
+                                for (i = 0; i < response.addresses.length; i++) {
+                                    html += '<option value="' + i + '">';
+                                    html += response.addresses[i]['city_post_code'] + ', ' + response.addresses[i]['city'];
+
+                                    if (response.addresses[i]['quarter'] && response.addresses[i]['quarter'].length) {
+                                        html += ', ' + response.addresses[i]['quarter'];
+                                    }
+
+                                    if (response.addresses[i]['street'] && response.addresses[i]['street'].length) {
+                                        html += ', ' + response.addresses[i]['street'];
+
+                                        if (response.addresses[i]['street_num'] && response.addresses[i]['street_num'].length) {
+                                            html += ' ' + response.addresses[i]['street_num'];
+                                        }
+                                    }
+
+                                    if (response.addresses[i]['other'] && response.addresses[i]['other'].length) {
+                                        html += ', ' + response.addresses[i]['other'];
+                                    }
+
+                                    html += '</option>';
+                                }
+
+                                $('carriers_extensa_econt_address_id').update(html);
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    }
+    //]]>
+</script>

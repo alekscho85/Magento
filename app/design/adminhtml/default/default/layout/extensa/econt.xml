@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento admin layout
+ *
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+-->
+<layout>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+        </reference>
+    </adminhtml_system_config_edit>
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+        </reference>
+        <reference name="sales_order_tabs">
+            <action method="addTab"><name>extensa_econt</name><block>extensa_econt/adminhtml_sales_order_view_tab_loading</block></action>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

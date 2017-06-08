@@ -1,0 +1,15 @@
+/*
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+ 
+div.autocomplete { z-index:10000; position:absolute; width: 258px; overflow: hidden; background-color:white; border:1px solid #888; margin:0; padding:0; box-sizing: content-box; }
+div.autocomplete ul { margin:0; padding:0; }
+div.autocomplete ul li.selected { background-color:#dcebf0; }
+div.autocomplete ul li { padding:.5em .7em; /*min-height:32px;*/ cursor:pointer; text-align:left; color:#2f2f2f; line-height:1.3em; zoom:1; }
+
+#extensa_econt-form { font-size: 12px; }
+#extensa_econt-form li { overflow: visible; width: 100%; float: left;  }
+#extensa_econt-form li .field { width: 275px; float: left; box-sizing: content-box;  }
+#extensa_econt-form input.input-text  { width: 254px; height: 16px; box-sizing: content-box; padding: 2px; }
+#extensa_econt-form .form-list select { width: 260px; box-sizing: content-box; }
+#extensa_econt-form .control label { background: none; }

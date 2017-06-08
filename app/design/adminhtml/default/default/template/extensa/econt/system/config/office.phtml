@@ -1,0 +1,62 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Select_Office
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_get_office() {
+        $('carriers_extensa_econt_office_code').setValue('');
+
+        if ($F(this)) {
+            new Ajax.Request(
+                '<?php echo Mage::helper('extensa_econt')->getOfficeUrl(); ?>',
+                {
+                    method:     'post',
+                    parameters: {
+                        office_id: $F(this)
+                    },
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            response = transport.responseText.evalJSON();
+                            $('carriers_extensa_econt_office_code').setValue(response.office_code);
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    function extensa_econt_get_office_aps() {
+        $('carriers_extensa_econt_office_aps_code').setValue('');
+
+        if ($F(this)) {
+            new Ajax.Request(
+                '<?php echo Mage::helper('extensa_econt')->getOfficeUrl(); ?>',
+                {
+                    method:     'post',
+                    parameters: {
+                        office_id: $F(this)
+                    },
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            response = transport.responseText.evalJSON();
+                            $('carriers_extensa_econt_office_aps_code').setValue(response.office_code);
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    document.observe('dom:loaded', function() {
+        $('carriers_extensa_econt_office_id').observe('change', extensa_econt_get_office);
+        $('carriers_extensa_econt_office_aps_id').observe('change', extensa_econt_get_office_aps);
+    });
+    //]]>
+</script>

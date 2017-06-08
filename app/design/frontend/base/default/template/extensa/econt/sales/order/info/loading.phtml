@@ -1,0 +1,56 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php /** @var $this Extensa_Econt_Block_Sales_Order_Info_Loading */ ?>
+<?php //if (Mage::helper('extensa_econt')->getStoreConfigFlag('return_loading')): ?>
+<?php $_order = $this->getOrder(); ?>
+<?php if ($_order->getShippingMethod() == 'extensa_econt_extensa_econt'): ?>
+<?php $_loading = $this->getLoading(); ?>
+<?php if ($_loading['error'] || (!$_loading['is_returned'] && strtotime($_loading['receiver_time']) > 0) || ($_loading['is_returned'] && $_loading['returned_blank_yes'])): ?>
+<div id="extensa_econt_loading" class="order-info-box">
+    <?php if ($_loading['error']): ?><p class="error-msg"><?php echo $_loading['message']; ?></p><?php endif; ?>
+    <?php if ($_loading['is_returned'] && $_loading['returned_blank_yes']): ?>
+    <a href="<?php echo $_loading['returned_blank_yes']; ?>" target="_blank"><?php echo Mage::helper('extensa_econt')->__('PDF-a за върнатата товарителницата'); ?></a>
+    <?php elseif (!$_loading['is_returned'] && strtotime($_loading['receiver_time']) > 0): ?>
+    <?php echo Mage::helper('extensa_econt')->__('Номер на товарителницата'); ?>:
+    <?php echo $_loading['loading_num']; ?>
+    <button type="button" id="extensa_econt_return_loading_submit" class="button f-right" title="<?php echo Mage::helper('extensa_econt')->__('Върни'); ?>"><span><span><?php echo Mage::helper('extensa_econt')->__('Върни'); ?></span></span></button>
+    <?php endif; ?>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    $$('.order-info-box')[0].insert({
+        before: $('extensa_econt_loading')
+    });
+
+    function extensa_econt_return_loading() {
+        new Ajax.Request(
+            '<?php echo $this->getReturnLoadingUrl(); ?>',
+            {
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response.loading_return) {
+                            $('extensa_econt_loading').update('<a href="' + response.loading_return + '" target="_blank"><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('PDF-a за върнатата товарителницата')); ?></a>');
+                        } else if (response.error) {
+                            alert(response.message);
+                        } else if (response.success) {
+                            $('extensa_econt_loading').remove();
+                            alert(response.message);
+                        }
+                    }
+                }
+            }
+        );
+        return false;
+    }
+
+    $('extensa_econt_return_loading_submit').observe('click', extensa_econt_return_loading);
+//]]>
+</script>
+<?php endif; ?>
+<?php endif; ?>
+<?php //endif; ?>

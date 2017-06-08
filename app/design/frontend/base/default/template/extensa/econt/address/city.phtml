@@ -1,0 +1,10 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<ul>
+<?php foreach ($items as $item): ?>
+    <li city_id="<?php echo $item['city_id']; ?>" post_code="<?php echo $item['post_code']; ?>"><span class="informal">[<?php echo $this->htmlEscape($item['post_code']); ?>] </span><strong><?php echo $this->htmlEscape($item['name']); ?></strong></li>
+<?php endforeach; ?>
+</ul>

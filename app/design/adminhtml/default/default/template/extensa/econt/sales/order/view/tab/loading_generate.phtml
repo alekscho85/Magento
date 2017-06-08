@@ -1,0 +1,899 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_Sales_Order_View_Tab_Loading
+ */
+?>
+<?php $_htmlId = 'extensa_econt'; //$this->getHtmlId(); ?>
+<?php $_delivery_days = $this->getDeliveryDays(); ?>
+<?php $_products_all = $this->getProducts(); ?>
+<?php $_products = $_products_all['products']; ?>
+<?php $_products_no_weight = $_products_all['productsNoWeight']; ?>
+<div id="<?php echo $_htmlId; ?>_form">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head"><?php echo $this->getTabTitle(); ?></h4>
+            <div class="tools">
+                <a href="<?php echo Mage::helper('extensa_econt')->getCourierUrl(); ?>"><?php echo Mage::helper('extensa_econt')->__('Заявка за куриер'); ?></a>
+            </div>
+        </div>
+        <div class="fieldset">
+            <input type="hidden" name="html_id" value="<?php echo $_htmlId; ?>" />
+            <input type="hidden" name="<?php echo $_htmlId; ?>[order_id]" value="<?php echo $this->getEcontOrderId(); ?>" />
+            <table cellspacing="0" class="form-list">
+                <?php if ($_products_no_weight): ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('extensa_econt')->__('Продукти без тегло'); ?></label></td>
+                    <td class="value">
+                        <?php foreach ($_products_no_weight as $_product_no_weight): ?>
+                        [ <a href="<?php echo $_product_no_weight['href']; ?>" target="_blank"><?php echo $_product_no_weight['text']; ?></a> ]
+                        <?php endforeach; ?>
+                        <p class="note"><span><?php echo Mage::helper('extensa_econt')->__('трябва да попълните теглото им, за да можете да генерирате товарителница'); ?></span></p>
+                    </td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_shipping_to"><?php echo Mage::helper('extensa_econt')->__('Доставка'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_shipping_to" name="<?php echo $_htmlId; ?>[shipping_to]" class="select">
+                            <option value="OFFICE" <?php if ($this->getShippingTo() == 'OFFICE'): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('до офис'); ?></option>
+                            <option value="DOOR" <?php if ($this->getShippingTo() == 'DOOR'): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('до врата'); ?></option>
+                            <option value="APS" <?php if ($this->getShippingTo() == 'APS'): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('до АПС'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_city_id"><?php echo Mage::helper('extensa_econt')->__('Населено място'); ?></label></td>
+                    <td class="value">
+                        <select title="<?php echo Mage::helper('extensa_econt')->__('Населено място'); ?>" id="<?php echo $_htmlId; ?>_office_city_id" name="<?php echo $_htmlId; ?>[office_city_id]" class="select required-entry">
+                            <option value=""><?php echo Mage::helper('extensa_econt')->__('--Please Select--'); ?></option>
+                            <?php foreach ($this->getCities() as $_city): ?>
+                            <option value="<?php echo $_city->getCityId(); ?>" <?php if ($this->getOffice() && ($this->getOffice()->getCityId() == $_city->getCityId())): ?> selected="selected"<?php endif; ?>><?php echo $_city->getName(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_locator"></label></td>
+                    <td class="value"><button type="button" class="button" id="<?php echo $_htmlId; ?>_office_locator" title="<?php echo Mage::helper('extensa_econt')->__('Офис Локатор'); ?>"><span><span><?php echo Mage::helper('extensa_econt')->__('Офис Локатор'); ?></span></span></button></td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_id"><?php echo Mage::helper('extensa_econt')->__('Офис'); ?></label></td>
+                    <td class="value">
+                        <select title="<?php echo Mage::helper('extensa_econt')->__('Офис'); ?>" id="<?php echo $_htmlId; ?>_office_id" name="<?php echo $_htmlId; ?>[office_id]" class="select required-entry">
+                            <option value=""><?php echo Mage::helper('extensa_econt')->__('--Please Select--'); ?></option>
+                            <?php foreach ($this->getOffices() as $_office): ?>
+                            <option value="<?php echo $_office->getOfficeId(); ?>" <?php if ($this->getOffice() && ($this->getOffice()->getOfficeId() == $_office->getOfficeId())): ?> selected="selected"<?php endif; ?>><?php echo $_office->getOfficeCode() . ', ' . $_office->getName() . ', ' . $_office->getAddress(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_code"><?php echo Mage::helper('extensa_econt')->__('Код на офиса'); ?></label></td>
+                    <td class="value"><input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Код на офиса'); ?>" id="<?php echo $_htmlId; ?>_office_code" name="<?php echo $_htmlId; ?>[office_code]" value="<?php if ($this->getOffice()): echo $this->getOffice()->getOfficeCode(); endif; ?>" class="input-text disabled" disabled="disabled" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_city_aps_id"><?php echo Mage::helper('extensa_econt')->__('Населено място'); ?></label></td>
+                    <td class="value">
+                        <select title="<?php echo Mage::helper('extensa_econt')->__('Населено място'); ?>" id="<?php echo $_htmlId; ?>_office_city_aps_id" name="<?php echo $_htmlId; ?>[office_city_aps_id]" class="select required-entry">
+                            <option value=""><?php echo Mage::helper('extensa_econt')->__('--Please Select--'); ?></option>
+                            <?php foreach ($this->getCitiesAps() as $_city_aps): ?>
+                            <option value="<?php echo $_city_aps->getCityId(); ?>" <?php if ($this->getOffice() && ($this->getOffice()->getCityId() == $_city_aps->getCityId())): ?> selected="selected"<?php endif; ?>><?php echo $_city_aps->getName(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_aps_id"><?php echo Mage::helper('extensa_econt')->__('Офис'); ?></label></td>
+                    <td class="value">
+                        <select title="<?php echo Mage::helper('extensa_econt')->__('Офис'); ?>" id="<?php echo $_htmlId; ?>_office_aps_id" name="<?php echo $_htmlId; ?>[office_aps_id]" class="select required-entry">
+                            <option value=""><?php echo Mage::helper('extensa_econt')->__('--Please Select--'); ?></option>
+                            <?php foreach ($this->getOfficesAps() as $_office_aps): ?>
+                            <option value="<?php echo $_office_aps->getOfficeId(); ?>" <?php if ($this->getOffice() && ($this->getOffice()->getOfficeId() == $_office_aps->getOfficeId())): ?> selected="selected"<?php endif; ?>><?php echo $_office_aps->getOfficeCode() . ', ' . $_office_aps->getName() . ', ' . $_office_aps->getAddress(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_office_aps_code"><?php echo Mage::helper('extensa_econt')->__('Код на офиса'); ?></label></td>
+                    <td class="value"><input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Код на офиса'); ?>" id="<?php echo $_htmlId; ?>_office_aps_code" name="<?php echo $_htmlId; ?>[office_aps_code]" value="<?php if ($this->getOffice()): echo $this->getOffice()->getOfficeCode(); endif; ?>" class="input-text disabled" disabled="disabled" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_city"><?php echo Mage::helper('extensa_econt')->__('Населено място'); ?></label></td>
+                    <td class="value">
+                        <input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Населено място'); ?>" id="<?php echo $_htmlId; ?>_city" name="<?php echo $_htmlId; ?>[city]" value="<?php if ($this->getReceiverCity()): ?><?php echo $this->htmlEscape($this->getReceiverCity()->getName()); ?><?php endif; ?>" class="input-text required-entry" /><input type="hidden" id="<?php echo $_htmlId; ?>_city_id" name="<?php echo $_htmlId; ?>[city_id]" value="<?php if ($this->getReceiverCity()): ?><?php echo $this->htmlEscape($this->getReceiverCity()->getCityId()); ?><?php endif; ?>" />
+                        <span id="<?php echo $_htmlId; ?>_city_indicator" class="autocomplete-indicator" style="display: none; position: absolute; margin-left: -17px;">
+                            <img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" alt="<?php echo Mage::helper('extensa_econt')->__('Loading...'); ?>" title="<?php echo Mage::helper('extensa_econt')->__('Loading...') ?>" class="v-middle" />
+                        </span>
+                        <div id="<?php echo $_htmlId; ?>_city_autocomplete" class="autocomplete" style="display: none;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_post_code"><?php echo Mage::helper('extensa_econt')->__('Пощенски код'); ?></label></td>
+                    <td class="value"><input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Пощенски код'); ?>" id="<?php echo $_htmlId; ?>_post_code" name="<?php echo $_htmlId; ?>[postcode]" value="<?php echo $this->htmlEscape($this->getReceiverPostcode()); ?>" class="input-text disabled" disabled="disabled" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_quarter"><?php echo Mage::helper('extensa_econt')->__('Квартал'); ?></label></td>
+                    <td class="value">
+                        <input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Квартал'); ?>" id="<?php echo $_htmlId; ?>_quarter" name="<?php echo $_htmlId; ?>[quarter]" value="<?php echo $this->htmlEscape($this->getReceiverQuarter()); ?>" class="input-text <?php echo $_htmlId; ?>-required-quarter" />
+                        <span id="<?php echo $_htmlId; ?>_quarter_indicator" class="autocomplete-indicator" style="display: none; position: absolute; margin-left: -17px;">
+                            <img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" alt="<?php echo Mage::helper('extensa_econt')->__('Loading...'); ?>" title="<?php echo Mage::helper('extensa_econt')->__('Loading...') ?>" class="v-middle" />
+                        </span>
+                        <div id="<?php echo $_htmlId; ?>_quarter_autocomplete" class="autocomplete" style="display: none;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_street"><?php echo Mage::helper('extensa_econt')->__('Улица'); ?></label></td>
+                    <td class="value">
+                        <input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Улица'); ?>" id="<?php echo $_htmlId; ?>_street" name="<?php echo $_htmlId; ?>[street]" value="<?php echo $this->htmlEscape($this->getReceiverStreet()); ?>" class="input-text <?php echo $_htmlId; ?>-required-street" />
+                        <span id="<?php echo $_htmlId; ?>_street_indicator" class="autocomplete-indicator" style="display: none; position: absolute; margin-left: -17px;">
+                            <img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" alt="<?php echo Mage::helper('extensa_econt')->__('Loading...'); ?>" title="<?php echo Mage::helper('extensa_econt')->__('Loading...') ?>" class="v-middle" />
+                        </span>
+                        <div id="<?php echo $_htmlId; ?>_street_autocomplete" class="autocomplete" style="display: none;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_street_num"><?php echo Mage::helper('extensa_econt')->__('Номер'); ?></label></td>
+                    <td class="value"><input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Номер'); ?>" id="<?php echo $_htmlId; ?>_street_num" name="<?php echo $_htmlId; ?>[street_num]" value="<?php echo $this->htmlEscape($this->getReceiverStreetNum()); ?>" class="input-text <?php echo $_htmlId; ?>-required-street-num" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_other"><?php echo Mage::helper('extensa_econt')->__('Друго'); ?></label></td>
+                    <td class="value"><input type="text" title="<?php echo Mage::helper('extensa_econt')->__('Друго'); ?>" id="<?php echo $_htmlId; ?>_other" name="<?php echo $_htmlId; ?>[other]" value="<?php echo $this->htmlEscape($this->getReceiverOther()); ?>" class="input-text <?php echo $_htmlId; ?>-required-other" /></td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_address_id"><?php echo Mage::helper('extensa_econt')->__('Адрес на подателя'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_address_id" name="<?php echo $_htmlId; ?>[address_id]" class="required-entry select">
+                            <?php foreach ($this->getSenderAddresses() as $_address_id => $_address): ?>
+                            <option value="<?php echo $_address_id; ?>" <?php if ($this->getExpressCityCourier() == $_address_id): ?> selected="selected"<?php endif; ?>><?php echo $_address['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php foreach ($this->getSenderAddresses() as $_address_id => $_address): ?>
+                        <input type="hidden" id="<?php echo $_htmlId; ?>_address_postcode_<?php echo $_address_id; ?>" value="<?php echo $_address['post_code']; ?>" />
+                        <?php endforeach; ?>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_sms"><?php echo Mage::helper('extensa_econt')->__('SMS при доставка'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_sms" name="<?php echo $_htmlId; ?>[sms]" class="select">
+                            <option value="1" <?php if ($this->getShippingFrom() != 'APS' && $this->getSmsNo()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if ($this->getShippingFrom() == 'APS' || !$this->getSmsNo()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_sms_no"><?php echo Mage::helper('extensa_econt')->__('номер'); ?></label></td>
+                    <td class="value"><input type="text" id="<?php echo $_htmlId; ?>_sms_no" name="<?php echo $_htmlId; ?>[sms_no]" value="<?php echo $this->getSmsNo(); ?>" class="required-entry input-text" /></td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_invoice_before_cd"><?php echo Mage::helper('extensa_econt')->__('Предай фактура преди плащане на наложения платеж'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_invoice_before_cd" name="<?php echo $_htmlId; ?>[invoice_before_cd]" class="select">
+                            <option value="1" <?php if ($this->getInvoiceBeforeCd()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if (!$this->getInvoiceBeforeCd()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_dc"><?php echo Mage::helper('extensa_econt')->__('Обратна разписка'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_dc" name="<?php echo $_htmlId; ?>[dc]" class="select">
+                            <option value="1" <?php if ($this->getDc()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if (!$this->getDc()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_dc_cp"><?php echo Mage::helper('extensa_econt')->__('Стокова разписка'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_dc_cp" name="<?php echo $_htmlId; ?>[dc_cp]" class="select">
+                            <option value="1" <?php if ($this->getDcCp()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if (!$this->getDcCp()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_disposition"><?php echo Mage::helper('extensa_econt')->__('Да се добавя ли разпореждане от следния тип'); ?></label></td>
+                    <td class="value">
+                        <ul id="<?php echo $_htmlId; ?>_disposition" class="checkboxes">
+                            <li><input type="checkbox" id="<?php echo $_htmlId; ?>_pay_after_accept" name="<?php echo $_htmlId; ?>[pay_after_accept]" value="1" <?php if ($this->getPayAfterAccept()) { ?> checked="checked"<?php } ?> onclick="$('<?php echo $_htmlId; ?>_pay_after_test').checked = false;" />
+                                <label for="<?php echo $_htmlId; ?>_pay_after_accept"><?php echo Mage::helper('extensa_econt')->__('разпореждам пратката да се прегледа от получателя и да плати наложения платеж само ако приеме стоката ми'); ?></label></li>
+                            <li><input type="checkbox" id="<?php echo $_htmlId; ?>_pay_after_test" name="<?php echo $_htmlId; ?>[pay_after_test]" value="1" <?php if ($this->getPayAfterTest()) { ?> checked="checked"<?php } ?> onclick="$('<?php echo $_htmlId; ?>_pay_after_accept').checked = false;" />
+                                <label for="<?php echo $_htmlId; ?>_pay_after_test"><?php echo Mage::helper('extensa_econt')->__('разпореждам пратката да се прегледа и тества от получателя и да плати наложения платеж само ако приеме стоката ми'); ?></label></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr id="<?php echo $_htmlId; ?>_priority_time" <?php if ($this->getShippingTo() != 'DOOR' || $this->getPriorityTime() === false) { ?> style="display: none;"<?php } ?>>
+                    <td class="label">
+                        <input type="checkbox" id="<?php echo $_htmlId; ?>_priority_time_cb" name="<?php echo $_htmlId; ?>[priority_time_cb]" value="1" class="checkbox" <?php if ($this->getPriorityTimeCb()) { ?> checked="checked"<?php } ?> onclick="toggleValueElements(this, this.parentNode.parentNode, null, !this.checked);" />
+                        <label for="<?php echo $_htmlId; ?>_priority_time_cb" style="display: inline;"><?php echo Mage::helper('extensa_econt')->__('Час за приоритет'); ?></label>
+                    </td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_priority_time_type_id" name="<?php echo $_htmlId; ?>[priority_time_type_id]" class="select">
+                            <?php foreach (Mage::helper('extensa_econt')->getPriorityTimeTypes() as $_priority_time_type): ?>
+                            <option value="<?php echo $_priority_time_type['id']; ?>" <?php if ($_priority_time_type['id'] == $this->getPriorityTimeTypeId()): $_priority_time_hours = $_priority_time_type['hours']; ?> selected="selected"<?php endif; ?>><?php echo $_priority_time_type['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select id="<?php echo $_htmlId; ?>_priority_time_hour_id" name="<?php echo $_htmlId; ?>[priority_time_hour_id]" class="select">
+                            <?php foreach ($_priority_time_hours as $_priority_time_hour): ?>
+                            <option value="<?php echo $_priority_time_hour; ?>" <?php if ($_priority_time_hour == $this->getPriorityTimeHourId()): ?> selected="selected"<?php endif; ?>><?php echo $_priority_time_hour; ?> <?php echo Mage::helper('extensa_econt')->__('ч.'); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="<?php echo $_htmlId; ?>_express_city_courier" <?php if ($this->getShippingTo() != 'DOOR' || $this->getExpressCityCourier() === false) { ?> style="display: none;"<?php } ?>>
+                    <td class="label">
+                        <input type="checkbox" id="<?php echo $_htmlId; ?>_express_city_courier_cb" name="<?php echo $_htmlId; ?>[express_city_courier_cb]" value="1" class="checkbox" <?php if ($this->getExpressCityCourierCb()): ?> checked="checked"<?php endif; ?> onclick="toggleValueElements(this, this.parentNode.parentNode, null, !this.checked);" />
+                        <label for="<?php echo $_htmlId; ?>_express_city_courier_cb" style="display: inline;"><?php echo Mage::helper('extensa_econt')->__('Експресен градски куриер'); ?></label>
+                    </td>
+                    <td class="value">
+                        <input type="radio" id="<?php echo $_htmlId; ?>_express_city_courier_e1" name="<?php echo $_htmlId; ?>[express_city_courier_e]" value="e1" class="radio" <?php if ($this->getExpressCityCourierE() == 'e1'): ?> checked="checked"<?php endif; ?> />
+                        <label for="<?php echo $_htmlId; ?>_express_city_courier_e1"><?php echo Mage::helper('extensa_econt')->__('до 60 мин (Е1)'); ?></label>
+                        <input type="radio" id="<?php echo $_htmlId; ?>_express_city_courier_e2" name="<?php echo $_htmlId; ?>[express_city_courier_e]" value="e2" class="radio" <?php if ($this->getExpressCityCourierE() == 'e2'): ?> checked="checked"<?php endif; ?> />
+                        <label for="<?php echo $_htmlId; ?>_express_city_courier_e2"><?php echo Mage::helper('extensa_econt')->__('до 120 мин (Е2)'); ?></label>
+                        <input type="radio" id="<?php echo $_htmlId; ?>_express_city_courier_e3" name="<?php echo $_htmlId; ?>[express_city_courier_e]" value="e3" class="radio" <?php if ($this->getExpressCityCourierE() == 'e3'): ?> checked="checked"<?php endif; ?> />
+                        <label for="<?php echo $_htmlId; ?>_express_city_courier_e3"><?php echo Mage::helper('extensa_econt')->__('в рамките на деня (Е3)'); ?></label>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS' || !$_delivery_days['delivery_days']): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label">
+                        <input type="checkbox" id="<?php echo $_htmlId; ?>_delivery_day_cb" name="<?php echo $_htmlId; ?>[delivery_day_cb]" value="1" class="checkbox" <?php if ($this->getDeliveryDay()): ?> checked="checked"<?php endif; ?> onclick="toggleValueElements(this, this.parentNode.parentNode, null, !this.checked);" />
+                        <label for="<?php echo $_htmlId; ?>_delivery_day_cb" style="display: inline;"><?php echo Mage::helper('extensa_econt')->__('Ден за разнос'); ?></label>
+                    </td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_delivery_day_id" name="<?php echo $_htmlId; ?>[delivery_day_id]" class="select">
+                            <?php foreach ($_delivery_days['delivery_days'] as $_delivery_day): ?>
+                            <option value="<?php echo $_delivery_day['id']; ?>" <?php if ($_delivery_day['id'] == $_delivery_days['delivery_day_id']): ?> selected="selected"<?php endif; ?>><?php echo $_delivery_day['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <?php if ($this->getShippingFrom() != 'APS'): ?>
+                <tr>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_pack_count"><?php echo Mage::helper('extensa_econt')->__('Брой пакети'); ?></label></td>
+                    <td class="value"><input type="text" id="<?php echo $_htmlId; ?>_pack_count" name="<?php echo $_htmlId; ?>[pack_count]" value="<?php echo $this->getPackCount(); ?>" class="input-text" /></td>
+                </tr>
+                <?php endif; ?>
+                <tr <?php if ($this->getShippingFrom() == 'APS' || $this->getProductsCount() <= 1) { ?> style="display: none;"<?php } ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_partial_delivery"><?php echo Mage::helper('extensa_econt')->__('Възможност за частична доставка'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_partial_delivery" name="<?php echo $_htmlId; ?>[partial_delivery]" class="select">
+                            <option value="1" <?php if ($this->getShippingFrom() != 'APS' && $this->getPartialDelivery()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if ($this->getShippingFrom() == 'APS' || !$this->getPartialDelivery()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                        <input type="hidden" name="<?php echo $_htmlId; ?>[products_count]" value="<?php echo $this->getProductsCount(); ?>" />
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS' || $this->getProductsCount() <= 1) { ?> style="display: none;"<?php } ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_partial_delivery_instruction"><?php echo Mage::helper('extensa_econt')->__('Допълнителна услуга'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_partial_delivery_instruction" name="<?php echo $_htmlId; ?>[partial_delivery_instruction]" class="select">
+                            <?php foreach ($this->getPartialDeliveryInstructions() as $_partial_delivery_instruction): ?>
+                            <option value="<?php echo $_partial_delivery_instruction['value']; ?>" <?php if ($_partial_delivery_instruction['value'] == $this->getPartialDeliveryInstruction()): ?>selected="selected"<?php endif; ?>><?php echo $_partial_delivery_instruction['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_inventory"><?php echo Mage::helper('extensa_econt')->__('Подаване на опис'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_inventory" name="<?php echo $_htmlId; ?>[inventory]" class="select">
+                            <option value="1" <?php if ($this->getShippingFrom() != 'APS' && $this->getInventory()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if ($this->getShippingFrom() == 'APS' || !$this->getInventory()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_inventory_type"><?php echo Mage::helper('extensa_econt')->__('Метод за подаване на опис'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_inventory_type" name="<?php echo $_htmlId; ?>[inventory_type]" class="select">
+                            <?php foreach ($this->getInventoryTypes() as $_inventory_type): ?>
+                            <option value="<?php echo $_inventory_type['value']; ?>" <?php if ($_inventory_type['value'] == $this->getInventoryType()): ?>selected="selected"<?php endif; ?>><?php echo $_inventory_type['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_inventory_type_loading"></label></td>
+                    <td class="value"><p class="note" id="<?php echo $_htmlId; ?>_inventory_type_loading"><span><?php echo Mage::helper('extensa_econt')->__('Моля, разпечатайте опис на стоката и го приложете към генерираната товарителница.'); ?></span></p></td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_inventory_type_digital"></label></td>
+                    <td class="value">
+                        <div class="grid" id="<?php echo $_htmlId; ?>_inventory_type_digital">
+                            <table cellpadding="0" cellspacing="0" class="border">
+                                <thead>
+                                    <tr class="headings">
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Инвентарен номер'); ?></th>
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Описание'); ?></th>
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Тегло'); ?></th>
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Цена'); ?></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td><button type="button" class="scalable add" id="<?php echo $_htmlId; ?>_add_product"><span><span><span><?php echo Mage::helper('extensa_econt')->__('Add'); ?></span></span></span></button></td>
+                                    </tr>
+                                </tfoot>
+                                <tbody id="<?php echo $_htmlId; ?>_products">
+                                    <?php $_product_row = 0; ?>
+                                    <?php foreach ($_products as $_product): ?>
+                                    <tr id="<?php echo $_htmlId; ?>_product_<?php echo $_product_row; ?>">
+                                        <td><input type="text" id="<?php echo $_htmlId; ?>_product_id_<?php echo $_product_row; ?>" name="<?php echo $_htmlId; ?>[products][<?php echo $_product_row; ?>][product_id]" value="<?php echo $_product['product_id']; ?>" class="input-text" style="width: 70px" /></td>
+                                        <td><input type="text" id="<?php echo $_htmlId; ?>_product_name_<?php echo $_product_row; ?>" name="<?php echo $_htmlId; ?>[products][<?php echo $_product_row; ?>][name]" value="<?php echo $_product['name']; ?>" class="input-text" /></td>
+                                        <td><input type="text" id="<?php echo $_htmlId; ?>_product_weight_<?php echo $_product_row; ?>" name="<?php echo $_htmlId; ?>[products][<?php echo $_product_row; ?>][weight]" value="<?php echo $_product['weight']; ?>" class="input-text" style="width: 70px" /></td>
+                                        <td><input type="text" id="<?php echo $_htmlId; ?>_product_price_<?php echo $_product_row; ?>" name="<?php echo $_htmlId; ?>[products][<?php echo $_product_row; ?>][price]" value="<?php echo $_product['price']; ?>" class="input-text" style="width: 70px" /></td>
+                                        <td><button type="button" class="scalable delete" onclick="$('<?php echo $_htmlId; ?>_product_<?php echo $_product_row; ?>').remove();"><span><span><span><?php echo Mage::helper('extensa_econt')->__('Delete'); ?></span></span></span></button></td>
+                                    </tr>
+                                    <?php $_product_row++; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_instruction"><?php echo Mage::helper('extensa_econt')->__('За пратката ще се използват ли указания'); ?></label></td>
+                    <td class="value">
+                        <select id="<?php echo $_htmlId; ?>_instruction" name="<?php echo $_htmlId; ?>[instruction]" class="select">
+                            <option value="1" <?php if ($this->getShippingFrom() != 'APS' && $this->getInstruction()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('Yes'); ?></option>
+                            <option value="0" <?php if ($this->getShippingFrom() == 'APS' || !$this->getInstruction()): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('extensa_econt')->__('No'); ?></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_get_instruction"></label></td>
+                    <td class="value"><button type="button" id="<?php echo $_htmlId; ?>_get_instruction" class="scalable" title="<?php echo Mage::helper('extensa_econt')->__('Вземете указания'); ?>"><span><span><span><?php echo Mage::helper('extensa_econt')->__('Вземете указания'); ?></span></span></span></button></td>
+                </tr>
+                <tr <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_instruction_form"></label></td>
+                    <td class="value"><button type="button" id="<?php echo $_htmlId; ?>_instruction_form" class="scalable" title="<?php echo Mage::helper('extensa_econt')->__('Форма Указания'); ?>"><span><span><span><?php echo Mage::helper('extensa_econt')->__('Форма Указания'); ?></span></span></span></button></td>
+                </tr>
+                <tr style="display: none;" <?php if ($this->getShippingFrom() == 'APS'): ?> style="display: none;"<?php endif; ?>>
+                    <td class="label"><label for="<?php echo $_htmlId; ?>_instructions"></label></td>
+                    <td class="value">
+                        <div class="grid" id="<?php echo $_htmlId; ?>_instructions">
+                            <table cellpadding="0" cellspacing="0" class="border">
+                                <tbody>
+                                    <tr class="headings">
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Tип'); ?></th>
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Наименование'); ?></th>
+                                        <th><?php echo Mage::helper('extensa_econt')->__('Списък с указания'); ?></th>
+                                    </tr>
+                                    <?php $_instructions = $this->getInstructions(); ?>
+                                    <?php $_instructions_text = (isset($_instructions['text']) ? $_instructions['text'] : array()); ?>
+                                    <?php $_instructions_all = (isset($_instructions['all']) ? $_instructions['all'] : array()); ?>
+                                    <?php foreach ($this->getInstructionsTypes() as $_instructions_type): ?>
+                                    <tr>
+                                        <td><?php echo $_instructions_type['label']; ?></td>
+                                        <td><input type="text" id="<?php echo $_htmlId; ?>_instructions_<?php echo $_instructions_type['value']; ?>" name="<?php echo $_htmlId; ?>[instructions][<?php echo $_instructions_type['value']; ?>]" value="<?php echo isset($_instructions_text[$_instructions_type['value']]) ? $_instructions_text[$_instructions_type['value']] : ''; ?>" class="input-text" /></td>
+                                        <td>
+                                            <select id="<?php echo $_htmlId; ?>_instructions_id_<?php echo $_instructions_type['value']; ?>" name="<?php echo $_htmlId; ?>[instructions_id_<?php echo $_instructions_type['value']; ?>]" onchange="<?php echo $_htmlId; ?>_fill_instructions('<?php echo $_instructions_type['value']; ?>');" class="select">
+                                                <option value=""><?php echo Mage::helper('extensa_econt')->__('--Кликнете Вземете указания--'); ?></option>
+                                                <?php if (isset($_instructions_all[$_instructions_type['value']])): ?>
+                                                <?php foreach ($_instructions_all[$_instructions_type['value']] as $_instruction_id): ?>
+                                                <option value="<?php echo $_instruction_id; ?>" <?php if (isset($_instructions_text[$_instructions_type['value']]) && $_instructions_text[$_instructions_type['value']] == $_instruction_id): ?> selected="selected"<?php endif; ?>><?php echo $_instruction_id; ?></option>
+                                                <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <p class="note" style="width: 100%;"><span><?php echo Mage::helper('extensa_econt')->__('Ако не намирате дадено указание в списъка с указания, моля кликнете Вземете указания.'); ?></span></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" title="<?php echo Mage::helper('extensa_econt')->__('Генериране'); ?>" id="<?php echo $_htmlId; ?>_submit" class="scalable save f-right"><span><span><span><?php echo Mage::helper('extensa_econt')->__('Генериране'); ?></span></span></span></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //<![CDATA[
+    <?php if ($_delivery_days['delivery_days']): ?><?php echo $_htmlId; ?>_change_delivery_day();<?php endif; ?>
+
+    new Ajax.Autocompleter(
+        '<?php echo $_htmlId; ?>_city',
+        '<?php echo $_htmlId; ?>_city_autocomplete',
+        '<?php echo Mage::helper('extensa_econt')->getAutocompleteCityUrl(); ?>',
+        {
+            indicator         : '<?php echo $_htmlId; ?>_city_indicator',
+            callback          : <?php echo $_htmlId; ?>_autocomplete_address_city_callback,
+            afterUpdateElement: <?php echo $_htmlId; ?>_autocomplete_address_city_update,
+            onSuccess         : function (response) {
+                if (response.responseText.search('li') == -1) {
+                    $('<?php echo $_htmlId; ?>_city').setValue('');
+                }
+            },
+            onShow            : function (element, update) {
+                Effect.Appear(update, {duration:0});
+            }
+        }
+    );
+
+    function <?php echo $_htmlId; ?>_autocomplete_address_city_callback(input, query) {
+        $('<?php echo $_htmlId; ?>_city_id').setValue('');
+        $('<?php echo $_htmlId; ?>_post_code').setValue('');
+        $('<?php echo $_htmlId; ?>_quarter').setValue('');
+        $('<?php echo $_htmlId; ?>_street').setValue('');
+        $('<?php echo $_htmlId; ?>_street_num').setValue('');
+        $('<?php echo $_htmlId; ?>_other').setValue('');
+
+        return query;
+    }
+
+    function <?php echo $_htmlId; ?>_autocomplete_address_city_update(input, li) {
+        $('<?php echo $_htmlId; ?>_city_id').setValue(li.readAttribute('city_id'));
+        $('<?php echo $_htmlId; ?>_post_code').setValue(li.readAttribute('post_code'));
+
+        <?php echo $_htmlId; ?>_display_express_city_courier();
+        <?php echo $_htmlId; ?>_display_priority_time();
+    }
+
+    new Ajax.Autocompleter(
+        '<?php echo $_htmlId; ?>_quarter',
+        '<?php echo $_htmlId; ?>_quarter_autocomplete',
+        '<?php echo Mage::helper('extensa_econt')->getAutocompleteQuarterUrl(); ?>',
+        {
+            indicator         : '<?php echo $_htmlId; ?>_quarter_indicator',
+            callback          : <?php echo $_htmlId; ?>_autocomplete_address_quarter_callback,
+            onSuccess         : function (response) {
+                if (response.responseText.search('li') == -1) {
+                    $('<?php echo $_htmlId; ?>_quarter').setValue('');
+                }
+            },
+            onShow            : function (element, update) {
+                Effect.Appear(update, {duration:0});
+            }
+        }
+    );
+
+    function <?php echo $_htmlId; ?>_autocomplete_address_quarter_callback(input, query) {
+        return query + '&city_id=' + $F('<?php echo $_htmlId; ?>_city_id');
+    }
+
+    new Ajax.Autocompleter(
+        '<?php echo $_htmlId; ?>_street',
+        '<?php echo $_htmlId; ?>_street_autocomplete',
+        '<?php echo Mage::helper('extensa_econt')->getAutocompleteStreetUrl(); ?>',
+        {
+            indicator         : '<?php echo $_htmlId; ?>_street_indicator',
+            callback          : <?php echo $_htmlId; ?>_autocomplete_address_street_callback,
+            onSuccess         : function (response) {
+                if (response.responseText.search('li') == -1) {
+                    $('<?php echo $_htmlId; ?>_street').setValue('');
+                }
+            },
+            onShow            : function (element, update) {
+                Effect.Appear(update, {duration:0});
+            }
+        }
+    );
+
+    function <?php echo $_htmlId; ?>_autocomplete_address_street_callback(input, query) {
+        return query + '&city_id=' + $F('<?php echo $_htmlId; ?>_city_id');
+    }
+
+    function <?php echo $_htmlId; ?>_get_office_locator() {
+        url = '<?php echo Mage::helper('extensa_econt')->getOfficeLocatorUrl(); ?>' + '&shop_url=<?php echo Mage::getUrl('', array('_secure' => true)); ?>';
+
+        if ($F('<?php echo $_htmlId; ?>_office_city_id')) {
+            url += '&address=' + $('<?php echo $_htmlId; ?>_office_city_id').options[$('<?php echo $_htmlId; ?>_office_city_id').selectedIndex].text;
+        }
+
+        <?php echo $_htmlId; ?>_win = new Window({url: url, width: 1000, height: 800, destroyOnClose: true, minimizable: false, maximizable: false, recenterAuto: false, zIndex:9999});
+        <?php echo $_htmlId; ?>_win.showCenter(false, 50);
+    }
+
+    $('<?php echo $_htmlId; ?>_office_locator').observe('click', <?php echo $_htmlId; ?>_get_office_locator);
+
+    function <?php echo $_htmlId; ?>_receive_message(event) {
+        if (event.origin !== '<?php echo Mage::helper('extensa_econt')->getOfficeLocatorDomain(); ?>')
+            return;
+
+        map_data = event.data.split('||');
+
+        new Ajax.Request(
+            '<?php echo Mage::helper('extensa_econt')->getOfficeByCodeUrl(); ?>',
+            {
+                method:     'post',
+                parameters: {
+                    office_code: map_data[0]
+                },
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+
+                        if ($F('<?php echo $_htmlId; ?>_office_city_id') == response['city_id']) {
+                            options = $('<?php echo $_htmlId; ?>_office_id').options;
+
+                            for (i = 0; i < options.length; i++) {
+                                if (options[i].readAttribute('value') == response['office_id']) {
+                                    options[i].selected = true;
+                                    break;
+                                }
+                            }
+
+                            $('<?php echo $_htmlId; ?>_office_code').setValue(response['office_code']);
+                        } else {
+                            $('<?php echo $_htmlId; ?>_office_city_id').setValue(response['city_id']);
+                            <?php echo $_htmlId; ?>_get_offices(response, 0);
+                        }
+                    }
+                }
+            }
+        );
+
+        <?php echo $_htmlId; ?>_win.destroy();
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener('message', <?php echo $_htmlId; ?>_receive_message, false);
+    } else if (window.attachEvent) {
+        window.attachEvent('onmessage', <?php echo $_htmlId; ?>_receive_message);
+    }
+
+    function <?php echo $_htmlId; ?>_get_offices(office_data, aps) {
+        if (aps == 0) {
+            var office_id = 'office_id';
+            var office_city_id = 'office_city_id';
+            var office_code = 'office_code';
+        } else {
+            var office_id = 'office_aps_id';
+            var office_city_id = 'office_city_aps_id';
+            var office_code = 'office_aps_code';
+        }
+
+        $('<?php echo $_htmlId; ?>_' + office_id).update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>');
+        $('<?php echo $_htmlId; ?>_' + office_code).setValue('');
+
+        if ($F('<?php echo $_htmlId; ?>_' + office_city_id)) {
+            new Ajax.Request(
+                '<?php echo Mage::helper('extensa_econt')->getOfficesUrl(); ?>',
+                {
+                    method:     'post',
+                    parameters: {
+                        city_id      : $F('<?php echo $_htmlId; ?>_' + office_city_id),
+                        delivery_type: 'to_office',
+                        aps: aps
+                    },
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            response = transport.responseText.evalJSON();
+                            html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+
+                            for (i = 0; i < response.length; i++) {
+                                html += '<option value="' + response[i]['office_id'] + '"';
+                                if (office_data && office_data['office_id'] == response[i]['office_id']) {
+                                    html += ' selected="selected"';
+                                }
+                                html += '>' + response[i]['office_code'] + ', ' + response[i]['name'] + ', ' + response[i]['address'] +  '</option>';
+                            }
+
+                            $('<?php echo $_htmlId; ?>_' + office_id).update(html);
+
+                            if (office_data) {
+                                $('<?php echo $_htmlId; ?>_' + office_code).setValue(office_data['office_code']);
+                            }
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_office_city_id').observe('change', function (evenet) {
+        <?php echo $_htmlId; ?>_get_offices('', 0);
+    });
+
+    $('<?php echo $_htmlId; ?>_office_city_aps_id').observe('change', function (evenet) {
+        <?php echo $_htmlId; ?>_get_offices('', 1);
+    });
+
+    function <?php echo $_htmlId; ?>_get_office(aps) {
+        if (aps == 0) {
+            var office_id = 'office_id';
+            var office_code = 'office_code';
+        } else {
+            var office_id = 'office_aps_id';
+            var office_code = 'office_aps_code';
+        }
+
+        $('<?php echo $_htmlId; ?>_' + office_code).setValue('');
+
+        if ($F('<?php echo $_htmlId; ?>_' + office_id)) {
+            new Ajax.Request(
+                '<?php echo Mage::helper('extensa_econt')->getOfficeUrl(); ?>',
+                {
+                    method:     'post',
+                    parameters: {
+                        office_id: $F('<?php echo $_htmlId; ?>_' + office_id)
+                    },
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            response = transport.responseText.evalJSON();
+                            $('<?php echo $_htmlId; ?>_' + office_code).setValue(response.office_code);
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_office_id').observe('change', function (evenet) {
+        <?php echo $_htmlId; ?>_get_office(0);
+    });
+
+    $('<?php echo $_htmlId; ?>_office_aps_id').observe('change', function (evenet) {
+        <?php echo $_htmlId; ?>_get_office(1);
+    });
+
+    function <?php echo $_htmlId; ?>_display_express_city_courier() {
+        if ($F('<?php echo $_htmlId; ?>_address_postcode_' + $F('<?php echo $_htmlId; ?>_address_id')) == $F('<?php echo $_htmlId; ?>_post_code')) {
+            $('<?php echo $_htmlId; ?>_express_city_courier').show();
+        } else {
+            $('<?php echo $_htmlId; ?>_express_city_courier').hide();
+            $('<?php echo $_htmlId; ?>_express_city_courier_cb').checked = false;
+            $('<?php echo $_htmlId; ?>_express_city_courier_e1').disable();
+            $('<?php echo $_htmlId; ?>_express_city_courier_e2').disable();
+            $('<?php echo $_htmlId; ?>_express_city_courier_e3').disable();
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_address_id').observe('change', <?php echo $_htmlId; ?>_display_express_city_courier);
+
+    function <?php echo $_htmlId; ?>_display_priority_time() {
+        if ($F('<?php echo $_htmlId; ?>_address_postcode_' + $F('<?php echo $_htmlId; ?>_address_id')) == $F('<?php echo $_htmlId; ?>_post_code')) {
+            $('<?php echo $_htmlId; ?>_priority_time').show();
+        } else {
+            $('<?php echo $_htmlId; ?>_priority_time').hide();
+            $('<?php echo $_htmlId; ?>_priority_time_cb').checked = false;
+            $('<?php echo $_htmlId; ?>_priority_time_type_id').disable();
+            $('<?php echo $_htmlId; ?>_priority_time_hour_id').disable();
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_address_id').observe('change', <?php echo $_htmlId; ?>_display_priority_time);
+
+    function <?php echo $_htmlId; ?>_dc() {
+        if ($F(this) == 1) {
+            $$('select#<?php echo $_htmlId; ?>_dc_cp option').each(function(o) {
+                if (o.readAttribute('value') == 0) {
+                    o.selected = true;
+                    throw $break;
+                }
+            });
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_dc').observe('change', <?php echo $_htmlId; ?>_dc);
+
+    function <?php echo $_htmlId; ?>_dc_cp() {
+        if ($F(this) == 1) {
+            $$('select#<?php echo $_htmlId; ?>_dc option').each(function(o) {
+                if (o.readAttribute('value') == 0) {
+                    o.selected = true;
+                    throw $break;
+                }
+            });
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_dc_cp').observe('change', <?php echo $_htmlId; ?>_dc_cp);
+
+    function <?php echo $_htmlId; ?>_set_priority_time() {
+        type = $F('<?php echo $_htmlId; ?>_priority_time_type_id');
+        hour = $F('<?php echo $_htmlId; ?>_priority_time_hour_id');
+
+        html = '';
+        for (i = 10; i <= 17; i++) {
+            html += '<option value="' + i + '">' + i + ' <?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('ч.')); ?></option>';
+        }
+
+        if (type == 'BEFORE') {
+            $('<?php echo $_htmlId; ?>_priority_time_hour_id').update(html + '<option value="18">18 <?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('ч.')); ?></option>');
+        } else if (type == 'IN') {
+            $('<?php echo $_htmlId; ?>_priority_time_hour_id').update('<option value="9">9 <?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('ч.')); ?></option>' + html + '<option value="18">18 <?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('ч.')); ?></option>');
+        } else if (type == 'AFTER') {
+            $('<?php echo $_htmlId; ?>_priority_time_hour_id').update('<option value="9">9 <?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('ч.')); ?></option>' + html);
+        }
+
+        $$('select#<?php echo $_htmlId; ?>_priority_time_hour_id option').each(function(o) {
+            if (o.readAttribute('value') == hour) {
+                o.selected = true;
+                throw $break;
+            }
+        });
+    }
+
+    $('<?php echo $_htmlId; ?>_priority_time_type_id').observe('change', <?php echo $_htmlId; ?>_set_priority_time);
+
+    function <?php echo $_htmlId; ?>_change_delivery_day() {
+        if ($F('<?php echo $_htmlId; ?>_delivery_day_id') == '<?php echo $_delivery_days['priority_date']; ?>') {
+            if (!$('<?php echo $_htmlId; ?>_priority_time_cb').checked) {
+                $('<?php echo $_htmlId; ?>_priority_time_cb').checked = true;
+                $('<?php echo $_htmlId; ?>_priority_time_type_id').enable();
+                $('<?php echo $_htmlId; ?>_priority_time_hour_id').enable();
+
+                $$('select#<?php echo $_htmlId; ?>_priority_time_type_id option').each(function(o) {
+                    if (o.readAttribute('value') == 'BEFORE') {
+                        o.selected = true;
+                        throw $break;
+                    }
+                });
+
+                $$('select#<?php echo $_htmlId; ?>_priority_time_hour_id option').each(function(o) {
+                    if (o.readAttribute('value') == '13') {
+                        o.selected = true;
+                        throw $break;
+                    }
+                });
+            }
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_delivery_day_id').observe('change', <?php echo $_htmlId; ?>_change_delivery_day);
+
+
+    var <?php echo $_htmlId; ?>_product_row = <?php echo $_product_row; ?>;
+
+    function <?php echo $_htmlId; ?>_add_product() {
+        html  = '<tr id="<?php echo $_htmlId; ?>_product_' + <?php echo $_htmlId; ?>_product_row + '">';
+        html += '  <td><input type="text" id="<?php echo $_htmlId; ?>_product_id_' + <?php echo $_htmlId; ?>_product_row + '" name="<?php echo $_htmlId; ?>[products][' + <?php echo $_htmlId; ?>_product_row + '][product_id]" value="" class="input-text" style="width: 70px" /></td>';
+        html += '  <td><input type="text" id="<?php echo $_htmlId; ?>_product_name_' + <?php echo $_htmlId; ?>_product_row + '" name="<?php echo $_htmlId; ?>[products][' + <?php echo $_htmlId; ?>_product_row + '][name]" value="" class="input-text" /></td>';
+        html += '  <td><input type="text" id="<?php echo $_htmlId; ?>_product_weight_' + <?php echo $_htmlId; ?>_product_row + '" name="<?php echo $_htmlId; ?>[products][' + <?php echo $_htmlId; ?>_product_row + '][weight]" value="" class="input-text" style="width: 70px" /></td>';
+        html += '  <td><input type="text" id="<?php echo $_htmlId; ?>_product_price_' + <?php echo $_htmlId; ?>_product_row + '" name="<?php echo $_htmlId; ?>[products][' + <?php echo $_htmlId; ?>_product_row + '][price]" value="" class="input-text" style="width: 70px" /></td>';
+        html += '  <td><button type="button" class="scalable delete" onclick="$(\'<?php echo $_htmlId; ?>_product_' + <?php echo $_htmlId; ?>_product_row + '\').remove();"><span><span><span><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Delete')); ?></span></span></span></button></td>';
+        html += '</tr>';
+
+        $('<?php echo $_htmlId; ?>_products').insert(html);
+
+        <?php echo $_htmlId; ?>_product_row++;
+    }
+
+    $('<?php echo $_htmlId; ?>_add_product').observe('click', <?php echo $_htmlId; ?>_add_product);
+
+    function <?php echo $_htmlId; ?>_get_instruction() {
+        <?php foreach ($this->getInstructionsTypes() as $_instructions_type) { ?>
+        $('<?php echo $_htmlId; ?>_instructions_id_<?php echo $_instructions_type['value']; ?>').update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Please wait...')); ?></option>');
+        <?php } ?>
+
+        new Ajax.Request(
+            '<?php echo $this->getGetInstructionUrl(); ?>',
+            {
+                method:     'post',
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response) {
+                            <?php foreach ($this->getInstructionsTypes() as $_instructions_type) { ?>
+                            html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+
+                            if (response.instructions && response.instructions['<?php echo $_instructions_type['value']; ?>']) {
+                                for (i = 0; i < response.instructions['<?php echo $_instructions_type['value']; ?>'].length; i++) {
+                                    if (response.instructions['<?php echo $_instructions_type['value']; ?>'][i] && response.instructions['<?php echo $_instructions_type['value']; ?>'][i].length) {
+                                        html += '<option value="' + response.instructions['<?php echo $_instructions_type['value']; ?>'][i] + '">' + response.instructions['<?php echo $_instructions_type['value']; ?>'][i] + '</option>';
+                                    }
+                                }
+                            }
+
+                            $('<?php echo $_htmlId; ?>_instructions_id_<?php echo $_instructions_type['value']; ?>').update(html);
+                            $$('select#<?php echo $_htmlId; ?>_instructions_id_<?php echo $_instructions_type['value']; ?> option').each(function(o) {
+                                if (o.readAttribute('value') == $F('<?php echo $_htmlId; ?>_instructions_<?php echo $_instructions_type['value']; ?>')) {
+                                    o.selected = true;
+                                    throw $break;
+                                }
+                            });
+                            <?php } ?>
+                        } else if (response.error) {
+                            alert(response.message);
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    $('<?php echo $_htmlId; ?>_get_instruction').observe('click', <?php echo $_htmlId; ?>_get_instruction);
+
+    function <?php echo $_htmlId; ?>_fill_instructions(type) {
+        $('<?php echo $_htmlId; ?>_instructions_' + type).setValue($F('<?php echo $_htmlId; ?>_instructions_id_' + type));
+    }
+
+    function <?php echo $_htmlId; ?>_get_instruction_form() {
+        new Ajax.Request(
+            '<?php echo $this->getGetAddressUrl(); ?>',
+            {
+                method:     'post',
+                onSuccess: function(transport) {
+                    if (transport.responseText.isJSON()) {
+                        response = transport.responseText.evalJSON();
+                        if (response.error) {
+                            alert(response.message);
+                        } else {
+                            if (response.instructions_form_url) {
+                                window.open(response.instructions_form_url, '', 'width=1050,height=800,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no');
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    $('<?php echo $_htmlId; ?>_instruction_form').observe('click', <?php echo $_htmlId; ?>_get_instruction_form);
+
+    function <?php echo $_htmlId; ?>_show_hide_fields() {
+        if ($F(this) != 'DOOR') {
+            $('<?php echo $_htmlId; ?>_express_city_courier').hide();
+            $('<?php echo $_htmlId; ?>_express_city_courier_cb').checked = false;
+            $('<?php echo $_htmlId; ?>_express_city_courier_e1').disable();
+            $('<?php echo $_htmlId; ?>_express_city_courier_e2').disable();
+            $('<?php echo $_htmlId; ?>_express_city_courier_e3').disable();
+
+            $('<?php echo $_htmlId; ?>_priority_time').hide();
+            $('<?php echo $_htmlId; ?>_priority_time_cb').checked = false;
+            $('<?php echo $_htmlId; ?>_priority_time_type_id').disable();
+            $('<?php echo $_htmlId; ?>_priority_time_hour_id').disable();
+        } else {
+            <?php echo $_htmlId; ?>_display_express_city_courier();
+            <?php echo $_htmlId; ?>_display_priority_time();
+        }
+    }
+
+    $('<?php echo $_htmlId; ?>_shipping_to').observe('change', <?php echo $_htmlId; ?>_show_hide_fields);
+
+    toggleValueElements($('<?php echo $_htmlId; ?>_priority_time_cb'), $('<?php echo $_htmlId; ?>_priority_time_cb').parentNode.parentNode, null, !$('<?php echo $_htmlId; ?>_priority_time_cb').checked);
+    toggleValueElements($('<?php echo $_htmlId; ?>_express_city_courier_cb'), $('<?php echo $_htmlId; ?>_express_city_courier_cb').parentNode.parentNode, null, !$('<?php echo $_htmlId; ?>_express_city_courier_cb').checked);
+    toggleValueElements($('<?php echo $_htmlId; ?>_delivery_day_cb'), $('<?php echo $_htmlId; ?>_delivery_day_cb').parentNode.parentNode, null, !$('<?php echo $_htmlId; ?>_delivery_day_cb').checked);
+    new FormElementDependenceController({'<?php echo $_htmlId; ?>_office_city_id':{'<?php echo $_htmlId; ?>_shipping_to':'OFFICE'},'<?php echo $_htmlId; ?>_office_locator':{'<?php echo $_htmlId; ?>_shipping_to':'OFFICE'},'<?php echo $_htmlId; ?>_office_id':{'<?php echo $_htmlId; ?>_shipping_to':'OFFICE'},'<?php echo $_htmlId; ?>_office_code':{'<?php echo $_htmlId; ?>_shipping_to':'OFFICE'},'<?php echo $_htmlId; ?>_office_city_aps_id':{'<?php echo $_htmlId; ?>_shipping_to':'APS'},'<?php echo $_htmlId; ?>_office_aps_id':{'<?php echo $_htmlId; ?>_shipping_to':'APS'},'<?php echo $_htmlId; ?>_office_aps_code':{'<?php echo $_htmlId; ?>_shipping_to':'APS'},'<?php echo $_htmlId; ?>_city':{'<?php echo $_htmlId; ?>_shipping_to':'DOOR'},'<?php echo $_htmlId; ?>_post_code':{'<?php echo $_htmlId; ?>_shipping_to':'DOOR'},'<?php echo $_htmlId; ?>_quarter':{'<?php echo $_htmlId; ?>_shipping_to':'DOOR'},'<?php echo $_htmlId; ?>_street':{'<?php echo $_htmlId; ?>_shipping_to':'DOOR'},'<?php echo $_htmlId; ?>_street_num':{'<?php echo $_htmlId; ?>_shipping_to':'DOOR'},'<?php echo $_htmlId; ?>_other':{'<?php echo $_htmlId; ?>_shipping_to':'DOOR'},'<?php echo $_htmlId; ?>_sms_no':{'<?php echo $_htmlId; ?>_sms':'1'},'<?php echo $_htmlId; ?>_partial_delivery_instruction':{'<?php echo $_htmlId; ?>_partial_delivery':'1'},'<?php echo $_htmlId; ?>_inventory_type':{'<?php echo $_htmlId; ?>_inventory':'1'},'<?php echo $_htmlId; ?>_inventory_type_loading':{'<?php echo $_htmlId; ?>_inventory':'1','<?php echo $_htmlId; ?>_inventory_type':'LOADING'},'<?php echo $_htmlId; ?>_inventory_type_digital':{'<?php echo $_htmlId; ?>_inventory':'1','<?php echo $_htmlId; ?>_inventory_type':'DIGITAL'},'<?php echo $_htmlId; ?>_get_instruction':{'<?php echo $_htmlId; ?>_instruction':'1'},'<?php echo $_htmlId; ?>_instruction_form':{'<?php echo $_htmlId; ?>_instruction':'1'},'<?php echo $_htmlId; ?>_instructions':{'<?php echo $_htmlId; ?>_instruction':'1'},'<?php echo $_htmlId; ?>_pack_count':{'<?php echo $_htmlId; ?>_shipping_to':['OFFICE', 'DOOR']}});
+
+    function <?php echo $_htmlId; ?>_generate_loading() {
+        validator = new Validation('<?php echo $_htmlId; ?>_form');
+        if(validator && validator.validate()){
+            submitAndReloadArea($('<?php echo $_htmlId; ?>_form').parentNode, '<?php echo $this->getSubmitUrl() ?>');
+        }
+        return false;
+    }
+
+    $('<?php echo $_htmlId; ?>_submit').observe('click', <?php echo $_htmlId; ?>_generate_loading);
+
+    Validation.addAllThese([
+        ['<?php echo $_htmlId; ?>-required-quarter', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, изберете квартал или улица.')); ?>', function(v) {
+                return !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_street'));
+            }],
+        ['<?php echo $_htmlId; ?>-required-street', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, изберете улица или квартал.')); ?>', function(v) {
+                return !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_quarter'));
+            }],
+        ['<?php echo $_htmlId; ?>-required-street-num', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, попълнете номер.')); ?>', function(v) {
+                return Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_street')) ||
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_street')) &&
+                    !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_quarter')) &&
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_other'));
+            }],
+        ['<?php echo $_htmlId; ?>-required-other', '<?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('Моля, попълнете друго.')); ?>', function(v) {
+                return Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_quarter')) ||
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_quarter')) &&
+                    !Validation.get('IsEmpty').test(v) ||
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_street')) &&
+                    !Validation.get('IsEmpty').test($F('<?php echo $_htmlId; ?>_street_num'));
+            }]
+    ]);
+    //]]>
+</script>

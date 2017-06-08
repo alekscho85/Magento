@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5416e13a8f4c83f80d24a23d98f1b35",
+    "content-hash": "dcf1e38c52c0e1bf955ccb9221817b17",
     "packages": [
         {
             "name": "eloquent/composer-config-reader",
@@ -180,12 +180,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cotya/magento-composer-installer.git",
-                "reference": "abe5b370f8b0c1f5c562eb93900620c61fde33db"
+                "reference": "5721e9b8b642597f953d248ea9f8c2427c6aff07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cotya/magento-composer-installer/zipball/abe5b370f8b0c1f5c562eb93900620c61fde33db",
-                "reference": "abe5b370f8b0c1f5c562eb93900620c61fde33db",
+                "url": "https://api.github.com/repos/Cotya/magento-composer-installer/zipball/5721e9b8b642597f953d248ea9f8c2427c6aff07",
+                "reference": "5721e9b8b642597f953d248ea9f8c2427c6aff07",
                 "shasum": ""
             },
             "archive": {
@@ -266,10 +266,43 @@
                 "magento"
             ],
             "support": {
-                "source": "https://github.com/Cotya/magento-composer-installer/tree/3.1.1",
+                "source": "https://github.com/Cotya/magento-composer-installer/tree/master",
                 "issues": "https://github.com/Cotya/magento-composer-installer/issues"
             },
-            "time": "2017-05-31T06:09:09+00:00"
+            "time": "2017-06-07 11:21:56"
+        },
+        {
+            "name": "marko-m/inchoo_socialconnect",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Marko-M/Inchoo_SocialConnect.git",
+                "reference": "3f454c028d153313a3120bcc7f4eb056ca88a108"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Marko-M/Inchoo_SocialConnect/zipball/3f454c028d153313a3120bcc7f4eb056ca88a108",
+                "reference": "3f454c028d153313a3120bcc7f4eb056ca88a108",
+                "shasum": ""
+            },
+            "require": {
+                "magento-hackathon/magento-composer-installer": "*"
+            },
+            "type": "magento-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Marko Martinović",
+                    "email": "marko@techytalk.info"
+                }
+            ],
+            "description": "Magento extension allowing your customers to login or create an account at your store using their Google, Facebook, Twitter or LinkedIn.",
+            "homepage": "http://www.techytalk.info/magento/socialconnect/",
+            "abandoned": true,
+            "time": "2016-07-13 13:44:57"
         },
         {
             "name": "psr/log",
@@ -316,7 +349,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "symfony/console",
@@ -385,7 +418,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-02T19:25:52+00:00"
+            "time": "2017-06-02 19:25:52"
         },
         {
             "name": "symfony/debug",
@@ -393,12 +426,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "6694bfe6ac1ab1b06bda40c98c98fa1d06739296"
+                "reference": "9d40ad561ed0ca824de0c514077dc39e5d6b2605"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/6694bfe6ac1ab1b06bda40c98c98fa1d06739296",
-                "reference": "6694bfe6ac1ab1b06bda40c98c98fa1d06739296",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/9d40ad561ed0ca824de0c514077dc39e5d6b2605",
+                "reference": "9d40ad561ed0ca824de0c514077dc39e5d6b2605",
                 "shasum": ""
             },
             "require": {
@@ -441,7 +474,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-01T21:02:15+00:00"
+            "time": "2017-06-07 14:09:28"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -500,7 +533,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-05-29T15:51:17+00:00"
+            "time": "2017-05-29 15:51:17"
         }
     ],
     "packages-dev": [],

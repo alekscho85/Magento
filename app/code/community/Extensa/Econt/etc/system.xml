@@ -1,0 +1,730 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento admin configuration section config
+ *
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+-->
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <extensa_econt translate="label" module="extensa_econt">
+                    <label>Еконт Експрес</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <!--title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <name_door translate="label">
+                            <label>Method Name Door</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name_door>
+                        <name_office translate="label">
+                            <label>Method Name Office</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name_office
+                        <name_aps translate="label">
+                            <label>Method Name APS</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name_aps-->
+                        <test translate="label">
+                            <label>Тестов модел</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </test>
+                        <username translate="label">
+                            <label>Потребителско име</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </username>
+                        <password translate="label">
+                            <label>Парола</label>
+                            <frontend_type>password</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </password>
+                        <get_data translate="label">
+                            <label>Вземете информация за населените места и офисите</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getdata</frontend_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_data>
+                        <name_company translate="label">
+                            <label>Фирма</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </name_company>
+                        <name_person translate="label">
+                            <label>Име</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </name_person>
+                        <phone translate="label">
+                            <label>Телефон</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </phone>
+                        <address_id translate="label">
+                            <label>Адреси</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_address</source_model>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </address_id>
+                        <get_address translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getaddress</frontend_model>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </get_address>
+                        <address translate="label">
+                            <label>Адрес</label>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_array_address</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </address>
+                        <shipping_from translate="label">
+                            <label>Как ще се изпращат пратките от доставчиците на електронния магазин</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_select_shippingfrom</frontend_model>
+                            <source_model>extensa_econt/system_config_source_shippingfrom</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </shipping_from>
+                        <office_city_id translate="label">
+                            <label>Населено място</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_select_city</frontend_model>
+                            <frontend_class>required-entry</frontend_class>
+                            <source_model>extensa_econt/system_config_source_city</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>OFFICE</shipping_from></depends>
+                        </office_city_id>
+                        <office_id translate="label">
+                            <label>Офис</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_select_office</frontend_model>
+                            <frontend_class>required-entry</frontend_class>
+                            <source_model>extensa_econt/system_config_source_office</source_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>OFFICE</shipping_from></depends>
+                        </office_id>
+                        <office_code translate="label">
+                            <label>Код на офиса</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>disabled</frontend_class>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>OFFICE</shipping_from></depends>
+                        </office_code>
+                        <office_locator translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getofficelocator</frontend_model>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>OFFICE</shipping_from></depends>
+                        </office_locator>
+                        <aps_info translate="label">
+                            <label>Приложими услуги</label>
+                            <frontend_type>note</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_apsinfo</frontend_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>APS</shipping_from></depends>
+                        </aps_info>
+                        <office_city_aps_id translate="label">
+                            <label>Населено място</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_select_city</frontend_model>
+                            <frontend_class>required-entry</frontend_class>
+                            <source_model>extensa_econt/system_config_source_cityaps</source_model>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>APS</shipping_from></depends>
+                        </office_city_aps_id>
+                        <office_aps_id translate="label">
+                            <label>Офис</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_select_office</frontend_model>
+                            <frontend_class>required-entry</frontend_class>
+                            <source_model>extensa_econt/system_config_source_officeaps</source_model>
+                            <sort_order>37</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>APS</shipping_from></depends>
+                        </office_aps_id>
+                        <office_aps_code translate="label">
+                            <label>Код на офиса</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>disabled</frontend_class>
+                            <sort_order>38</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from>APS</shipping_from></depends>
+                        </office_aps_code>
+                        <to_door translate="label">
+                            <label>Да се предлага ли на клиента начин на доставка до врата</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </to_door>
+                        <to_office translate="label">
+                            <label>Да се предлага ли на клиента начин на доставка до офис</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </to_office>
+                        <to_aps translate="label">
+                            <label>Да се предлага ли на клиента начин на доставка до АПС</label>
+                            <comment>С “24 часа Еконт - Автоматична пощенска станция”(АПС) е устройство, с което сами изпращате и получавате пратки денонощно, без почивен ден. Научете повече <![CDATA[<a href="http://www.econt.com/24-chasa-econt-aps/" target="_blank">тук</a>]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </to_aps>
+                        <cd translate="label">
+                            <label>Да е възможно ли заплащането на стоката с наложен платеж</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cd>
+                        <oc translate="label">
+                            <label>Да се използва ли услуга обявена стойност</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>51</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </oc>
+                        <total_for_oc translate="label">
+                            <label>над сума</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>52</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><oc>1</oc></depends>
+                        </total_for_oc>
+                        <dc translate="label">
+                            <label>Да се добавя ли услуга обратна разписка</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dc>
+                        <dc_cp translate="label">
+                            <label>Да се добавя ли услугата обратна разписка/стокова разписка</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dc_cp>
+                        <sms translate="label">
+                            <label>Да се добавя ли услугата SMS при доставка на пратка</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </sms>
+                        <sms_no translate="label">
+                            <label>номер</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><sms>1</sms></depends>
+                        </sms_no>
+                        <invoice_before_cd translate="label">
+                            <label>Да се добавя ли услугата предай фактура преди плащане на наложения платеж</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </invoice_before_cd>
+                        <disposition translate="label">
+                            <label>Да се добавя ли разпореждане от следния тип</label>
+                            <!--frontend_type>checkboxes</frontend_type-->
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_checkbox_disposition</frontend_model>
+                            <!--source_model>extensa_econt/system_config_source_disposition</source_model-->
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </disposition>
+                        <side translate="label">
+                            <label>Страна платец</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_side</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </side>
+                        <payment_method translate="label">
+                            <label>Начин на заплащане за сметка на подателя (доставчика)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_paymentmethod</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payment_method>
+                        <key_word translate="label">
+                            <label>клиентски номер</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>111</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><payment_method>CREDIT</payment_method></depends>
+                        </key_word>
+                        <key_word_id translate="label">
+                            <label></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_keyword</source_model>
+                            <sort_order>112</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><payment_method>CREDIT</payment_method></depends>
+                        </key_word_id>
+                        <get_key_word translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getkeyword</frontend_model>
+                            <sort_order>113</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><payment_method>CREDIT</payment_method></depends>
+                        </get_key_word>
+                        <cd_agreement translate="label">
+                            <label>За наложен платеж ще се използва ли споразумение</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </cd_agreement>
+                        <cd_agreement_num translate="label">
+                            <label>уникален номер</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <sort_order>121</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><cd_agreement>1</cd_agreement></depends>
+                        </cd_agreement_num>
+                        <cd_agreement_num_id translate="label">
+                            <label></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_cdagreementnum</source_model>
+                            <sort_order>122</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><cd_agreement>1</cd_agreement></depends>
+                        </cd_agreement_num_id>
+                        <get_cd_agreement_num translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getcdagreementnum</frontend_model>
+                            <sort_order>123</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><cd_agreement>1</cd_agreement></depends>
+                        </get_cd_agreement_num>
+                        <total_for_free translate="label">
+                            <label>Безплатна доставка при реализирана покупка над стойност</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </total_for_free>
+                        <weight_for_free translate="label">
+                            <label>Безплатна доставка при реализирана покупка над тегло</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>131</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </weight_for_free>
+                        <count_for_free translate="label">
+                            <label>Безплатна доставка при реализирана покупка с брой артикули</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>132</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </count_for_free>
+                        <shipping_payment translate="label">
+                            <label>Плащане на доставката</label>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_array_shippingpayment</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>133</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </shipping_payment>
+                        <priority_time translate="label">
+                            <label>Да се добавя ли час за приоритет</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </priority_time>
+                        <delivery_day translate="label">
+                            <label>Да се предлага на клиента избор на ден за разнос</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>141</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </delivery_day>
+                        <partial_delivery translate="label">
+                            <label>Възможност за частична доставка</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </partial_delivery>
+                        <partial_delivery_instruction translate="label">
+                            <label>Допълнителна услуга</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_partialdeliveryinstruction</source_model>
+                            <sort_order>151</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><partial_delivery>1</partial_delivery></depends>
+                        </partial_delivery_instruction>
+                        <inventory translate="label">
+                            <label>Подаване на опис</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </inventory>
+                        <inventory_type translate="label">
+                            <label>Метод за подаване на опис</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>extensa_econt/system_config_source_inventorytype</source_model>
+                            <sort_order>161</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><inventory>1</inventory></depends>
+                        </inventory_type>
+                        <return_loading translate="label">
+                            <label>Възможност за връщане на вече закупен артикул</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </return_loading>
+                        <instruction translate="label">
+                            <label>За пратката ще се използват ли указания</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from></depends>
+                        </instruction>
+                        <get_instruction translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getinstruction</frontend_model>
+                            <sort_order>181</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><instruction>1</instruction></depends>
+                        </get_instruction>
+                        <instruction_form translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_getinstructionform</frontend_model>
+                            <sort_order>182</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><instruction>1</instruction></depends>
+                        </instruction_form>
+                        <instructions translate="label">
+                            <label></label>
+                            <frontend_model>extensa_econt/adminhtml_system_config_form_array_instruction</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized</backend_model>
+                            <sort_order>183</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><shipping_from separator="|">OFFICE|DOOR</shipping_from><instruction>1</instruction></depends>
+                        </instructions>
+                        <currency translate="label">
+                            <label>Валута</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_currency</source_model>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </currency>
+                        <order_status translate="label">
+                            <label>Статус на поръчката след генериране на товарителница</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>required-entry</frontend_class>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>191</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificerrmsg>
+                        <sallowspecific translate="label">
+                            <label>Ship to Applicable Countries</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <sort_order>201</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label>Ship to Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>202</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </specificcountry>
+                        <showmethod translate="label">
+                            <label>Show Method if Not Applicable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>203</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </showmethod>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>204</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                </extensa_econt>
+            </groups>
+        </carriers>
+        <payment>
+            <groups>
+                <extensa_econt translate="label" module="extensa_econt">
+                    <label>Еконт Експрес наложен платеж</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <!--title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title-->
+                        <order_status translate="label">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_new</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <allowspecific translate="label">
+                            <label>Payment from Applicable Countries</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>10</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Payment from Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>11</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </specificcountry>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                </extensa_econt>
+            </groups>
+        </payment>
+    </sections>
+</config>

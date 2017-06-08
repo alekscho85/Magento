@@ -10,6 +10,10 @@
         "type": "vcs",
         "url": "git@github.com:Marko-M/Inchoo_SocialConnect.git"
     },
+    "incho": {
+        "type": "vcs",
+        "url": "git@github.com:Inchoo/Inchoo_PHP7.git"
+    },
     "require": {
         "magento-hackathon/magento-composer-installer": "*",
         "marko-m/inchoo_socialconnect": "*"

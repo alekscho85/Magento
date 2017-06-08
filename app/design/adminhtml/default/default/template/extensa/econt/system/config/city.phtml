@@ -1,0 +1,96 @@
+<?php
+/**
+ * @author Extensa Web Development Ltd. <support@extensadev.com>
+ */
+?>
+<?php
+/**
+ * @var $this Extensa_Econt_Block_Adminhtml_System_Config_Form_Select_City
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    function extensa_econt_get_offices(office_data) {
+        $('carriers_extensa_econt_office_id').update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>');
+        $('carriers_extensa_econt_office_code').setValue('');
+
+        if ($F('carriers_extensa_econt_office_city_id')) {
+            new Ajax.Request(
+                '<?php echo Mage::helper('extensa_econt')->getOfficesUrl(); ?>',
+                {
+                    method:     'post',
+                    parameters: {
+                        city_id      : $F('carriers_extensa_econt_office_city_id'),
+                        delivery_type: 'from_office',
+                        aps: 0
+                    },
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            response = transport.responseText.evalJSON();
+                            html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+
+                            for (i = 0; i < response.length; i++) {
+                                html += '<option value="' + response[i]['office_id'] + '"';
+                                if (office_data && office_data['office_id'] == response[i]['office_id']) {
+                                    html += ' selected="selected"';
+                                }
+                                html += '>' + response[i]['office_code'] + ', ' + response[i]['name'] + ', ' + response[i]['address'] +  '</option>';
+                            }
+
+                            $('carriers_extensa_econt_office_id').update(html);
+
+                            if (office_data) {
+                                $('carriers_extensa_econt_office_code').setValue(office_data['office_code']);
+                            }
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    function extensa_econt_get_offices_aps(office_data) {
+        $('carriers_extensa_econt_office_aps_id').update('<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>');
+        $('carriers_extensa_econt_office_aps_code').setValue('');
+
+        if ($F('carriers_extensa_econt_office_city_aps_id')) {
+            new Ajax.Request(
+                '<?php echo Mage::helper('extensa_econt')->getOfficesUrl(); ?>',
+                {
+                    method:     'post',
+                    parameters: {
+                        city_id      : $F('carriers_extensa_econt_office_city_aps_id'),
+                        delivery_type: 'from_office',
+                        aps: 1
+                    },
+                    onSuccess: function(transport) {
+                        if (transport.responseText.isJSON()) {
+                            response = transport.responseText.evalJSON();
+                            html = '<option value=""><?php echo $this->jsQuoteEscape(Mage::helper('extensa_econt')->__('--Please Select--')); ?></option>';
+
+                            for (i = 0; i < response.length; i++) {
+                                html += '<option value="' + response[i]['office_id'] + '"';
+                                if (office_data && office_data['office_id'] == response[i]['office_id']) {
+                                    html += ' selected="selected"';
+                                }
+                                html += '>' + response[i]['office_code'] + ', ' + response[i]['name'] + ', ' + response[i]['address'] +  '</option>';
+                            }
+
+                            $('carriers_extensa_econt_office_aps_id').update(html);
+
+                            if (office_data) {
+                                $('carriers_extensa_econt_office_aps_code').setValue(office_data['office_code']);
+                            }
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    document.observe('dom:loaded', function() {
+        $('carriers_extensa_econt_office_city_id').observe('change', extensa_econt_get_offices);
+        $('carriers_extensa_econt_office_city_aps_id').observe('change', extensa_econt_get_offices_aps);
+    });
+    //]]>
+</script>
