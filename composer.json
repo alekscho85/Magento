@@ -1,0 +1,22 @@
+{
+    "minimum-stability": "dev",
+    "repositories": {
+        "firegento": {
+            "type": "composer",
+            "url": "https://packages.firegento.com"
+        }
+    },
+    "incho": {
+        "type": "vcs",
+        "url": "git@github.com:Marko-M/Inchoo_SocialConnect.git"
+    },
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*",
+        "marko-m/inchoo_socialconnect": "*"
+    },
+    "extra": {
+        "magento-root-dir" : "./",
+        "magento-deploystrategy": "copy",
+        "magento-force": "override"
+    }
+}
