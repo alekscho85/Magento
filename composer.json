@@ -1,26 +1,17 @@
 {
-    "minimum-stability": "dev",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "3.0.*",
+        "inchoo/php7": "2.1.*"
+    },
     "repositories": {
         "firegento": {
             "type": "composer",
             "url": "https://packages.firegento.com"
         }
     },
-    "incho": {
-        "type": "vcs",
-        "url": "git@github.com:Marko-M/Inchoo_SocialConnect.git"
-    },
-    "incho": {
-        "type": "vcs",
-        "url": "git@github.com:Inchoo/Inchoo_PHP7.git"
-    },
-    "require": {
-        "magento-hackathon/magento-composer-installer": "*",
-        "marko-m/inchoo_socialconnect": "*"
-    },
     "extra": {
-        "magento-root-dir" : "./",
+        "magento-root-dir": "./",
         "magento-deploystrategy": "copy",
-        "magento-force": "override"
+        "magento-force": false
     }
 }
