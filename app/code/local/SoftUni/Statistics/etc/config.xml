@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <SoftUni_Statistics>
+            <version>1.0.0</version>
+        </SoftUni_Statistics>
+    </modules>
+
+    <global>
+        <helpers>
+            <softuni_statistics>
+                <class>SoftUni_Statistics_Helper</class>
+            </softuni_statistics>
+        </helpers>
+
+        <blocks>
+            <softuni_statistics>
+                <class>SoftUni_Statistics_Block</class>
+            </softuni_statistics>
+        </blocks>
+    </global>
+
+    <frontend>
+        <translate>
+            <modules>
+                <SoftUni_Statistics>
+                    <files>
+                        <defaul>SoftUni_Statistics.cvs</defaul>
+                    </files>
+                </SoftUni_Statistics>
+            </modules>
+        </translate>
+        <routers>
+            <softuni_statistics>
+                <use>standard</use>
+                <args>
+                    <module>SoftUni_Statistics</module>
+                    <frontName>softuni-statistics</frontName>
+                </args>
+            </softuni_statistics>
+        </routers>
+        <layout>
+            <updates>
+                <softuni_statistics module="SoftUni_Statistics">
+                    <file>softuni_statistics.xml</file>
+                </softuni_statistics>
+            </updates>
+        </layout>
+    </frontend>
+
+    <default>
+        <softuni_statistics>
+            <softuni_statistics_orders_enabled>
+                <statistics_orders_enabled>1</statistics_orders_enabled>
+            </softuni_statistics_orders_enabled>
+        </softuni_statistics>
+    </default>
+</config>
