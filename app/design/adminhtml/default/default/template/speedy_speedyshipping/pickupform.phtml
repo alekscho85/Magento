@@ -1,0 +1,217 @@
+<script type="text/javascript">
+         <?php if($this->helper('tax')->displayShippingPriceExcludingTax()): ?>
+var excludeTax= <?php echo $this->helper('tax')->displayShippingPriceExcludingTax()?>;
+<?php else: ?>
+var excludeTax = null;
+<?php endif; ?>
+    
+<?php if($this->helper('tax')->displayShippingPriceIncludingTax()): ?>
+var includeTax= <?php echo $this->helper('tax')->displayShippingPriceIncludingTax()?>;
+<?php else: ?>
+var includeTax=  null;
+<?php endif; ?>
+    
+    
+ <?php if($this->helper('tax')->displayShippingBothPrices()): ?>
+var showBoth= <?php echo $this->helper('tax')->displayShippingBothPrices()?>;
+<?php else: ?>
+var showBoth=  null;
+<?php endif; ?>
+</script>
+<script type="text/javascript">
+var fixedHourLabel = "<?php echo $this->__("extra charge").'\"'.$this->__("fixed hour").'\"'; ?>";
+</script>
+<?php $isFixedPrice = Mage::getStoreConfig('carriers/speedyshippingmodule/fixed_pricing_enable'); ?>
+<?php $isFixedHourEnabled = Mage::getStoreConfig('carriers/speedyshippingmodule/add_fixed_hour'); ?>
+
+
+
+<div id="speedy_admin_form">
+    <table class="form-list">
+        <tbody>
+            <?php if($isFixedHourEnabled) : ?>
+            <tr>
+                <td><label for="speed_exact_hour_enable"><?php echo $this->__("choose fixed hour") ?></label><br />
+                    <?php if($isFixedPrice != 2 && $isFixedPrice != 4): ?>
+                    <p id="fixed_price_view"><?php echo $this->__("extra charge").'"'.$this->__("fixed hour").'"'; ?></p>
+                    <?php endif; ?>
+                    </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <?php if($this->_isExactHourUsed): ?>
+                    <input type="checkbox" name="speed_exact_hour_enable" checked="checked" class="input-box" id="speedy_exact_hour_enable" />
+                    <?php else: ?>
+                    <input type="checkbox" disabled="disabled" name="speed_exact_hour_enable" class="input-box" id="speedy_exact_hour_enable" />
+                    <?php endif; ?>
+   
+    
+            
+                <label for="speedy_exact_hour"><?php echo $this->__("Hour") ?>:</label>
+                <?php if (isset($this->_hour)): ?>
+                    <input type="text" style="width:45px;" value="<?php echo $this->_hour; ?>" name="speedy_exact_hour" id="speedy_exact_hour" class="input-text" />
+                <?php else: ?>
+                    <input type="text" style="width:45px;" name="speedy_exact_hour" id="speedy_exact_hour" class="input-text" disabled="disabled" />
+                <?php endif; ?>
+           
+                <?php if (isset($this->_minutes)): ?>
+                   <input type="text" style="width:45px;" value="<?php echo $this->_minutes; ?>"  name="speedy_exact_minutes" id="speedy_exact_minutes" class="input-text" />
+                <?php else: ?>
+                    <input type="text" style="width:45px;" name="speedy_exact_minutes" id="speedy_exact_minutes" class="input-text" disabled="disabled" />
+                <?php endif; ?>
+            </tr>
+            <?php endif; ?>
+            <tr>
+                <td>
+                    <button id="speedyRecalculateShipping"  name="speedyRecalculateShippingBtn"  class="button validation-passed" type="button">
+                        <span><span><?php echo $this->__('Recalculate') ?></span></span></button><br /></td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+<?php
+$cod_error = '';
+if (Mage::getSingleton('checkout/session')->getSpeedyActiveCurrencyCode()) {
+    $allowedCurrencies = Mage::getModel('directory/currency')->getConfigAllowCurrencies();
+    if (!in_array(Mage::getSingleton('checkout/session')->getSpeedyActiveCurrencyCode(), $allowedCurrencies)) {
+        $cod_error = Mage::helper('speedyshippingmodule')->__('You can\'t use Cash on Delivery, the currency %s is missing. Please contact the administrators of the store!', $activeCurrencyCode);
+    }
+}
+?>
+<script type="text/javascript">
+    $j('document').ready(function() {
+ 
+        var currentMethod = $j('#order-shipping-method-choose input:radio:checked');
+        setActiveInlineRadioButton(currentMethod);
+
+        if ($j('div.speedy_method_options :checkbox').is(':checked')) {
+            $j('div#speedy_admin_form').show();
+        }
+
+        $j('#speedyRecalculateShipping').click(function(evt) {
+            evt.preventDefault();
+
+            //onclick="order.loadShippingRates(true);"
+
+            var isEnabled = $j('#speedy_exact_hour_enable').is(':checked');
+            var hour = parseInt($j('#speedy_exact_hour').val(),10);
+            var minutes = parseInt($j('#speedy_exact_minutes').val(),10);
+            
+                     
+            if (isEnabled) {
+
+                if (isNaN(hour) || isNaN(minutes)) {
+                    alert(Translator.translate("invalid_hour_warning"));
+                    return;
+                }
+                
+                if(hour.toString().length > 2 || minutes.toString().length > 2){
+                  alert(Translator.translate("invalid_hour_warning"));
+                    return;  
+                }
+
+                if (hour !== false && !isNaN(hour) && minutes !== false && !isNaN(minutes)) {
+                    if ((hour <= 17 && hour >= 10)) {
+
+
+                        if (hour == 17 && minutes >= 31) {
+
+                            alert(Translator.translate("invalid_hour_warning"));
+                            return;
+                        }
+
+                        if (hour == 10 && minutes <= 29) {
+                            alert(Translator.translate("invalid_hour_warning"));
+                            return;
+                        }
+
+
+                        if (minutes <= 59 && minutes >= 0) {
+
+                            $j('#speedy_exact_hour').val(hour);
+                            if(minutes.toString().length == 1){
+                                minutes = "0"+minutes;
+                               
+                            }
+                            
+                            $j('#speedy_exact_minutes').val(minutes);
+
+                            order.loadShippingRates(true);
+                        }else{
+                           alert(Translator.translate("invalid_hour_warning"));
+                            return; 
+                        }
+                    }else{
+                        alert(Translator.translate("invalid_hour_warning"));
+                            return; 
+                    }
+                }
+
+            } else {
+                
+            
+                order.loadShippingRates(true)
+            }
+        })
+
+ function setActiveInlineRadioButton(button) {
+            
+            
+            var isExactHourAllowed  = $j(button).nextAll('div.speedy_method_options').find('input:hidden.speedy_exacthour_allowed').length
+            var isFreeMethod = $j(button).nextAll('input:hidden');
+            
+            if ($j(button).is(':checked') && isExactHourAllowed) {
+            
+                $j('#speedy_exact_picking_data input#speedy_exact_hour_enable').removeAttr('disabled')
+                var finalSelector = $j(button).nextAll('div.speedy_method_options');
+                var priceWithTax = $j(finalSelector).find('input:hidden.speedy_exacthour_allowed').val()
+                var priceWithoutTax = $j(finalSelector).find('input:hidden.speedy_exacthour_withouttax').val()
+                var price = '';
+           if(!isFreeMethod.length){
+                if (includeTax) {
+                    price += priceWithTax;
+                }
+                if (excludeTax) {
+                    price += '/' + priceWithoutTax;
+                }
+                if(showBoth){
+                    price +=  priceWithoutTax+'/'+priceWithTax;
+                }
+                
+           }else{
+               price = '0.00';
+           }
+                price += ' '+"<?php echo $this->__('Leva') ?>";
+                
+                setTimeout(function(){
+                    
+                    $j('p#fixed_price_view').text(Translator.translate("extra charge")+'"'+Translator.translate("fixed hour")+'"'+'": '+price)}, 100)
+                
+                
+            } else {
+
+                $j('#speedy_exact_picking_data input#speedy_exact_hour_enable').attr('disabled', 'disabled').removeAttr('checked');
+                $j('#speedy_exact_picking_data input:text').attr('disabled', 'disabled').val('')
+                $j('p#fixed_price_view').text('<?php echo $this->__("extra charge").'"'.$this->__("fixed hour").'"'; ?>');
+                isExactHourAllowed = false;
+
+            }
+            
+        }
+
+        
+        var cod_error = '<?php echo $cod_error; ?>';
+        if (cod_error) {
+            $j('#p_method_cashondelivery').attr('disabled', 'disabled');
+            $j('#order-billing_method_form').before('<ul class="cod_error messages"><li class="error-msg">'+cod_error+'</li></ul>');
+        } else {
+            $j('.cod_error').remove();
+        }
+    })
+
+</script>
+
+

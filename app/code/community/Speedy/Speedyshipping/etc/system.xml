@@ -1,0 +1,558 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <speedyshippingmodule translate="label" module="shipping">
+                    <label>Speedy Shipping</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>555</sort_order>
+                    
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <server translate="label">
+                            <label>Server Address</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </server>
+                        
+                        <username translate="label">
+                            <label>Username</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                        </username>
+                        <password translate="label">
+                            <label>Password_speedy</label>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                        </password>
+                        
+                        <check_credentials translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>speedyshippingmodule/adminhtml_system_config_form_testbutton</frontend_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </check_credentials>
+        
+                        <contact_name translate="label">
+                            <label>Contact person</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                        </contact_name>
+                        <contact_telephone translate="label">
+                            <label>Phone:</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                        </contact_telephone>
+                        <end_of_workingtime translate="label">
+                            <label>End of working time:</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>required-entry</validate>
+                        </end_of_workingtime>
+                        <allowed_methods translate="label">
+                            <label>Allowed Methods</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_method</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment>
+                                <![CDATA[
+                                    <style>
+                                        #carriers_speedyshippingmodule_allowed_methods,
+                                        #carriers_speedyshippingmodule_free_method_intercity,
+                                        #carriers_speedyshippingmodule_free_method_city,
+                                        #carriers_speedyshippingmodule_free_method_international { width: 320px; }
+                                    </style>
+                                ]]>
+                            </comment>
+                        </allowed_methods>
+                        
+                        <fixed_pricing_enable translate="label">
+                            <label>Service pricing:</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_calculation</source_model>
+                            <sort_order>10</sort_order>
+                            <!--<comment>price_calculation_label</comment>-->
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </fixed_pricing_enable>
+                        <fixedPrice translate="label">
+                            <label>fixed_price_for_shipping_exclvat</label>
+                            <depends>
+                                <fixed_pricing_enable>2</fixed_pricing_enable> 
+                            </depends>
+                            <validate>validate-number</validate>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </fixedPrice>
+                        <handlingCharge translate="label">
+                            <label>handling_charge_value</label>
+                            <depends>
+                                <fixed_pricing_enable>3</fixed_pricing_enable> 
+                            </depends>
+                            <validate>validate-number</validate>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handlingCharge>
+                        <tableRate translate="label">
+                            <label>table_rate</label>
+                            <comment>csv_format</comment>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>speedyshippingmodule/carrier_source_tablerate</backend_model>
+                            <depends>
+                                <fixed_pricing_enable>4</fixed_pricing_enable> 
+                            </depends>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </tableRate>
+                        <!---<deferredDays translate="label">
+                            <label>Брой дни за отместване на датата на доставка</label>
+                            <sort_order></sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_deferreddays</source_model>
+                            <validate>validate-number</validate>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </deferredDays>-->
+                        <speedyTakingtimeOffset translate="label">
+                            <label>postpone_taking_date</label>
+                            <sort_order></sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_takingoffset</source_model>
+                            <validate>validate-number</validate>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </speedyTakingtimeOffset>
+                        <invoice_courier_sevice_as_text translate="label">
+                            <label>invoice_courier_sevice_as_text</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>15</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>invoice_courier_sevice_as_text_description</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </invoice_courier_sevice_as_text>
+                        <!--<istest translate="label">
+                            <label>Sandbox</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>12</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </istest>-->
+                        <default_packing translate="label">
+                            <label>default_packing</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </default_packing>
+                        <money_transfer translate="label">
+                            <label>money_transfer</label>
+                            <comment>money_transfer_description</comment>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>speedyshippingmodule/adminhtml_system_config_form_moneytransfer</frontend_model>
+                            <sort_order>16</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>speedyshippingmodule/carrier_source_moneytransfer</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </money_transfer>
+                        <options_before_payment translate="label">
+                            <label>options_before_payment</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_beforepayment</source_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </options_before_payment>
+                        <return_voucher translate="label">
+                            <label>return_voucher</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </return_voucher>
+                        <return_voucher_city_service_id translate="label">
+                            <label>return_voucher_city_service_id</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_method</source_model>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><return_voucher>1</return_voucher></depends>
+                        </return_voucher_city_service_id>
+                        <return_voucher_intercity_service_id translate="label">
+                            <label>return_voucher_intercity_service_id</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_method</source_model>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><return_voucher>1</return_voucher></depends>
+                        </return_voucher_intercity_service_id>
+                        <return_voucher_payer_type translate="label">
+                            <label>return_voucher_payer_type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>speedyshippingmodule/carrier_source_payertype</source_model>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><return_voucher>1</return_voucher></depends>
+                        </return_voucher_payer_type>
+                        <back_documents translate="label">
+                            <label>back_document_request</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>13</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </back_documents>
+                        <back_receipt translate="label">
+                            <label>back_receipt_request</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>14</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </back_receipt>
+                        <!-- <handling_type translate="label">
+                            <label>Тип на обработка:</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>shipping/source_handlingType</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_type>
+                        <handling_fee translate="label">
+                            <label>Сума за обработка:</label>
+                            <comment>По избор можете да добавите допълнителна такса за обработка към таксата за доставка.</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_fee>-->
+                        <default_weight translate="label">
+                            <label>default_weight_per_item</label>
+                            <comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry validate-number validate-zero-or-greater</validate>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </default_weight>
+                        <has_label_printer translate="label comment">
+                            <label>label_printer</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>17</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>has_printer_comment</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </has_label_printer>
+                        <add_insurance translate="label">
+                            <label>add_insurance_label</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>18</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </add_insurance>
+                        <is_fragile translate="label">
+                            <label>has_fragile_items</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>19</sort_order>
+                            <depends>
+                                <add_insurance>1</add_insurance>
+                            </depends>
+                            <comment>fragile_label_comment</comment>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </is_fragile>
+                        <bring_to_office translate="label comment">
+                            <label>send_from_speedy_office</label>
+                            <comment>speedy_send_from_office_comment</comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>20</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </bring_to_office>
+                        <choose_office translate="label">
+                            <label>choose_sending_office</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>21</sort_order>
+                            <depends>
+                                <bring_to_office>1</bring_to_office>
+                            </depends>
+   
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>speedyshippingmodule/carrier_source_office</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </choose_office>
+                        
+                        <free_shipping_enable translate="label">
+                            <label>activate_free_shipping</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_shipping_enable>
+                        <free_shipping_subtotal translate="label">
+                            <label>minimum_order_amount_for_freeshipping</label>
+                            <frontend_type>text</frontend_type>
+                            <depends>
+                                <free_shipping_enable>1</free_shipping_enable>
+                            </depends>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_shipping_subtotal>
+                        <free_method_city translate="label">
+                            <label>free_city_service</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>free-method</frontend_class>
+                            <depends>
+                                <free_shipping_enable>1</free_shipping_enable>
+                            </depends>
+                            <source_model>speedyshippingmodule/carrier_source_method</source_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_method_city>
+                        <free_method_intercity translate="label">
+                            <label>free_interurban_service</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>free-method</frontend_class>
+                            <depends>
+                                <free_shipping_enable>1</free_shipping_enable>
+                            </depends>
+                            <source_model>speedyshippingmodule/carrier_source_method</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_method_intercity>
+                        <free_method_international translate="label">
+                            <label>free_international_service</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <frontend_class>free-method</frontend_class>
+                            <depends>
+                                <free_shipping_enable>1</free_shipping_enable>
+                            </depends>
+                            <source_model>speedyshippingmodule/carrier_source_method</source_model>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_method_international>
+                        <isDocuments translate="label">
+                            <label>does_contain_documents</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </isDocuments>
+                        <add_jquery translate="label">
+                            <label>add_jquery</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </add_jquery>
+                        <add_jquery_ui translate="label">
+                            <label>add_jquery_ui</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>51</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </add_jquery_ui>
+                        <sallowspecific translate="label">
+                            <label>Ship to applicable countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label>Ship to Specific countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>61</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificcountry>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>62</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificerrmsg>
+                        <add_fixed_hour translate="label">
+                            <label>fixed_hour_delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>fixed_hour_comment_label</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </add_fixed_hour>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                    
+                </speedyshippingmodule>
+            </groups>
+        </carriers>
+        <payment>
+            <groups>
+                <!--<speedypayment translate="label" module="speedyshippingmodule">
+                    <label>Спиди наложен платеж</label>
+                    <sort_order>650</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </title>
+                    </fields>
+                </speedypayment>-->
+            </groups>
+        </payment>
+    </sections>
+</config>

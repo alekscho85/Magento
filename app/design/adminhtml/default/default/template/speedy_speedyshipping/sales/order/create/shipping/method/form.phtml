@@ -1,0 +1,299 @@
+<script type="text/javascript">
+<?php if ($this->helper('tax')->displayShippingPriceExcludingTax()): ?>
+        var excludeTax = <?php echo $this->helper('tax')->displayShippingPriceExcludingTax() ?>;
+<?php else: ?>
+        var excludeTax = null;
+<?php endif; ?>
+
+<?php if ($this->helper('tax')->displayShippingPriceIncludingTax()): ?>
+        var includeTax = <?php echo $this->helper('tax')->displayShippingPriceIncludingTax() ?>;
+<?php else: ?>
+        var includeTax = null;
+<?php endif; ?>
+
+
+<?php if ($this->helper('tax')->displayShippingBothPrices()): ?>
+        var showBoth = <?php echo $this->helper('tax')->displayShippingBothPrices() ?>;
+<?php else: ?>
+        var showBoth = null;
+<?php endif; ?>
+</script>
+<?php if (Mage::getSingleton('adminhtml/session')->getSpeedyError()): ?>
+    <p><?php echo $this->__("The following products has no weight assigned"); ?></p>
+    <h1><?php echo Mage::getSingleton('adminhtml/session')->getSpeedyError() ?></h1>
+    <?php Mage::getSingleton('adminhtml/session')->unsSpeedyError() ?>
+<?php endif; ?>
+<?php $_shippingRateGroups = $this->getShippingRates(); ?>
+<?php if ($_shippingRateGroups): ?>
+    <div id="order-shipping-method-choose" style="display:none">
+        <dl class="shipment-methods">
+            <?php foreach ($_shippingRateGroups as $code => $_rates): ?>
+                <dt><strong><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></strong></dt>
+                <dd>
+                    <ul>
+                        <?php foreach ($_rates as $_rate): ?>
+                            <?php if ($_rate->getSpeedyAmountFixedHourWithoutTax()): ?>    
+                            <?php endif; ?>
+
+                            <?php $_radioProperty = 'name="order[shipping_method]" type="radio"' ?>
+                            <?php $_code = $_rate->getCode() ?>
+                            <li>
+                                <?php if ($_rate->getErrorMessage()): ?>
+                                    <ul class="messages">
+                                        <li class="error-msg"><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li>
+                                    </ul>
+                                <?php else: ?>
+                                    <?php $_checked = $this->isMethodActive($_code) ? 'checked="checked"' : '' ?>
+                                    <input <?php echo $_radioProperty ?> value="<?php echo $_code ?>" id="s_method_<?php echo $_code ?>" <?php echo $_checked ?>/>
+                                    <label class="normal" for="s_method_<?php echo $_code ?>">
+                                        <?php echo $this->escapeHtml($_rate->getMethodTitle() ? $_rate->getMethodTitle() : $_rate->getMethodDescription()) ?> -
+                                        <strong>
+                                            <?php if (!$_rate->getRequestContainsExactHour() || !$_rate->getSpeedyFixedHourEnabled()): ?>
+
+                                                <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                                <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+
+                                            <?php else: ?>
+                                                <?php if (!$this->_isPriceFixed && !$_rate->getIsFree()): ?>
+                                                    <?php $_excl = $this->getShippingPrice($_rate->getPrice() - $_rate->getSpeedyAmountFixedHourWithoutTax(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                                    <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                                                <?php else : ?>
+                                                    <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                                    <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+
+
+                                            <?php echo $_excl; ?>
+                                            <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                                (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                                            <?php endif; ?>
+                                        </strong>
+                                    </label>
+                                    
+                                    
+                                 <?php if($_rate->getIsFree()): ?>
+                                        <input type="hidden" class="speedy_free_shipping" name="speedy_is_free_<?php echo $_rate->getCode() ?>" id="speedy_is_free_<?php echo $_rate->getCode() ?>" />
+                                 <?php endif; ?>
+                                    
+                                    <?php if ($_rate->getSpeedyFixedHourEnabled()): ?>
+
+                                        <?php if ($this->_selectedMethod == $_rate->getCode()): ?>
+                                            <div class="speedy_method_options">  
+                                                
+
+                                                                                                    <!--<input type="checkbox" name="speedy_exact_hour_<?php echo $_rate->getCode() ?>" checked="checked" class="speedy_exacthour_allowed "id="" />-->
+
+                                                
+                                                <input type="hidden" name="speedy_exact_hour_amount_withtax_<?php echo $_rate->getCode() ?>" value="<?php echo $_rate->getSpeedyAmountFixedHourWithTax() ?>" class="speedy_exacthour_allowed "id="" />
+                                                <input type="hidden" name="speedy_exact_hour_amount_withouttax_<?php echo $_rate->getCode() ?>" value="<?php echo $_rate->getSpeedyAmountFixedHourWithoutTax() ?>" class="speedy_exacthour_withouttax"id="" />
+                                                
+                                            <?php else: ?>
+                                                <div class="speedy_method_options">
+                                                    <input type="hidden" name="speedy_exact_hour_amount_withtax_<?php echo $_rate->getCode() ?>" value="<?php echo $_rate->getSpeedyAmountFixedHourWithTax() ?>" class="speedy_exacthour_allowed "id="" />
+                                                    <input type="hidden" name="speedy_exact_hour_amount_withouttax_<?php echo $_rate->getCode() ?>" value="<?php echo $_rate->getSpeedyAmountFixedHourWithoutTax() ?>" class="speedy_exacthour_withouttax"id="" />
+                                                <?php endif; ?>
+                                            <?php elseif ($_rate->getSpeedyFixedHourRequired()): ?>
+                                                <span class="speedy_exacthour_required"></span>
+                                            </div>
+                                        <?php endif; ?>
+
+                                    <?php endif ?>
+                            </li>
+
+                        <?php endforeach; ?>
+                    </ul>
+                </dd>
+                <?php
+                $carrier = Mage::getModel('shipping/config')->getCarrierInstance($code);
+                if ($carrier->getFormName()) {
+
+                    $block = $this->getLayout()->createBlock($carrier->getFormName());
+                    $block->setMethodCode($code);
+                    $block->setRate($_rate);
+                    $block->setMethodInstance($carrier);
+                    $blockOutput = $block->toHtml();
+                    echo $blockOutput;
+                }
+                ?>
+            <?php endforeach; ?>
+        </dl>
+    </div>
+    <?php if ($_rate = $this->getActiveMethodRate()): ?>
+        <div id="order-shipping-method-info">
+            <strong><?php echo $this->escapeHtml($this->getCarrierName($_rate->getCarrier())) ?></strong><br/>
+            <?php echo $this->escapeHtml($_rate->getMethodTitle() ? $_rate->getMethodTitle() : $_rate->getMethodDescription()) ?> -
+            <strong>
+                <?php if (!$_rate->getRequestContainsExactHour() || !$_rate->getSpeedyFixedHourEnabled()): ?>
+
+                    <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                    <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+
+                <?php else: ?>
+
+                    <?php $_excl = $this->getShippingPrice($_rate->getPrice() - $_rate->getFixedTimeAmount(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                    <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+
+                <?php endif; ?>
+                <?php echo $_excl; ?>
+                <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                <?php endif; ?>
+            </strong>
+            <!--input type="text" class="input-text" style="width:70px"/-->
+            <br/>
+            <a href="#" onclick="$('order-shipping-method-info').hide();
+                $('order-shipping-method-choose').show();
+                return false">
+                   <?php echo Mage::helper('sales')->__('Click to change shipping method') ?>
+            </a>
+        </div>
+    <?php else: ?>
+        <script type="text/javascript">$('order-shipping-method-choose').show();</script>
+    <?php endif; ?>
+<?php elseif ($this->getIsRateRequest()): ?>
+    <strong><?php echo Mage::helper('sales')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+<?php else: ?>
+    <div id="order-shipping-method-summary">
+        <a href="#" onclick="order.loadShippingRates();
+            return false">
+               <?php echo Mage::helper('sales')->__('Get shipping methods and rates') ?>
+        </a>
+        <input type="hidden" name="order[has_shipping]" value="" class="required-entry" />
+    </div>
+
+<?php endif; ?>
+<div style="display:none;" id="shipping-method-overlay" class="overlay"><span><?php echo $this->__('Shipping method selection is not applicable') ?></span></div>
+<script type="text/javascript">
+    order.overlay('shipping-method-overlay', <?php if ($this->getQuote()->isVirtual()): ?>false<?php else: ?>true<?php endif; ?>);
+    order.overlay('address-shipping-overlay', <?php if ($this->getQuote()->isVirtual()): ?>false<?php else: ?>true<?php endif; ?>);
+
+    $j('document').ready(function() {
+
+
+        var currentMethod = $j('#order-shipping-method-choose input:radio:checked');
+
+        setActiveRadioButton(currentMethod);
+
+
+        function setActiveRadioButton(button) {
+
+            var isExactHourAllowed = $j(button).nextAll('div.speedy_method_options').find('input:hidden.speedy_exacthour_allowed').length
+            var isFreeMethod = $j(button).nextAll('input:hidden');
+            if ($j(button).is(':checked') && isExactHourAllowed) {
+                $j('input#speedy_exact_hour_enable').removeAttr('disabled')
+                var finalSelector = $j(button).nextAll('div.speedy_method_options');
+                var priceWithTax = $j(finalSelector).find('input:hidden.speedy_exacthour_allowed').val()
+                var priceWithoutTax = $j(finalSelector).find('input:hidden.speedy_exacthour_withouttax').val()
+                var price = '0.00';
+                if (!isFreeMethod) {
+
+                    if (includeTax) {
+                        price = priceWithTax;
+                    }
+                    else if (excludeTax) {
+                        price = priceWithoutTax;
+                    }
+                    else if (showBoth) {
+                        price = priceWithoutTax + '/' + priceWithTax;
+                    }
+                }
+                price += ' '+"<?php echo $this->__('Leva'); ?>";
+
+                $j('p#fixed_price_view').show().text("<?php echo $this->__("extra charge").'\"'.$this->__("fixed hour").'\"'; ?>" + price)
+
+            } else {
+
+                $j('#speedy_admin_form input#speedy_exact_hour_enable').attr('disabled', 'disabled').removeAttr('checked');
+                $j('#speedy_admin_form input:text').attr('disabled', 'disabled').val('')
+                $j('p#fixed_price_view').text("<?php echo $this->__("extra charge").'\"'.$this->__("fixed hour").'\"'; ?>");
+
+            }
+
+        }
+
+
+        var currentMethodOptions = $j("input[type='radio'][id*='speedyshippingmodule']:checked").nextAll('div.speedy_method_options').find('input:hidden.speedy_exacthour_allowed').length;
+
+        if (currentMethodOptions) {
+            $j('#speedy_admin_form').show();
+        }
+
+
+        $j('#order-shipping-method-choose input:radio').change(function(evt) {
+
+
+            var speedyMethod = $j("input[type='radio'][id*='speedyshippingmodule']").is(':checked');
+
+            if (speedyMethod) {
+
+
+                var target = $j(this).attr('id');
+
+
+                if ($j('#' + target).nextAll('div.speedy_method_options').find('input:hidden.speedy_exacthour_allowed').length) {
+
+                    if (currentMethodOptions) {
+
+                        //$j(currentMethodOptions).nextAll('div.speedy_method_options').find('input:checkbox.speedy_exacthour_allowed').removeAttr('checked');
+
+                        $j('#speedy_admin_form').show();
+                        //$j(currentMethodOptions).nextAll('div.speedy_method_options').hide();
+                    }
+
+                    currentMethodOptions = '#' + target;
+                    $j('div#speedy_admin_form').show();
+                    $j(currentMethodOptions).nextAll('div.speedy_method_options').show();
+
+                } else if ($j('#' + target).find('span.speedy_exacthour_required').length) {
+
+                } else {
+
+                    //order.setShippingMethod(this.value)
+
+                }
+
+                var baseForm = 'div#order-shipping-method-choose';
+
+                var quarter = $j(baseForm + ' #quarter_box').val();
+                var quarter_id = $j(baseForm + ' #quarter_id').val();
+                var street = $j(baseForm + ' #speedy_streets').val();
+                var street_id = $j(baseForm + ' #speedy_street_id').val();
+                var number = $j(baseForm + ' #speedy_number').val();
+                var blockNo = $j(baseForm + ' #speedy_block_no').val();
+                var note = $j(baseForm + ' #address_note').val();
+
+                var isValid = 0;
+
+                if (quarter && quarter_id) {
+                    if ((street && street_id && number) || blockNo) {
+                        isValid = true;
+                    }
+
+                } else if ((street && street_id)) {
+                    if (number || blockNo) {
+                        isValid = true;
+                    }
+
+                } else if ($j.trim(note)) {
+                    isValid = true;
+
+                }
+
+                if (isValid) {
+                    order.setShippingMethod(this.value)
+                } else {
+                    $j('div#speedyError').show();
+                }
+
+            } else {
+
+                order.setShippingMethod($j(this).val())
+            }
+        })
+
+
+
+    })
+
+</script>

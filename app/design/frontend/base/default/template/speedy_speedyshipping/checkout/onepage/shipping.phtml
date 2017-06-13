@@ -1,0 +1,1097 @@
+<form action="" id="co-shipping-form">
+
+    <h1 id="speedy_shipping_address_error" class="error-msg" style="display: none"><?php echo $this->__("Invalid Speedy Address") ?></h1>
+    <ul class="form-list">
+        <?php if ($this->customerHasAddresses()): ?>
+            <li class="wide">
+                <label for="shipping-address-select"><?php echo $this->__('Select a shipping address from your address book or enter a new address.') ?></label>
+                <div class="input-box">
+                    <?php echo $this->getAddressesHtmlSelect('shipping') ?>
+                </div>
+            </li>
+        <?php endif ?>
+        <li id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif ?>>
+            <fieldset>
+                <input type="hidden" name="shipping[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="shipping:address_id" />
+                <ul>
+                    <li class="fields"><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress())->setFieldIdFormat('shipping:%s')->setFieldNameFormat('shipping[%s]')->setFieldParams('onchange="shipping.setSameAsBilling(false)"')->toHtml() ?></li>
+                    <li class="fields">
+                        <div class="fields">
+                            <label for="shipping:company"><?php echo $this->__('Company') ?></label>
+                            <div class="input-box">
+                                <input type="text" id="shipping:company" name="shipping[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('company') ?>" onchange="shipping.setSameAsBilling(false);" />
+                            </div>
+                        </div>
+
+                        <?php if (!$this->isCustomerLoggedIn()): ?>
+                            <div class="field">
+                                <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </li>
+                    <li class="wide">
+                        <div class="field" style="width: 100%">
+                            <div id="speedyShippingError" style="display: none" class="validation-failed">
+                               <?php echo $this->__("valid_address_desc") ?>
+                            </div>
+                        </div>
+                    </li>
+                    <?php if ($this->helper('customer/address')->isVatAttributeVisible()) : ?>
+                        <li class="wide">
+                            <label for="billing:vat_id"><?php echo $this->__('VAT Number') ?></label>
+                            <div class="input-box">
+                                <input type="text" id="billing:vat_id" name="billing[vat_id]" value="<?php echo $this->escapeHtml($this->getAddress()->getVatId()) ?>" title="<?php echo $this->__('VAT Number') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('vat_id') ?>" />
+                            </div>
+                        </li>
+                    <?php endif; ?>
+                    <li class="wide">
+                        <div class="field">
+                            <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                                <input type="hidden" id="shipping:speedy_country_id" name="shipping[speedy_country_id]" value="" />
+                                <input type="hidden" id="shipping:active_currency_code" name="shipping[active_currency_code]" value="" />
+                            <div class="input-box">
+                                <?php echo $this->getCountryHtmlSelect('shipping') ?>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="wide">
+                        <div class="field">
+                            <label for="shipping:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                            <div class="input-box">
+                                <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?>" id="shipping:city" onchange="shipping.setSameAsBilling(false);" />
+                                <input type="hidden" name="shipping[speedy_site_id]" id="shipping:speedy_site_id" value="<?php echo $this->escapeHtml($this->getAddress()->getSpeedySiteId()) ?>" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="wide">
+                        <div class="field">
+                            <label for="shipping:region" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                            <div class="input-box">
+                                <select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                                    <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                                </select>
+                                <script type="text/javascript">
+                                    //<![CDATA[
+                                    $('shipping:region_id').setAttribute('defaultValue', "<?php echo $this->getAddress()->getRegionId() ?>");
+                                    //]]>
+                                </script>
+                                <input type="text" id="shipping:region" name="shipping[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" />
+                                <input type="hidden" id="shipping:speedy_state_id" name="shipping[speedy_state_id]" value="" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="wide">
+                       <div class="field">
+                            <label for="shipping:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                            <div class="input-box">
+                                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>" onchange="shipping.setSameAsBilling(false);" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fields bg_field_shipping">
+                        <label for=""><?php echo $this->__("Choose Speedy office") ?></label>
+                        <div class="field">
+                            <?php if ($this->getAddress()->getSpeedyOfficeId()): ?>
+                                <input type="checkbox" name="speedy_office_chooser" id="shipping:speedy_office_chooser" checked="checked" />
+                            <?php else: ?>
+                                <input type="checkbox" name="speedy_office_chooser" id="shipping:speedy_office_chooser" />
+                            <?php endif; ?>
+                        </div>
+                    </li>
+                    <li class="bg_field_shipping">
+                        <?php if ($this->getAddress()->getSpeedyOfficeId()): ?>
+                            <div id="shipping:speedy_office_address">
+                            <?php else: ?>
+                                <div id="shipping:speedy_office_address" style="display: none">
+                                <?php endif; ?>
+                                <ul>
+                                    <li class="wide" id="shipping:speedy_office_textbox">
+                                        <div class="field">
+                                            <label for=""></label>
+                                            <div class="input-box">
+
+                                                <?php if ($this->getAddress()->getSpeedyOfficeId()): ?>
+                                                    <input type="text" name="shipping[speedy_office_locator]" id="shipping:speedy_office_locator" class="input-text" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>"/>
+                                                    <input type="hidden" name="shipping[speedy_office_id]" id="shipping:speedy_office_id" value="<?php echo $this->escapeHtml($this->getAddress()->getSpeedyOfficeId()) ?>" />
+                                                <?php else: ?>
+
+                                                    <input type="text" name="shipping[speedy_office_locator]" id="shipping:speedy_office_locator" class="input-text" />
+                                                    <input type="hidden" name="shipping[speedy_office_id]" id="shipping:speedy_office_id" />
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+
+                                </ul>
+                            </div>
+                    </li>
+                            <li>
+                                <?php if ($this->getAddress()->getSpeedyOfficeId()): ?>
+
+                                    <div id="shipping:speedy_normal_address" style="display: none">
+                                    <?php else: ?>
+                                        <div id="shipping:speedy_normal_address">    
+
+                                        <?php endif; ?>
+                                        <ul>
+                                            <li class="wide bg_field_shipping">
+                                                <div class="field">
+
+                                                    <label for="shipping:speedy_quarter_name"><?php echo $this->__('Quarter') ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" class="input-text" name="shipping[speedy_quarter_name]" id="shipping:speedy_quarter_name" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyQuarterName()) ?>"/><br />
+                                                        <input type="hidden" name="shipping[speedy_quarter_id]" id="shipping:speedy_quarter_id" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyQuarterId()) ?>"/></div></div>
+
+                                                <input type="hidden" name="shipping[speedy_street_id]" id="shipping:speedy_street_id" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyStreetId()) ?>" />
+                                            </li>
+                                            <?php $_streetValidationClass = $this->helper('customer/address')->getAttributeValidationClass('street'); ?>
+                                            <li class="wide">
+                                                <label for="speedy_street" class="bg_field_shipping"><?php echo $this->__('speedy street name');  ?></label>
+                                                <div class="input-box bg_field_shipping">
+                                                    <input type="text" name="shipping[speedy_street_name]" value="<?php echo $this->escapeHtml($this->getAddress()->getSpeedyStreetName()) ?>" id="shipping:speedy_street" class="input-text"  />
+                                                </div>
+                                                <div class="street_holder non_bg_field_shipping" style="display: none">
+                                                    <label for="shipping:street1" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" onchange="shipping.setSameAsBilling(false);" />
+                                                    </div>
+                                                </div>
+                                                <div class="street_holder non_bg_field_shipping" style="display: none">
+                                                    <label for="shipping:street2"><?php echo $this->__('Street Address 2') ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" title="<?php echo $this->__('Street Address 2') ?>" name="shipping[street][]" id="shipping:street2" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(2)) ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" />
+                                                    </div>
+                                                </div>
+                                            </li>
+
+
+                                            <li class="fields bg_field_shipping">
+                                                <div class="field">
+                                                    <label for="speedy_street_number"><?php echo $this->__('Street Number') ?></label>
+                                                    <div class="input-box">
+
+                                                        <input type="text" class="input-text" name="shipping[speedy_street_number]" id="shipping:speedy_street_number" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyStreetNumber()) ?>" /></div>
+                                                </div>
+                                                <div class="field">
+                                                    <label for="speedy_block_number"><?php echo $this->__('Blok') ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" class="input-text" name="shipping[speedy_block_number]" id="shipping:speedy_block_number" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyBlockNumber()) ?>" /></div>
+                                                </div>
+
+
+                                            </li>
+                                            <li class="fields bg_field_shipping">
+                                                <div class="field">
+                                                    <label for=""><?php echo $this->__("Entrance") ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="shipping[speedy_entrance]" id="shipping:speedy_entrance" class="input-text" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyEntrance()) ?>" /></div>
+                                                </div>
+                                                <div class="field">
+                                                    <label for=""><?php echo $this->__("Floor") ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="shipping[speedy_floor]" id="shipping:speedy_floor" class="input-text" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyFloor()) ?>"/></div>
+                                                </div>
+                                            </li>
+                                            <li class="fields bg_field_shipping">
+                                                <div class="field">
+                                                    <label for=""><?php echo $this->__("Apartment") ?></label>
+                                                    <div class="input-box">
+                                                        <input type="text" name="shipping[speedy_apartment]" id="shipping:speedy_apartment" class="input-text" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyApartment()) ?>" /></div>
+                                                </div>
+                                            </li>
+                                            <li class="wide bg_field_shipping">
+                                                <div class="field">
+                                                    <label for=""><?php echo $this->__("Address note") ?></label>
+                                                    <div class="input-box">
+                                                        <input class="input-text" id="shipping:speedy_address_note" type="text" name="shipping[speedy_address_note]" value="<?php echo $this->htmlEscape($this->getAddress()->getSpeedyAddressNote()) ?>" />
+
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <ul>
+                                                </div>
+                                                <?php if ($this->helper('customer/address')->isVatAttributeVisible()) : ?>
+                                                    <li class="wide">
+                                                        <label for="billing:vat_id"><?php echo $this->__('VAT Number'); ?></label>
+                                                        <div class="input-box">
+                                                            <input type="text" id="shipping:vat_id" name="shipping[vat_id]" value="<?php echo $this->escapeHtml($this->getAddress()->getVatId()); ?>" title="<?php echo $this->__('VAT Number'); ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('vat_id') ?>" />
+                                                        </div>
+                                                    </li>
+                                                <?php endif; ?>
+                                                <li class="fields">
+                                                    <div class="field">
+                                                        <label for="shipping:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                                                        <div class="input-box">
+                                                            <input type="text" name="shipping[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('telephone') ?>" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <label for="shipping:fax"><?php echo $this->__('Fax') ?></label>
+                                                        <div class="input-box">
+                                                            <input type="text" name="shipping[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('fax') ?>" id="shipping:fax" onchange="shipping.setSameAsBilling(false);" />
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()): ?>
+                                                    <li class="control">
+                                                        <input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="shipping:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()): ?> checked="checked"<?php endif; ?> class="checkbox" /><label for="shipping:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
+                                                <?php else: ?>
+                                                    <li class="no-display"><input type="hidden" name="shipping[save_in_address_book]" value="1" /></li>
+                                                <?php endif; ?>
+
+
+                                                </fieldset>
+                                                </li>
+                                                <li class="control" id="sameBillingBox">
+                                                    <input type="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php if ($this->getAddress()->getSameAsBilling()): ?> checked="checked"<?php endif; ?> title="<?php echo $this->__('Use Billing Address') ?>" onclick="shipping.setSameAsBilling(this.checked)" class="checkbox" /><label for="shipping:same_as_billing"><?php echo $this->__('Use Billing Address') ?></label>
+                                                </li>
+                                                <li>
+                                                    <div class="buttons-set" id="shipping-buttons-container">
+                                                        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                                                        <p class="back-link"><a href="#" onclick="checkout.back();
+                                                                return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+                                                        <button type="button" class="button" title="<?php echo $this->__('Continue') ?>" ><span><span><?php echo $this->__('Continue') ?></span></span></button>
+                                                        <span id="shipping-please-wait" class="please-wait" style="display:none;">
+                                                            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            </form>
+                                            <script type="text/javascript">
+                                                //<![CDATA[
+                                                var shipping = new Shipping('co-shipping-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>',
+                                                        '<?php echo $this->getUrl('checkout/onepage/shippingMethod') ?>');
+                                                var shippingForm = new VarienForm('co-shipping-form');
+                                                shippingForm.extraChildParams = ' onchange="shipping.setSameAsBilling(false);"';
+                                                //shippingForm.setElementsRelation('shipping:country_id', 'shipping:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
+                                                $('shipping-address-select') && shipping.newAddress(!$('shipping-address-select').value);
+
+                                                <?php 
+                                                $json_regions = json_decode($this->helper('directory')->getRegionJson());
+                                                if ($json_regions) {
+                                                    $regionConfig = new StdClass();
+                                                    $regionConfig->config = $json_regions->config;
+                                                    $new_region_objects = json_encode($regionConfig);
+                                                } else {
+                                                    $new_region_objects = $this->helper('directory')->getRegionJson();
+                                                }
+                                                ?>
+
+                                                var shippingRegionUpdater = new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', <?php echo $new_region_objects ?>, undefined, 'shipping:postcode');
+                                                //]]>
+
+
+                                                var isShippingFullNomenclature = 0;
+                                                var isShippingFullSiteNomenclature = 0;
+
+                                                $j('document').ready(function() {
+
+
+
+
+
+                                                    function synchronizeSameAddress() {
+                                                        if ($j('#shipping\\:same_as_billing').is(':checked')) {
+                                                            $j('#shipping\\:same_as_billing').removeAttr('checked')
+                                                        }
+                                                    }
+
+
+                                                    var isShippingValidAddress = $j('#shipping-address-select').val();
+
+
+
+
+
+                                                    var siteName = '';
+                                                    var quarterName = '';
+                                                    var streetName = '';
+                                                    var blokName = '';
+                                                    var officeName = '';
+
+
+                                                    function initShippingFields() {
+
+                                                        if ($j('#shipping\\:speedy_quarter_name').val() != '') {
+                                                            quarterName = $j('#shipping\\:speedy_quarter_name').val();
+                                                        }
+
+
+                                                        if ($j('#shipping\\:street_1').val() != '') {
+                                                            streetName = $j('#shipping\\:street_1').val();
+                                                        }
+
+
+                                                        if ($j('#shipping\\:speedy_block_number').val() != '') {
+                                                            blokName = $j('#shipping\\:speedy_block_number').val();
+                                                        }
+
+                                                        if ($j('#shipping\\:speedy_office_locator').val() != '') {
+                                                            officeName = $j('#shipping\\:speedy_office_locator').val();
+                                                        }
+                                                    }
+
+
+
+                                                    initShippingFields();
+
+
+                                                    function checkShippingFields(evt) {
+                                                        var evtTarget = $j(evt.target);
+
+
+                                                        if (evtTarget.attr('id') == 'shipping:city') {
+
+                                                            if (isShippingFullSiteNomenclature == 'FULL' && $j('#shipping\\:speedy_site_id').val() == false) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_quarter_id').val('');
+                                                                $j('#shipping\\:postcode').val('');
+                                                                $j('#shipping\\:region').val('')
+                                                                updateShippingForm();
+                                                            } else if (siteName != evtTarget.val() && isShippingFullSiteNomenclature == 'FULL') {
+
+                                                                evtTarget.val('')
+
+                                                                // $j('#shipping\\:speedy_office_chooser').removeAttr('checked');
+                                                                $j('#shipping\\:speedy_site_id').val('');
+                                                                $j('#shipping\\:postcode').val('');
+                                                                $j('#shipping\\:region').val('')
+                                                                updateShippingForm();
+                                                            } else if (evtTarget.val() == "") {
+
+                                                                updateShippingForm();
+                                                                $j('#shipping\\:speedy_site_id').val('')
+                                                                $j('#shipping\\:postcode').val('')
+                                                            } else {
+                                                                // updateShippingForm(true);
+                                                            }
+                                                        }
+
+                                                        if (evtTarget.attr('id') == 'shipping:speedy_street') {
+
+                                                            if (isShippingFullNomenclature == 'FULL' && $j('#shipping\\:speedy_street_id').val() == false) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_street_id').val('');
+
+                                                            }
+
+
+                                                            else if (evtTarget.val() != streetName && isShippingFullNomenclature == 'FULL') {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_street_id').val('');
+                                                            } else if ($j('#shipping\\:speedy_street_id').val() != '' && isShippingFullNomenclature != 'FULL' && evtTarget.val() != streetName) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_street_id').val('');
+                                                            } else if (isShippingFullNomenclature == 'NO' || isShippingFullNomenclature == 'PARTIAL') {
+                                                                evtTarget.val(evtTarget.val().toUpperCase())
+                                                            }
+
+
+
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_quarter_name') {
+                                                            if (isShippingFullNomenclature == 'FULL' && $j('#shipping\\:speedy_quarter_id').val() == false) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_quarter_id').val('');
+                                                            }
+
+
+                                                            else if (evtTarget.val() != quarterName && isShippingFullNomenclature == 'FULL') {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_quarter_id').val('');
+                                                            } else if ($j('#shipping\\:speedy_quarter_id').val() != '' && isShippingFullNomenclature != 'FULL' && evtTarget.val() != quarterName) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_quarter_id').val('');
+
+                                                            } else if (isShippingFullNomenclature == 'NO' || isShippingFullNomenclature == 'PARTIAL') {
+                                                                evtTarget.val(evtTarget.val().toUpperCase())
+                                                            }
+
+
+
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_office_locator') {
+
+
+                                                            if ($j('#shipping\\:speedy_office_id').val() == false) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_office_id').val('');
+                                                                $j('#shipping\\:speedy_street').val('')
+                                                            }
+
+
+                                                            else if (evtTarget.val() != officeName) {
+                                                                evtTarget.val('')
+                                                                //$j('#shipping\\:speedy_office_chooser').removeAttr('checked')
+                                                                $j('#shipping\\:speedy_office_id').val('');
+                                                                $j('#shipping\\:speedy_street').val('')
+                                                            } else if ($j('#shipping\\:speedy_office_id').val() != '' && evtTarget.val() != officeName) {
+                                                                evtTarget.val('')
+                                                                $j('#shipping\\:speedy_office_id').val('');
+                                                                $j('#shipping\\:speedy_street').val('')
+                                                            }
+
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_block_number') {
+                                                            evtTarget.val(evtTarget.val().toUpperCase())
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_entrance') {
+                                                            evtTarget.val(evtTarget.val().toUpperCase())
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_floor') {
+                                                            evtTarget.val(evtTarget.val().toUpperCase())
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_apartment') {
+                                                            evtTarget.val(evtTarget.val().toUpperCase())
+                                                        } else if (evtTarget.attr('id') == 'shipping:speedy_address_note') {
+                                                            evtTarget.val(evtTarget.val().toUpperCase())
+                                                        }
+
+                                                    }
+
+
+                                                    $j('#shipping\\:city,div#shipping\\:speedy_normal_address input, div#shipping\\:speedy_office_address input').change(function(evt) {
+
+                                                        checkShippingFields(evt);
+                                                        synchronizeSameAddress();
+
+                                                    })
+
+
+
+                                                    $j('#opc-shipping div.step-title').click(function(evt) {
+
+
+
+                                                        checkShippingAddress();
+                                                    })
+
+                                                    checkShippingAddress();
+
+                                                    function checkShippingAddress() {
+
+                                                        var showShippingError = true;
+                                                        var isShippingValidAddress = $j('#shipping-address-select').val();
+
+                                                        for (var i = 0; i < test.length; i++) {
+                                                            if (test[i] == isShippingValidAddress || isShippingValidAddress == "") {
+
+                                                                $j('#speedy_shipping_address_error').hide();
+                                                                showShippingError = false;
+                                                            }
+
+
+
+                                                        }
+
+                                                        if (showShippingError) {
+
+                                                            $j('#speedy_shipping_address_error').show();
+                                                        }
+
+                                                    }
+
+
+
+                                                    $j('#shipping\\:speedy_office_chooser').change(function(evt) {
+
+                                                        if ($j('#shipping\\:same_as_billing').is(':checked')) {
+                                                            $j('#shipping\\:same_as_billing').prop('checked', false);
+                                                        }
+
+                                                        if ($j(this).is(':checked')) {
+                                                            $j('#shipping\\:speedy_normal_address').hide().find('input').val('');
+                                                            $j('#shipping\\:speedy_office_address').show().find('input').show();
+
+                                                        } else {
+                                                            $j('#shipping\\:speedy_normal_address').show().find('input');
+                                                            $j('#shipping\\:speedy_office_address').hide().find('input').val('');
+                                                            $j('#shipping\\:speedy_office_id, #shipping\\:street_0,#shipping\\:speedy_street,#shipping\\:street_1,#shipping\\:speedy_office_locator').val('');
+
+                                                        }
+                                                    });
+
+
+                                                    _initListeners();
+
+                                                    function _initListeners() {
+                                                        // var city_id = $j('#city_id').val();
+
+                                                        var cityToIDMap = [];
+                                                        var streetToID = [];
+
+
+
+
+
+
+
+
+
+
+
+                                                        $j('#shipping\\:city').autocomplete({
+                                                            source: function(request, response) {
+
+                                                                $j.ajax({
+                                                                    url: "<?php echo Mage::getUrl("speedyshippingfront/address/getSite"); ?>",
+                                                                    dataType: "json",
+                                                                    data: {
+                                                                        term: request.term,
+                                                                        countryid: $j('#shipping\\:speedy_country_id').val(),
+                                                                        countryiso: $j('#shipping\\:country_id').val()
+                                                                    },
+                                                                    success: function(data) {
+                                                                        response(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                            , minLength: 1
+                                                            , select: function(event, ui) {
+                                                                updateShippingForm(true);
+                                                                synchronizeSameAddress();
+                                                                $j(this).val(ui.item.label);
+                                                                $j('#shipping\\:speedy_site_id').val(ui.item.value)
+                                                                $j('#shipping\\:postcode').val(ui.item.post_code)
+                                                                $j('#shipping\\:region').val(ui.item.region)
+                                                                // $j('#shipping\\:country_id').val('BG');
+                                                                siteName = ui.item.label;
+                                                                if (ui.item.is_full_nomenclature == 'NO') {
+                                                                    isShippingFullNomenclature = 'NO'
+                                                                    disableAutocomplete()
+                                                                } else if (ui.item.is_full_nomenclature == 'PARTIAL') {
+
+                                                                    isShippingFullNomenclature = 'PARTIAL';
+                                                                    enableAutocomplete();
+                                                                } else {
+                                                                    isShippingFullNomenclature = 'FULL';
+                                                                    enableAutocomplete();
+
+                                                                }
+
+                                                                // clearForm();
+                                                                return false;
+                                                            }});
+
+                                                        $j('#shipping\\:speedy_office_locator').autocomplete({
+                                                            source: function(request, response) {
+
+                                                                $j.ajax({
+                                                                    url: "<?php echo Mage::getUrl("speedyshippingfront/address/getOffices"); ?>",
+                                                                    dataType: "json",
+                                                                    data: {
+                                                                        term: request.term,
+                                                                        cityid: $j('#shipping\\:speedy_site_id').val()
+                                                                    },
+                                                                    success: function(data) {
+                                                                        response(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                            , response: function(event, ui) {
+                                                                $j(this).autocomplete("option", "disabled", false);
+
+                                                            }
+                                                            , minLength: 0
+                                                            , select: function(event, ui) {
+                                                                $j(this).val(ui.item.label);
+                                                                officeName = ui.item.label;
+                                                                $j('#shipping\\:speedy_office_id').val(ui.item.value);
+                                                                $j('#shipping\\:speedy_street').val(ui.item.label)
+                                                                initShippingSiteData(ui);
+                                                                return false;
+                                                            }}).focus(function() {
+                                                            if ($j('#shipping\\:speedy_site_id').val()) {
+                                                                //Use the below line instead of triggering keydown
+                                                                $j(this).autocomplete("search")
+                                                            }
+                                                        });
+
+
+                                                        $j('#shipping\\:speedy_quarter_name').autocomplete({
+                                                            source: function(request, response) {
+
+                                                                $j.ajax({
+                                                                    url: "<?php echo Mage::getUrl("speedyshippingfront/address/getQuarter"); ?>",
+                                                                    dataType: "json",
+                                                                    data: {
+                                                                        term: request.term,
+                                                                        cityid: $j('#shipping\\:speedy_site_id').val(),
+                                                                        countryiso: $j('#shipping\\:country_id').val()
+                                                                    },
+                                                                    success: function(data) {
+                                                                        response(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                            , minLength: 1
+                                                            , select: function(event, ui) {
+                                                                $j(this).val(ui.item.label);
+                                                                quarterName = ui.item.label;
+                                                                $j('#shipping\\:speedy_quarter_id').val(ui.item.value)
+                                                                return false;
+                                                            }});
+
+                                                        $j('#shipping\\:speedy_street').autocomplete({
+                                                            source: function(request, response) {
+
+                                                                $j.ajax({
+                                                                    url: "<?php echo Mage::getUrl("speedyshippingfront/address/getStreets"); ?>",
+                                                                    dataType: "json",
+                                                                    data: {
+                                                                        term: request.term,
+                                                                        cityid: $j('#shipping\\:speedy_site_id').val(),
+                                                                        countryiso: $j('#shipping\\:country_id').val()
+                                                                    },
+                                                                    success: function(data) {
+                                                                        response(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                            , minLength: 1
+                                                            , select: function(event, ui) {
+                                                                $j(this).val(ui.item.label);
+                                                                streetName = ui.item.label;
+                                                                $j('#shipping\\:speedy_street_id').val(ui.item.value)
+                                                                return false;
+                                                            }});
+
+                                                        $j('#shipping\\:speedy_block_number').autocomplete({
+                                                            source: function(request, response) {
+
+                                                                $j.ajax({
+                                                                    url: "<?php echo Mage::getUrl("speedyshippingfront/address/getBlock"); ?>",
+                                                                    dataType: "json",
+                                                                    data: {
+                                                                        term: request.term,
+                                                                        cityid: $j('#shipping\\:speedy_site_id').val(),
+                                                                        countryiso: $j('#shipping\\:country_id').val()
+                                                                    },
+                                                                    success: function(data) {
+                                                                        response(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                            , minLength: 1
+                                                            , select: function(event, ui) {
+                                                                $j(this).val(ui.item.label);
+
+                                                                return false;
+                                                            }});
+
+                                                    $j('#shipping\\:region').autocomplete({
+                                                        source: function(request, response) {
+
+                                                            $j.ajax({
+                                                                url: "<?php echo Mage::getUrl("speedyshippingfront/address/getStates"); ?>",
+                                                                dataType: "json",
+                                                                data: {
+                                                                    term: request.term,
+                                                                    countryid: $j('#shipping\\:speedy_country_id').val(),
+                                                                    countryiso: $j('#shipping\\:country_id').val(),
+                                                                },
+                                                                success: function(data) {
+                                                                    response(data);
+                                                                }
+                                                            });
+                                                        }
+                                                        , response: function(event, ui) {
+                                                            $j(this).autocomplete("option", "disabled", false);
+
+                                                        }
+
+                                                        , minLength: 0
+                                                        , select: function(event, ui) {
+                                                            $j(this).val(ui.item.label);
+                                                            $j('#shipping\\:speedy_state_id').val(ui.item.value);
+                      
+                                                            return false;
+                                                        }});
+
+                                                    }
+
+
+
+
+                                                    function initShippingSiteData(jsonResponse) {
+                                                        $j('#shipping\\:speedy_site_id').val(jsonResponse.item.site_id)
+                                                        $j('#shipping\\:postcode').val(jsonResponse.item.post_code)
+                                                        $j('#shipping\\:region').val(jsonResponse.item.region)
+
+                                                        siteName = jsonResponse.item.site_name;
+                                                        $j('#shipping\\:city').val(siteName);
+                                                        if (jsonResponse.item.is_full_nomenclature == 'NO') {
+                                                            isShippingFullNomenclature = 'NO';
+                                                            disableAutocomplete()
+                                                        } else if (jsonResponse.item.is_full_nomenclature == 'PARTIAL') {
+
+                                                            isShippingFullNomenclature = 'PARTIAL';
+                                                            enableAutocomplete();
+                                                        } else {
+                                                            isShippingFullNomenclature = 'FULL';
+                                                            enableAutocomplete();
+
+                                                        }
+                                                    }
+
+
+                                                    function validateShippingAddress() {
+                                                        $j('div#speedyShippingError').hide();
+                                                        var prefix = ' #shipping\\:';
+                                                        var quarter = $j(prefix + 'speedy_quarter_name').val();
+                                                        var quarter_id = $j(prefix + 'speedy_quarter_id').val();
+                                                        var street = $j(prefix + 'speedy_street').val();
+                                                        var street_id = $j(prefix + 'speedy_street_id').val();
+                                                        var number = $j(prefix + 'speedy_street_number').val();
+                                                        var blockNo = $j(prefix + 'speedy_block_number').val();
+                                                        var address_note = $j(prefix + 'speedy_address_note').val();
+
+
+                                                        var floor_no = $j(prefix + 'speedy_floor').val();
+                                                        var entrance = $j(prefix + 'speedy_entrance').val();
+                                                        var apartment = $j(prefix + 'speedy_apartment').val();
+
+                                                        var speedy_pick_from_office = $j(prefix + 'speedy_office_chooser').is(':checked');
+                                                        var speedy_office_name = $j(prefix + 'speedy_office_locator').val();
+                                                        var speedy_office_id = $j(prefix + 'speedy_office_id').val();
+                                                        var isNewAddress = $j('#shipping-address-select').val();
+
+                                                        var isValidTest = null;
+
+                                                        if (!isNewAddress) {
+                                                            if ($j('#shipping\\:country_id').length != 0 && $j('#shipping\\:country_id').val() == 'BG') {
+                                                                if (quarter != false || quarter_id != false) {
+                                                                    if ((street && number) || blockNo || number) {
+
+                                                                        isValidTest = 1;
+                                                                    }
+
+                                                                } else if (speedy_pick_from_office != false && speedy_office_name != false && speedy_office_id != false) {
+
+                                                                    isValidTest = 1;
+
+
+                                                                }
+                                                                else if ((street != false || street_id != false)) {
+                                                                    if (number != false || blockNo != false) {
+
+                                                                        isValidTest = 1;
+
+                                                                    }
+
+                                                                } else if (address_note != false && address_note.length > 4) {
+
+                                                                    isValidTest = 1;
+                                                                }
+                                                            } else {
+                                                                isValidTest = true;
+                                                                return true;
+                                                            }
+                                                        } else {
+                                                            $j('#shipping\\:street1').val(quarter + street + number + blockNo + entrance + floor_no + apartment + address_note);
+                                                            return true;
+                                                        }
+
+
+                                                        if (isValidTest) {
+
+                                                            if ($j('div#speedyShippingError').is(':visible')) {
+                                                                $j('div#speedyShippingError').hide();
+                                                            }
+                                                            $j('#shipping-please-wait').show();
+                                                            var streetAddress = '';
+
+                                                            var address = '';
+                                                            var note = '';
+
+                                                            var streetAddress = '';
+
+                                                            if (speedy_office_name.length > 1) {
+                                                                //address += speedy_office_name;
+                                                            }
+
+                                                            if (quarter.length > 1) {
+                                                                address += ' ' + quarter;
+                                                            }
+                                                            if (street.length > 1) {
+                                                                address += ' ' + street;
+                                                            }
+                                                            if (number.length >= 1) {
+                                                                address += " <?php echo $this->__("Street Number") ?>" + number;
+                                                            }
+                                                            if (blockNo.length >= 1) {
+                                                                address += " <?php echo $this->__("Blok") ?>" + blockNo;
+                                                            }
+
+                                                            if (entrance.length >= 1) {
+                                                                address += " <?php echo $this->__("Entrance") ?>" + entrance;
+                                                            }
+                                                            if (floor_no.length >= 1) {
+                                                                address += " <?php echo $this->__("Floor") ?>" + floor_no;
+                                                            }
+                                                            if (apartment.length >= 1) {
+                                                                address += " <?php echo $this->__("Apartment") ?>" + apartment;
+                                                            }
+
+                                                            if (address_note.length > 3) {
+                                                                note += " " + address_note;
+                                                            }
+
+                                                            streetAddress = address;
+
+                                                            if (note != '' && streetAddress.length > 0) {
+                                                                streetAddress += ', ' + note;
+                                                            } else {
+                                                                streetAddress += note;
+                                                            }
+                                                            $j('#shipping\\:street1').val(streetAddress);
+
+                                                            return true;
+                                                        } else {
+
+                                                            $j('div#speedyShippingError').show();
+                                                            return false;
+
+                                                        }
+                                                    }
+
+                                                    $j('#shipping\\:same_as_billing').change(function(evt) {
+                                                        if ($j(this).is(':checked')) {
+                                                            freezeShippingForm()
+                                                        } else {
+                                                            freezeShippingForm(true);
+                                                        }
+                                                    })
+
+                                                    $j('#shipping-address-select').change(function(evt) {
+
+                                                        isShippingValidAddress = $j(this).val();
+                                                        //We have a new billing address
+
+                                                        $j('#shipping\\:same_as_billing').attr('checked', false);
+                                                        shipping.setSameAsBilling($j('#shipping\\:same_as_billing').is(':checked'));
+
+                                                        if (!isShippingValidAddress || isNewBillingAddress) {
+                                                            $j('#sameBillingBox').hide();
+                                                        } else {
+                                                            $j('#sameBillingBox').show();
+                                                        }
+
+                                                        shipping.newAddress(!$j(this).val())
+                                                        checkShippingAddress();
+                                                        //updateShippingForm();
+                                                        $j('#shipping\\:city').val('');
+                                                        $j('#shipping\\:speedy_site_id,#shipping\\:postcode, #shipping\\:region').val('');
+                                                        //var isOfficeSelected = $j('#shipping\\:speedy_office_chooser').is(':checked');
+                                                        //if (isOfficeSelected) {
+                                                        $j('#shipping\\:speedy_office_chooser').removeAttr('checked');
+                                                        $j('#shipping\\:speedy_normal_address').show();
+                                                        $j('#shipping\\:speedy_office_locator').hide();
+                                                        //}
+
+                                                        // if ($j('#shipping\\:same_as_billing').is(':checked')) {
+                                                        updateShippingForm();
+                                                        //}
+                                                    })
+
+
+
+                                                    function enableAutocomplete() {
+                                                        $j("#shipping\\:speedy_quarter_name, \n\
+                                                            #shipping\\:speedy_street,\n\
+                                                            #shipping\\:speedy_office_locator ").autocomplete("option", "disabled", false);
+                                                    }
+
+                                                    function disableAutocomplete() {
+                                                        $j("#shipping\\:speedy_quarter_name, \n\
+                                                            #shipping\\:speedy_street,\n\
+                                                            #shipping\\:speedy_office_locator ").autocomplete("option", "disabled", true);
+                                                    }
+
+                                                    $j('#shipping-buttons-container button.button ').click(function(evt) {
+                                                        $j('div#speedyShippingError').hide();
+                                                        evt.preventDefault();
+
+                                                        var isValid = validateShippingAddress();
+
+                                                        if (isValid) {
+                                                            shipping.save();
+                                                        } else {
+
+                                                        }
+
+                                                    })
+
+
+
+
+                                                    function freezeShippingForm(enable) {
+                                                        if (enable) {
+
+                                                            $j('div#shipping\\:speedy_normal_address input, #shipping\\:speedy_office_address input,shipping\\:speedy_office_chooser')
+                                                                    .removeAttr('readonly');
+                                                            $j('#shipping\\:speedy_office_chooser').removeAttr('disabled')
+
+                                                        } else {
+                                                            $j('div#shipping\\:speedy_normal_address input, #shipping\\:speedy_office_address input, shipping\\:speedy_office_chooser')
+                                                                    .attr('readonly', 'readonly')
+                                                            $j('#shipping\\:speedy_office_chooser').attr('disabled', 'disabled')
+                                                        }
+                                                    }
+
+                                                    function updateShippingForm(enable) {
+
+                                                        if (enable) {
+
+                                                            $j('div#shipping\\:speedy_normal_address input, #shipping\\:speedy_office_address input')
+                                                                    .removeAttr('readonly').val('');
+                                                            $j('#shipping\\:speedy_office_chooser').removeAttr('disabled')
+
+                                                        } else {
+                                                            $j('div#shipping\\:speedy_normal_address input, #shipping\\:speedy_office_address input')
+                                                                    .attr('readonly', 'readonly').val('');
+
+                                                            $j('#shipping\\:speedy_office_chooser').removeAttr('checked').attr('disabled', 'disabled');
+                                                        }
+
+
+                                                    }
+
+                                                })
+
+
+                                            </script>
+                    
+                    <script>
+                        $j(document).ready(function () {
+                            function enableSiteShippingAutocomplete() {
+                                $j("#shipping\\:city").autocomplete("option", "disabled", false);
+                            }
+
+                            function disableSiteShippingAutocomplete() {
+                                $j("#shipping\\:city").autocomplete("option", "disabled", true);
+                            }
+
+                            $j('#shipping\\:country_id').change(function () {
+                                if ($j(this).val() == 'BG') {
+                                    $j('.non_bg_field_shipping').hide();
+                                    $j('.bg_field_shipping').show();
+                                } else {
+                                    if ($j('#shipping\\:speedy_office_chooser').is(':checked')) {
+                                        $j('#shipping\\:speedy_office_chooser').attr('checked', false);
+                                        $j('#shipping\\:speedy_office_chooser').trigger('change');
+                                    }
+
+                                    $j('.bg_field_shipping').hide();
+                                    $j('.non_bg_field_shipping').show();
+                                    $j('div#shipping\\:speedy_normal_address input, #shipping\\:speedy_office_address input').attr('disabled', false).val('');
+                                }
+
+                                $j('#shipping\\:speedy_site_id, #shipping\\:city, #shipping\\:postcode, #shipping\\:region, #shipping\\:speedy_state_id').val('');
+
+                                $j.ajax({
+                                    url: "<?php echo Mage::getUrl("speedyshippingfront/address/getCountries"); ?>",
+                                    dataType: "json",
+                                    async: false,
+                                    data: {
+                                        countryiso: $j('#shipping\\:country_id').val()
+                                    },
+                                    success: function(data) {
+                                        if (data && data.hasOwnProperty($j('#shipping\\:country_id').val())) {
+                                            if (data[$j('#shipping\\:country_id').val()].hasOwnProperty('id')) {
+                                                $j('#shipping\\:speedy_country_id').val(data[$j('#shipping\\:country_id').val()].id);
+                                            }
+
+                                            if (data[$j('#shipping\\:country_id').val()].hasOwnProperty('active_currency_code')) {
+                                                $j('#shipping\\:active_currency_code').val(data[$j('#shipping\\:country_id').val()].active_currency_code);
+                                            }
+
+                                            if (data[$j('#shipping\\:country_id').val()].hasOwnProperty('is_full_nomenclature')) {
+                                                if(!data[$j('#shipping\\:country_id').val()].is_full_nomenclature) {
+                                                    isShippingFullSiteNomenclature = 'NO';
+                                                    disableSiteShippingAutocomplete();
+                                                } else if (data[$j('#shipping\\:country_id').val()].is_full_nomenclature == 2) {
+                                                    isShippingFullSiteNomenclature = 'PARTIAL';
+                                                    enableSiteShippingAutocomplete();
+                                                } else {
+                                                    isShippingFullSiteNomenclature = 'FULL';
+                                                    enableSiteShippingAutocomplete();
+                                                }
+                                            }
+
+                                            if (data[$j('#shipping\\:country_id').val()].hasOwnProperty('required_state')) {
+                                                state_req = '<?php echo $this->helper('customer/address')->getAttributeValidationClass('region') ?>';
+                                                if (data[$j('#shipping\\:country_id').val()].required_state) {
+                                                    if (!$j('label[for=shipping\\:region]').hasClass('required')) {
+                                                        $j('label[for=shipping\\:region]').addClass('required');
+                                                        $j('label[for=shipping\\:region]').find('em').show();
+                                                    }
+
+                                                    if (!$j('#shipping\\:region').hasClass(state_req)) {
+                                                        $j('#shipping\\:region').addClass(state_req);
+                                                    }
+                                                    if (!$j('#shipping\\:speedy_state_id').hasClass('required')) {
+                                                        $j('#shipping\\:speedy_state_id').addClass('required');
+                                                    }
+                                                } else {
+                                                    $j('label[for=shipping\\:region]').removeClass('required');
+                                                    $j('label[for=shipping\\:region]').find('em').hide();
+                                                    $j('#shipping\\:region').removeClass(state_req);
+                                                    $j('#shipping\\:speedy_state_id').removeClass('required');
+                                                }
+                                            }
+
+                                            if (data[$j('#shipping\\:country_id').val()].hasOwnProperty('required_postcode')) {
+                                                postcode_req = '<?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>';
+                                                if (data[$j('#shipping\\:country_id').val()].required_postcode) {
+                                                    if (!$j('label[for=shipping\\:postcode]').hasClass('required')) {
+                                                        $j('label[for=shipping\\:postcode]').addClass('required');
+                                                        $j('label[for=shipping\\:postcode]').find('em').show();
+                                                    }
+
+                                                    if (!$j('#shipping\\:postcode').hasClass(postcode_req)) {
+                                                        $j('#shipping\\:postcode').addClass(postcode_req);
+                                                    }
+                                                } else {
+                                                    $j('label[for=shipping\\:postcode]').removeClass('required');
+                                                    $j('label[for=shipping\\:postcode]').find('em').hide();
+                                                    $j('#shipping\\:postcode').removeClass(postcode_req);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+
+                            if ($j('#shipping\\:country_id').length != 0) {
+                                $j('#shipping\\:country_id').trigger('change');
+                            }
+
+                            $j('#shipping-new-address-form input').keypress(function(event){
+                                if ($j('#shipping\\:country_id').val() != 'BG' && event.key.match(/[а-яА-я]/)) {
+                                    event.preventDefault();
+                                    alert('<?php echo $this->__('Please, use only latin characters!') ?>');
+                                }
+                            });
+
+                            $j('#shipping-new-address-form input:text').focusout(function(event){
+                                speedy_clear_input($j(this));
+                            });
+
+                            $j('#shipping-new-address-form input:text').each(function(index) {
+                                speedy_clear_input($j(this));
+                            });
+
+                            function speedy_clear_input(element) {
+                                if ($j('#shipping\\:country_id').val() != 'BG' && element.val().match(/[а-яА-я]/)) {
+                                    alert('<?php echo $this->__('Please, use only latin characters!') ?>');
+                                    element.val('');
+                                }
+                            }
+                        });
+                    </script>
+    <style>
+        .bg_field_shipping {
+            display: none;
+        }
+    </style>

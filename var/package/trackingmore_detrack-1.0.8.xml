@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<package>
+    <name>trackingmore_detrack</name>
+    <version>1.0.8</version>
+    <stability>stable</stability>
+    <license>Open Software License (OSL)</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>real-time track orders &amp; cross-selling solution. Support tracking of UPS, FedEx, USPS &amp; 380+ carriers.</summary>
+    <description>1.In site shipment real-time tracking and display all shipments &lt;a href="//my.trackingmore.com"&gt;in one place&lt;/a&gt; - UPS, DHL,USPS, Fedex &amp; 100+ couriers (Free)&lt;br&gt;&#xD;
+ &#xD;
+ 2.Notify customers when in transit, out for delivery, delivered or exceptions (Free)&lt;br&gt;&#xD;
+ &#xD;
+ 3. Cross sale possibility on shipment tracking page (Free)&lt;br&gt;&#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &lt;h2&gt;&#x2605; real-time track all shipments in one place .&lt;/h2&gt;&#xD;
+ &#xD;
+ 1) Customers can have real-time access to In site track orders and shipments of their products&lt;br&gt;&#xD;
+ &#xD;
+ 2) Display tracking data of one or multiple stores&lt;a href="//my.trackingmore.com"&gt; in one place&lt;/a&gt; &lt;br&gt;&#xD;
+ &#xD;
+ 3) Auto detect the package Origin/Destination &lt;br&gt;&#xD;
+ &#xD;
+ 4) Provides translation feature&lt;br&gt;&#xD;
+ &#xD;
+ 5) Track 100+ Carriers for FREE!&lt;br&gt;&lt;br&gt;&#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &lt;h2&gt; &#x2605; Email notifications on shipment status change&lt;/h2&gt;&#xD;
+ &#xD;
+ Trackingmore will send out delivery notifications to customers or yourself. Your choice of notification triggers - In transit, Pick Up, Delivered, Expired or Exceptions. Use your own email to send out notifications, and customize messages to add store logo, URL, a direct tracking link to get more returned customers !&lt;br&gt;&#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &lt;h2&gt; &#x2605; cross-selling solution&lt;/h2&gt;&#xD;
+ &#xD;
+ 1) With our solution you can automate cross-selling while the package is on the way, automatically inform your customer with shipment delivery and increase your revenue.&lt;br&gt;&#xD;
+ &#xD;
+ 2) By bringing the tracking process over to your own website, you can:&lt;br&gt;&#xD;
+ &#xD;
+ - Up/Cross sell add-ons to go with their recent purchase.&lt;br&gt;&#xD;
+ &#xD;
+ &#x2013; Introduce them to new products.&lt;br&gt;&lt;br&gt;&#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &lt;h2&gt;Support Tracking of 100+ Couriers&lt;h2&gt;&#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ &#x2022; DHL &#x2022; UPS &#x2022; Fedex &#x2022; TNT &#x2022; China post &#x2022; China EMS &#x2022; Singapore Post &#x2022; Singapore Speedpost &#x2022; Hong Kong Post &#x2022; Swiss Post &#x2022; USPS &#x2022; United Kingdom Royal Mail &#x2022; Parcel Force &#x2022; Netherlands Post - PostNL &#x2022; Australia post &#x2022; Australia EMS &#x2022; Canada post &#x2022; New Zealand Post &#x2022; Belgium post &#x2022; Brazil Correios &#x2022; Russian Post &#x2022; Sweden Posten &#x2022; French Post -La Poste &#x2022; France EMS - Chronopost &#x2022; Poste Italiane &#x2022; India post &#x2022; Magyar Posta &#x2022; An Post &#x2022; Mexico post &#x2022; Posten Norge &#x2022; Portugal post - CTT &#x2022; South African Post Office &#x2022; Spain post &#x2022; Swaziland post &#x2022; Switzerland post &#x2022; Taiwan post &#x2022; Ukraine post &#x2022; Ukraine EMS &#x2022; Emirates Post &#x2022; Uruguay post &#x2022; Japan post &#x2022; Po&#x219;ta Rom&#xE2;n&#x103; &#x2022; Korea Post &#x2022; ELTA Hellenic Post &#x2022; Deutsche Post &#x2022; &#x10C;esk&#xE1; Po&#x161;ta &#x2022; Correos Chile &#x2022; &#xC5;land Post &#x2022; Afghan Post &#x2022; Albania post &#x2022; Angola post &#x2022; Anguilla post &#x2022; Antilles post &#x2022; Argentina post &#x2022; Armenia post &#x2022; Aruba post &#x2022; Ascension Post &#x2022; Austrian Post &#x2022; Azerbaijan post &#x2022; Bahamas post &#x2022; Bahrain post &#x2022; Bangladesh post &#x2022; Bangladesh EMS &#x2022; Barbados post &#x2022; Belarus post &#x2022; Belize post &#x2022; Benin post &#x2022; Bermuda post &#x2022; Bhutan post &#x2022; Bolivia post &#x2022; Bosnia and Herzegovina post &#x2022; Botswana post &#x2022; Brunei post &#x2022; Bulgaria post &#x2022; Burkina Faso post &#x2022; Burundi post &#x2022; Cambodia post &#x2022; Cameroon post &#x2022; Correios Cabo Verde &#x2022; Cayman post &#x2022; Colombia post &#x2022; Costa Rica post &#x2022; Croatia post &#x2022; Cyprus post &#x2022; Denmark post &#x2022; Djibouti post &#x2022; Dominica post &#x2022; Dominican post &#x2022; Ecuador Post &#x2022; Egypt post &#x2022; El Salvador post &#x2022; Eritrea post &#x2022; Estonia post &#x2022; Ethiopia post &#x2022; Faroe Islands post &#x2022; Fiji post &#x2022; Finland post - Posti &#x2022; Georgia post &#x2022; Ghana post &#x2022; Gibraltar post &#x2022; Greenland post &#x2022; Grenada post &#x2022; Guatemala post &#x2022; Guernsey Post &#x2022; Guyana post &#x2022; Haiti post &#x2022; Honduras post &#x2022; Iceland post &#x2022; Indonesia post &#x2022; Iran post &#x2022; Israel post &#x2022; Ivory Coast post &#x2022; Ivory Coast EMS &#x2022; Jamaica post &#x2022; Jordan post &#x2022; Kazakhstan post &#x2022; Kenya post &#x2022; Kyrgyzstan post &#x2022; Latvia post &#x2022; Lebanon post &#x2022; Lesotho post &#x2022; Libya post &#x2022; Liechtenstein post &#x2022; Lithuania post &#x2022; Luxembourg post &#x2022; Macao Post &#x2022; Macedonia post &#x2022; Malawi post &#x2022; Malaysia post &#x2022; Maldives post &#x2022; Mali post &#x2022; Malta post &#x2022; Mauritania post &#x2022; Mauritius post &#x2022; Moldova post &#x2022; Monaco Post &#x2022; Monaco EMS &#x2022; Mongol Post &#x2022; Montenegro post &#x2022; Maroc Poste &#x2022; Mozambique post &#x2022; Myanmar post &#x2022; Namibia post &#x2022; Nepal post &#x2022; New Caledonia post &#x2022; Nicaragua post &#x2022; Niger post &#x2022; Nigeria post &#x2022; Oman post &#x2022; Pakistan post &#x2022; Palau post &#x2022; Panama post &#x2022; Papua New Guinea post &#x2022; Paraguay post &#x2022; Peru post &#x2022; Philippines post &#x2022; Poland post &#x2022; Qatar post &#x2022; Rwanda post &#x2022; Saint Lucia post &#x2022; SVG Post &#x2022; Samoa post &#x2022; San Marino post &#x2022; Saudi Post &#x2022; Senegal post &#x2022; Serbia post &#x2022; Seychelles post &#x2022; Slovakia post &#x2022; Slovenia post &#x2022; Solomon Post &#x2022; Sri Lanka post &#x2022; Suriname post &#x2022; Syrian post &#x2022; Tanzania post &#x2022; Thailand post &#x2022; Togo post &#x2022; Tonga post &#x2022; Trinidad Tobago Post &#x2022; Tunisia post &#x2022; Turkey post &#x2022; Turkmenistan post &#x2022; Uganda post &#x2022; Uzbekistan post &#x2022; Uzbekistan EMS &#x2022; Vanuatu post &#x2022; Vatican City post &#x2022; Venezuela post &#x2022; Vietnam post &#x2022; Western Sahara post &#x2022; Yemen post &#x2022; Zambia post &#x2022; Zimbabwe post&lt;br&gt;&lt;br&gt;&#xD;
+ &#xD;
+ &#xD;
+ &#xD;
+ If you did not find the carrier you are using, email us &lt;a href="mailto:service@trackingmore.com"&gt;service@trackingmore.com&lt;/a&gt; and we will take care of it.real-time track orders &amp; cross-selling solution. Support tracking of UPS, FedEx, USPS &amp; 380+ carriers. </description>
+    <notes>Add Comments History to Shipping &amp; Handling Information,your customer also can see it;&#xD;
+</notes>
+    <authors><author><name>Charles</name><user>tracking_more</user><email>service@trackingmore.com</email></author></authors>
+    <date>2017-02-10</date>
+    <time>03:57:33</time>
+    <contents><target name="magecommunity"><dir name="Trackingmore"><dir name="Detrack"><dir name="Block"><dir name="Adminhtml"><dir name="Sales"><dir name="Order"><dir name="Shipment"><dir name="Create"><file name="Tracking.php" hash="6dbfdf7442bad3c773dddea75d2035dc"/></dir><dir name="View"><file name="Tracking.php" hash="5f6fd2adecbf5be54a185025edcd54a3"/></dir></dir></dir></dir><dir name="System"><dir name="Config"><dir name="Form"><dir name="Fieldset"><file name="Carrier.php" hash="92b03762d5b9f3bd602347b816fced67"/></dir></dir></dir></dir></dir><file name="Crosssell.php" hash="4bdb95ee476b37ba9b2a0109e57ddf9a"/><file name="Index.php" hash="cf9ecc08b839cd14b9987291c9907f1e"/></dir><dir name="Helper"><file name="Data.php" hash="a165a1e197aa2cd3a116d6fdcb789845"/></dir><dir name="Model"><file name="Carrier.php" hash="3fb8829e1f07f7e583d3af4a860f9036"/><file name="EnableNotifications.php" hash="74ccdbab958b8ef54531a5827f6c2d41"/><file name="EnableTracking.php" hash="da74009309d8780c51239443261a132e"/><file name="Observer.php" hash="ca23304d194cbd0294a2e0bcbaa361ba"/><dir name="Order"><file name="Shipment.php" hash="729dadc50d1feb0ad2df0f1f9a8024ab"/></dir><dir name="Resource"><dir name="Carrier"><file name="Collection.php" hash="0a61ff46b71c7e9356e3e6fe2db54770"/></dir><file name="Carrier.php" hash="96cb22523f77301a01131b8ec4bdee11"/><dir name="Track"><file name="Collection.php" hash="38945e5ea9a5260ba4cb1c837be6d860"/></dir><file name="Track.php" hash="f8842f3e2946bf974f89e648d0b20a23"/></dir><file name="Track.php" hash="e465d55e2b86e8494b7f899b20b12795"/><file name="Translate.php" hash="087c4160894b31e9e8bc415259e44601"/></dir><dir name="controllers"><file name="IndexController.php" hash="daef7dc507a587047d96cd957cc9bc3e"/></dir><dir name="etc"><file name="adminhtml.xml" hash="6ea995801961bf46ea3f427d345bf156"/><file name="api.xml" hash="543598910a98371b4dacbcaff6ab8af2"/><file name="config.xml" hash="e43b3bcd3378e7db8233543525035f95"/><file name="system.xml" hash="7ca5f82538622eceef0b00a72253bcbf"/></dir><dir name="sql"><dir name="detrack_setup"><file name="mysql4-install-1.0.5.php" hash="d28a3cf8ca93731dd8f515876fcdcb64"/><file name="mysql4-upgrade-1.0.7-1.0.9.php" hash="04e9efc84ad102faf3194e1a5c718e93"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="detrack.xml" hash="331aecb00dc4b29b48aa7d024f2ac8a0"/></dir><dir name="template"><dir name="detrack"><file name="pagepopup.phtml" hash="e8adf37065860b3a43007d952d4d5bae"/><file name="popup.phtml" hash="1dfc7457a6487a53780072b85d0b4ddd"/><file name="crosssell.phtml" hash="5f5abe320409845cf06a1aa20286ea52"/></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Trackingmore_Detrack.xml" hash="650abf45d5fea060cb8403b740cd3eeb"/></dir></target><target name="mage"><dir name="js"><dir name="detrack"><file name="iframeResizer.min.js" hash="3a2d3465a2a22022b9efa891618554c6"/><file name="jquery.min.js" hash="8fc25e27d42774aeae6edbc0a18b72aa"/></dir></dir></target><target name="mageskin"><dir name="frontend"><dir name="base"><dir name="default"><dir name="css"><file name="detrack.css" hash="b0ac9386efa2733623f09478481c7b6b"/></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

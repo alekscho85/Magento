@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+   <adminhtml_sales_order_shipment_view>
+        <reference name="content">
+            <block type="speedyshippingmodule/adminhtml_billoflading"
+                   name="speedy.sales.order.shipment.create.billoflading">
+            </block>
+            
+        </reference>
+    </adminhtml_sales_order_shipment_view>
+
+    <adminhtml_sales_order_create_index>
+        
+            <reference name="head">
+                <action method="addCss"><stylesheet>speedy/css/jquery-ui-1.10.2.custom.min.css</stylesheet></action>
+                <action method="addItem"><type>skin_js</type><name>speedy/js/jquery-1.9.1.min.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>speedy/js/jquery-ui-1.10.2.custom.min.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>speedy/js/office_pickup.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>speedy/js/validateAddress.js</name></action>
+            </reference>
+
+    </adminhtml_sales_order_create_index>
+    
+  
+    
+    
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addCss"><stylesheet>speedy/css/hideEditAddress.css</stylesheet></action>
+        </reference>
+    </adminhtml_sales_order_view>
+    
+    
+    <adminhtml_sales_order_shipment_new>
+        <reference name="head">
+            <action method="addCss"><stylesheet>speedy/css/hideEditAddress.css</stylesheet></action>
+        </reference>
+    </adminhtml_sales_order_shipment_new>
+    <adminhtml_sales_order_shipment_view>
+        <reference name="head">
+            <action method="addCss"><stylesheet>speedy/css/hideEditAddress.css</stylesheet></action>
+        </reference>
+    </adminhtml_sales_order_shipment_view>
+    
+    
+    <speedyshipping_admin_print_index>
+        <reference name="content">
+            <block type="speedyshippingmodule/adminhtml_requestcourier_requestcontainer" name="speedy.courier.grid" />
+        </reference>
+    </speedyshipping_admin_print_index>
+</layout>
+
+
+
+
+
+
+

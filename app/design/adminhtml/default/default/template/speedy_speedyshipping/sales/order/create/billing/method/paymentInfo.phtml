@@ -1,0 +1,20 @@
+
+ 
+<?php $isFixed = Mage::getStoreConfig('carriers/speedyshippingmodule/fixed_pricing_enable'); ?>
+    <?php if ($this->_codAmount && ($isFixed != 2 && $isFixed != 4) && !$this->_isFreeMethod){
+        $output = '';
+        $output = '<p>'.$this->__('Speedy Payment method tax');
+         $_excl = $this->_codAmount;
+         $_incl = $this->_codAmountWithTaxApplied;
+         $output .= $_excl.' '.$this->__('Leva');
+         if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl){
+            $output .=' ('.$this->__('Incl. Tax').' '. $_incl.' '.$this->__('Leva').')';
+         }
+        
+        $output .= '</p>';
+    }
+    
+    if(isset($output)){
+        echo $output;
+    }
+    ?>

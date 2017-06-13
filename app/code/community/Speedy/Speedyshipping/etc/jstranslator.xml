@@ -1,0 +1,21 @@
+<jstranslator>
+    <speedy_fixed_hour translate="message" module="speedyshippingmodule">
+        <message>fixed hour</message>
+    </speedy_fixed_hour>
+    <speedy_incl_tax>
+        <message>Incl. Tax</message>
+    </speedy_incl_tax>
+    <speedy_currency_lev>
+        <message>Leva</message>
+    </speedy_currency_lev>
+    <speedy_extra_charge>
+        <message>extra charge</message>
+    </speedy_extra_charge>
+    <speedy_invalid_hour_message>
+        <message>invalid_hour_warning</message>
+    </speedy_invalid_hour_message>
+    <speedy_invalid_address>
+        <message>Please enter a valid address</message>
+    </speedy_invalid_address>
+    
+</jstranslator>

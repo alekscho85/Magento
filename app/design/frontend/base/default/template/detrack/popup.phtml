@@ -1,0 +1,108 @@
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__('Tracking Information'); ?></h1>
+    <button class="button" onclick="window.close(); window.opener.focus();"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
+</div>
+<br>
+
+<?php $models = Mage::registry('models'); ?>
+<?php $model = Mage::registry('model'); ?>
+<?php $key = Mage::getStoreConfig('tr_section_setttings/settings/api_key'); ?>
+<?php if ($models) : ?>
+    <?php  foreach ($models as $trackModel) : ?>
+        
+        <?php   
+		       $numbers[] = $trackModel->getCode();
+		       $carrierCodes[] = $trackModel->getCarrierCode();
+			   $orderId = $trackModel->getOrderId();
+			   // print_r($orderId);exit;
+			   //取卖家的附加信息
+			   $read = Mage::getSingleton("core/resource")->getConnection('core_read');
+			   $sql = "select comment,created_at from sales_flat_order_status_history where parent_id='".$orderId."'"; 
+			   $result = $read->fetchAll($sql);
+			   foreach($result as $k=>$value){
+				   if(empty($value['comment'])){
+					   unset($result[$k]);
+				   }else{
+					   $result[$k]['Date'] = !empty($result[$k]['created_at'])?$result[$k]['created_at']:'';
+					   $result[$k]['StatusDescription'] = !empty($result[$k]['comment'])?$result[$k]['comment']:'';
+					   $result[$k]['Details'] = '';
+					   unset($result[$k]['created_at'],$result[$k]['comment']);
+				   }
+			   }
+			   
+			   $comment = !empty($result)?json_encode($result):'';
+			   
+
+			   
+		?> 
+    <?php endforeach; ?>
+	<?php $href = "//track.trackingmore.com/magento.php?comment=".$comment."&storekey=".$key."&express=".implode(',',$carrierCodes)."&tracknumber=".implode(',',$numbers);?>
+	 <div  class="popuout"><iframe id="iframepage" name="iframepage"  src='<?=$href?>'   scrolling="no"  frameborder="0" ></iframe></div>
+
+<?php elseif($model): ?>
+        <?php  
+		       $number = $model->getCode();
+		       $carrierCode = $model->getCarrierCode();
+			   $orderId = $model->getOrderId();
+			   $read = Mage::getSingleton("core/resource")->getConnection('core_read');
+			   $sql = "select comment,created_at from sales_flat_order_status_history where parent_id='".$orderId."'"; 
+			   $result = $read->fetchAll($sql);
+			   foreach($result as $k=>$value){
+				   if(empty($value['comment'])){
+					   unset($result[$k]);
+				   }else{
+					   $result[$k]['Date'] = !empty($result[$k]['created_at'])?$result[$k]['created_at']:'';
+					   $result[$k]['StatusDescription'] = !empty($result[$k]['comment'])?$result[$k]['comment']:'';
+					   $result[$k]['Details'] = '';
+					   unset($result[$k]['created_at'],$result[$k]['comment']);
+				   }
+			   }
+			   
+			   $comment = !empty($result)?json_encode($result):'';
+		?>
+		
+		<?php $href = "//track.trackingmore.com/magento.php?comment=".$comment."&storekey=".$key."&express=".$carrierCode."&tracknumber=".$number?>
+		
+ <div  class="popuout"><iframe id="iframepage" name="iframepage"  src='<?=$href?>'   scrolling="no"  frameborder="0" ></iframe></div>
+<?php endif; ?>
+<div class="clearfix"></div>
+<?php   if (Mage::getStoreConfig('tr_section_setttings/crosssell/cross_sell_page') && !empty($orderId)){
+             echo $this->getLayout()->createBlock('detrack/crosssell')->setData("orderId", $orderId)->setTemplate('detrack/crosssell.phtml')->toHtml();  
+		}	 
+ ?>
+<div class="clearfix"></div>
+<div class="buttons-set" style="margin-top:20px;">
+    <button type="button" title="<?php echo $this->__('Close Window') ?>" class="button" onclick="window.close(); window.opener.focus();"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
+</div>
+     <script type="text/javascript">
+	     	
+			//MDN PolyFil for IE8 (This is not needed if you use the jQuery version)
+			if (!Array.prototype.forEach){
+				Array.prototype.forEach = function(fun /*, thisArg */){
+				"use strict";
+				if (this === void 0 || this === null || typeof fun !== "function") throw new TypeError();
+
+				var
+				t = Object(this),
+				len = t.length >>> 0,
+				thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+
+				for (var i = 0; i < len; i++)
+				if (i in t)
+					fun.call(thisArg, t[i], i, t);
+				};
+			}
+		
+
+			/*
+			 * If you do not understand what the code below does, then please just use the
+			 * following call in your own code.
+			 *
+			 *   iFrameResize({log:true});
+			 *
+			 * Once you have it working, set the log option to false.
+			 */
+
+			iFrameResize();
+
+		</script>

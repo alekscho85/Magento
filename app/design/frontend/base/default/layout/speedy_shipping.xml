@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <checkout_onepage_index>
+        
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>speedy/css/jquery-ui-1.10.3.custom.min.css</stylesheet>
+            </action>
+            <action method="addItem" ifconfig="carriers/speedyshippingmodule/add_jquery">
+                <type>skin_js</type>
+                <name>speedy/js/jquery-1.9.1.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>speedy/js/noconflict.js</name>
+            </action>
+            <action method="addItem" ifconfig="carriers/speedyshippingmodule/add_jquery_ui">
+                <type>skin_js</type>
+                <name>speedy/js/jquery-ui-1.10.3.custom.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>speedy/js/office_pickup.js</name>
+            </action>
+
+        </reference>
+            
+        <reference name='checkout.onepage.billing'>
+            <action method='setTemplate'>
+                <template>speedy_speedyshipping/checkout/onepage/billing.phtml</template>
+            </action>
+        </reference>
+        <reference name='checkout.onepage.shipping'>
+            <action method='setTemplate'>
+                <template>speedy_speedyshipping/checkout/onepage/shipping.phtml</template>
+            </action>
+        </reference>
+            
+        <reference name="checkout.onepage.shipping_method">
+            <action method='setTemplate'>
+                <template>speedy_speedyshipping/checkout/onepage/shipping_method/shipping_method.phtml</template>
+            </action>
+        </reference>
+        <reference name='checkout.onepage.shipping_method.available'>
+            <action method='setTemplate'>
+                <template>speedy_speedyshipping/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+    <checkout_onepage_shippingmethod>
+        <reference name='root'>
+            <action method='setTemplate'>
+                <template>speedy_speedyshipping/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_shippingmethod>
+    <customer_address_form translate="label">
+        <label>Customer My Account Address Edit Form</label>
+        <!-- Mage_Customer -->
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>speedy/css/jquery-ui-1.10.3.custom.min.css</stylesheet>
+            </action>
+            <action method="addItem" ifconfig="carriers/speedyshippingmodule/add_jquery">
+                <type>skin_js</type>
+                <name>speedy/js/jquery-1.9.1.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>speedy/js/noconflict.js</name>
+            </action>
+            <action method="addItem" ifconfig="carriers/speedyshippingmodule/add_jquery_ui">
+                <type>skin_js</type>
+                <name>speedy/js/jquery-ui-1.10.3.custom.min.js</name>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customer/address_edit" name="customer_address_edit" template="speedy_speedyshipping/customer/address/edit.phtml"/>
+        </reference>
+    </customer_address_form>
+</layout>

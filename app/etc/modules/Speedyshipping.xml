@@ -1,0 +1,8 @@
+<config>
+  <modules>
+    <Speedy_Speedyshipping>
+      <active>true</active>
+      <codePool>community</codePool>
+    </Speedy_Speedyshipping>
+  </modules>
+</config>

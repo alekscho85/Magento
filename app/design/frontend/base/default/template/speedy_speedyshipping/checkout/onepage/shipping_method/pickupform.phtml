@@ -1,0 +1,121 @@
+<script type="text/javascript">
+<?php if ($this->helper('tax')->displayShippingPriceExcludingTax()): ?>
+        excludeTax = <?php echo $this->helper('tax')->displayShippingPriceExcludingTax() ?>;
+<?php else: ?>
+        excludeTax = null;
+<?php endif; ?>
+
+<?php if ($this->helper('tax')->displayShippingPriceIncludingTax()): ?>
+        includeTax = <?php echo $this->helper('tax')->displayShippingPriceIncludingTax() ?>;
+<?php else: ?>
+        includeTax = null;
+<?php endif; ?>
+
+
+<?php if ($this->helper('tax')->displayShippingBothPrices()): ?>
+        showBoth = <?php echo $this->helper('tax')->displayShippingBothPrices() ?>;
+<?php else: ?>
+        showBoth = null;
+<?php endif; ?>
+</script>
+
+<?php $isFixedPrice = Mage::getStoreConfig('carriers/speedyshippingmodule/fixed_pricing_enable'); ?>
+<?php $isFixedHourEnabled = Mage::getStoreConfig('carriers/speedyshippingmodule/add_fixed_hour'); ?>
+
+<?php if ($isFixedHourEnabled): ?>
+    <li class="fields" id="speedy_exact_picking_data">
+
+
+        <div style="width: 90%;position: relative">
+            <label for="speed_exact_hour_enable" style=""><?php echo $this->__("choose fixed hour") ?></label><br />
+            <?php if ($isFixedPrice != 2 && $isFixedPrice != 4): ?>
+                <p id="fixed_price_view"><?php echo $this->__("extra charge") . '"' . $this->__("fixed hour") . '"' ?></p>
+            <?php endif; ?>
+            <input type="checkbox" disabled="disabled" name="speed_exact_hour_enable" class="input-box" id="speedy_exact_hour_enable" />
+            <label style="
+                   max-width: 45px;
+                   min-width: 45px;
+                   padding: 0;
+                   " for="speedy_exact_hour"><?php echo $this->__("Hour") ?>:</label>
+                   <?php if ($this->_hour !== FALSE && strlen($this->_hour) >= 1): ?>
+                <input style="
+                       width:55px;
+                       " type="text"  size="4" name="speedy_exact_hour" value="<?php echo htmlentities($this->_hour, ENT_QUOTES, 'UTF-8') ?>" id="speedy_exact_hour" class="input-text" />
+                   <?php else: ?>
+                <input style="
+                       width: 55px;
+                       " type="text" disabled="disabled" size="4" name="speedy_exact_hour" id="speedy_exact_hour" class="input-text" />
+                   <?php endif; ?>
+            <span>:</span>
+            <?php if ($this->_minutes !== FALSE && strlen($this->minutes) >= 1): ?>
+
+                <input style="
+                       width: 55px;
+                       " type="text"  size="4" name="speedy_exact_minutes" value="<?php echo htmlentities($this->_minutes, ENT_QUOTES, 'UTF-8') ?>" id="speedy_exact_minutes" class="input-text" />
+
+            <?php else: ?>
+
+                <input style="
+                       width: 55px;
+                       " type="text" disabled="disabled"  size="4" name="speedy_exact_minutes" id="speedy_exact_minutes" class="input-text" />
+            <?php endif; ?>
+        </div>   
+
+    </li>  
+<?php endif; ?>
+
+
+
+<script type="text/javascript">
+
+
+    $j('document').ready(function() {
+        function setActiveRadioButton(button) {
+
+
+            isExactHourAllowed = $j(button).nextAll('div.speedy_method_options').find('input:hidden.speedy_exacthour_allowed').length
+            isFreeMethod = $j(button).nextAll('input:hidden');
+
+            if ($j(button).is(':checked') && isExactHourAllowed) {
+                $j('#speedy_exact_picking_data input#speedy_exact_hour_enable').removeAttr('disabled')
+                var finalSelector = $j(button).nextAll('div.speedy_method_options');
+                var priceWithTax = $j(finalSelector).find('input:hidden.speedy_exacthour_allowed').val()
+                var priceWithoutTax = $j(finalSelector).find('input:hidden.speedy_exacthour_withouttax').val()
+
+                var price = '';
+                if (!isFreeMethod.length) {
+                    if (includeTax) {
+                        price += priceWithTax;
+                    }
+                    if (excludeTax) {
+                        price += priceWithoutTax;
+                    }
+                    if (showBoth) {
+                        price += priceWithoutTax + ' ' + "<?php echo $this->__("Leva") ?>" + ' (<?php echo $this->__("Incl. Tax") ?> ' + priceWithTax;
+                    }
+                } else {
+                    price = '0.00';
+                }
+                if (showBoth) {
+                    price += ' ' + "<?php echo $this->__("Leva") ?>" + ')'
+                } else {
+                    price += ' ' + "<?php echo $this->__("Leva") ?>";
+                }
+                $j('p#fixed_price_view').show().text('<?php echo $this->__("extra charge") . '"' . $this->__("fixed hour") . '"' ?> ' + ' ' + price)
+
+            } else {
+
+                $j('#speedy_exact_picking_data input#speedy_exact_hour_enable').attr('disabled', 'disabled').removeAttr('checked');
+                $j('#speedy_exact_picking_data input:text').attr('disabled', 'disabled').val('')
+                $j('p#fixed_price_view').text('<?php echo $this->__("extra charge") . '"' . $this->__("fixed hour") . '"' ?> ' + ' ');
+                isExactHourAllowed = false;
+
+            }
+
+        }
+
+        var currentMethod = $j('#co-shipping-method-form input:radio:checked');
+        setActiveRadioButton(currentMethod);
+    })
+
+</script>

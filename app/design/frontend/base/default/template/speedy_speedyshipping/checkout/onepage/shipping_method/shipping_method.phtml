@@ -1,0 +1,75 @@
+ 
+<form id="co-shipping-method-form" action="">
+  
+    
+    
+    <div id="checkout-shipping-method-load">
+        <?php echo $this->getChildHtml('available') ?>
+    </div>
+    <script type="text/javascript">
+        //<![CDATA[
+        var shippingMethod = new ShippingMethod('co-shipping-method-form', "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>");
+        //]]>
+    </script>
+    <div id="onepage-checkout-shipping-method-additional-load">
+        <?php echo $this->getChildHtml('additional') ?>
+    </div>
+    <div class="buttons-set" id="shipping-method-buttons-container">
+        <p class="back-link"><a href="#" onclick="checkout.back();
+            return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="button" class="button"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+        <span id="shipping-method-please-wait" class="please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+        </span>
+    </div>
+</form>
+<script type="text/javascript">
+        $j('document').ready(function() {
+            $j('div#shipping-method-buttons-container button.button').click(function(evt) {
+
+
+                $j('div#speedyError').hide();
+                var speedyMethod = $j("input[type='radio'][id*='speedyshippingmodule']").is(':checked');
+                var isNewAddress = $j('#speedy_existing_combo').is(':checked');
+
+                if (speedyMethod && isNewAddress) {
+                    var baseForm = 'div#speedyForm';
+
+                    var quarter = $j(baseForm + ' #quarter_box').val();
+                    var quarter_id = $j(baseForm + ' #quarter_id').val();
+                    var street = $j(baseForm + ' #speedy_streets').val();
+                    var street_id = $j(baseForm + ' #speedy_street_id').val();
+                    var number = $j(baseForm + ' #speedy_number').val();
+                    var blockNo = $j(baseForm + ' #speedy_block_no').val();
+                    var note = $j(baseForm + ' #address_note').val();
+
+                    var isValid = 0;
+
+                    if (quarter && quarter_id) {
+                        if ((street && street_id && number) || blockNo) {
+                            isValid = true;
+                        }
+                        
+                    } else if ((street && street_id)) {
+                        if (number || blockNo) {
+                            isValid = true;
+                        }
+                        
+                    } else if ($j.trim(note)) {
+                        isValid = true;
+
+                    }
+
+
+                    if (isValid) {
+                        shippingMethod.save();
+                    } else {
+                        $j('div#speedyError').show();
+                    }
+
+                } else {
+                    shippingMethod.save();
+                }
+            })
+        })
+</script>

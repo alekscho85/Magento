@@ -1,0 +1,28 @@
+<config> 
+    <menu> 
+        <speedyshippingmodule module="speedyshippingmodule" translate="title"> 
+            <title>Speedy Shipping</title> 
+            <sort_order>71</sort_order> 
+            <action>speedyshipping/print</action>
+        </speedyshippingmodule> 
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <speedyshippingmodule translate="title" module="speedyshippingmodule">
+                        <title>Speedy Shipping</title>
+                        <sort_order>85</sort_order>
+                        <children>
+                            <print translate="title">
+                                <title>Speedy</title>
+                                <sort_order>90</sort_order>
+                            </print>
+                        </children>
+                    </speedyshippingmodule>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    
+</config>

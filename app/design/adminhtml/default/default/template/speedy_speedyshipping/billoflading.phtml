@@ -1,0 +1,207 @@
+<script>
+<?php if ($this->_deferredDays): ?>
+        var deferredDays = <?php echo $this->_deferredDays; ?>;
+<?php else: ?>
+        var deferredDays = "";
+<?php endif; ?>
+
+<?php if (!$this->_isAbroad): ?>
+    <?php if ($this->_optionsBeforePayment): ?>
+            var optionsBeforePayment = "<?php echo $this->_optionsBeforePayment; ?>";
+    <?php else: ?>
+            var optionsBeforePayment = "";
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php if ($this->_parcelsCount): ?>
+        var parcelsCount = <?php echo $this->_parcelsCount; ?>;
+<?php else: ?>
+        var parcelsCount = "";
+<?php endif; ?>
+
+    function getAllElementsWithAttributeValue(attribute, value)
+    {
+        var matchingElements = [];
+        var allElements = document.getElementsByTagName('button');
+        for (var i = 0, n = allElements.length; i < n; i++)
+        {
+            if (allElements[i].getAttribute(attribute))
+            {
+                
+                if(allElements[i].getAttribute(attribute)== value){
+                // Element exists with attribute. Add to array.
+                matchingElements.push(allElements[i]);
+                
+            }
+            }
+        }
+        return matchingElements;
+    }
+</script>
+
+
+
+
+
+
+
+<?php if (!$this->_doesUserHasPermission): ?> 
+    <script>
+
+
+
+
+        var createLabelBtn = getAllElementsWithAttributeValue('onclick','packaging.showWindow();')[0];
+
+        
+        if(document.getElementById('shipment_tracking_info')){
+document.getElementById('shipment_tracking_info').style.display = 'none';
+
+}
+
+        if(document.getElementById('linkId')){
+            document.getElementById('linkId').style.display = 'none';
+        }
+        if(createLabelBtn){
+        document.getElementById(createLabelBtn.id).style.display = 'none';
+        }
+
+
+
+    </script>
+<?php endif; ?>
+
+<?php if ($this->_isSpeedyCarrier && $this->_doesUserHasPermission) : ?>
+
+
+
+
+    <div class="entry-edit box-left">
+
+        <?php if ($this->_hasBOL): ?>
+            <div class="entry-edit-head">
+                <h4><?php echo $this->getHeaderText() ?></h4>
+            </div>
+            <fieldset>
+
+                <?php echo $this->getPrintButton() ?>
+                <?php echo $this->getCancelBolButton() ?>
+                <?php echo $this->getPrintReturnVoucherButton() ?>
+        </div>
+
+        </fieldset>
+
+        <div class="clear"></div>
+
+    <?php endif; ?>
+    <div id="speedyDeferredDays" style="margin-left: 15px; ">
+        <span><?php echo $this->__('days_to_postpone_delivery') ?></span><select onchange="deferredDays = this.value;" name="speedy_deferred_delivery_days" id="speedy_deferred_delivery_days">
+
+            <?php for ($i = 0; $i < 3; $i++): ?>
+
+                <?php if ($i == $this->_deferredDays): ?>
+                    <?php echo '<option value ="' . $i . '" selected="selected">' . $i . '</option>'; ?>
+
+                <?php else: ?>
+                    <?php echo '<option value ="' . $i . '">' . $i . '</option>'; ?>
+
+                <?php endif; ?>
+
+            <?php endfor; ?>
+
+        </select>
+    </div>
+
+    <?php if (!$this->_isAbroad): ?>
+    <div id="speedyOptionsBeforePayment" style="margin: 5px 15px; ">
+        <span><?php echo $this->__('options_before_payment') ?></span>
+        <select onchange="optionsBeforePayment = this.value;" name="speedy_options_before_payment" id="speedy_options_before_payment">
+            <?php foreach (Mage::getModel('speedyshippingmodule/carrier_source_beforepayment')->toOptionArray() as $option): ?>
+
+                <?php if ($option['value'] == $this->_optionsBeforePayment): ?>
+                    <?php echo '<option value ="' . $option['value'] . '" selected="selected">' . $option['label'] . '</option>'; ?>
+                <?php else: ?>
+                    <?php echo '<option value ="' . $option['value']. '">' . $option['label'] . '</option>'; ?>
+                <?php endif; ?>
+
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php endif; ?>
+
+    <div id="speedyParcelsCount" style="margin: 5px 15px; ">
+        <span><?php echo $this->__('parcels_count') ?></span>
+        <input type="text" name="speedy_parcels_count" id="speedy_parcels_count" value="<?php echo $this->_parcelsCount; ?>" />
+    </div>
+
+    <script>
+        var baseRef = document.getElementById('packaging_window').getElementsByClassName('entry-edit')[0];
+        var packButtons = baseRef.getElementsByClassName('a-right')[0];
+        <?php if (!$this->_isAbroad): ?>
+        baseRef.insertBefore(document.getElementById('speedyOptionsBeforePayment'), packButtons);
+        <?php endif; ?>
+        baseRef.insertBefore(document.getElementById('speedyDeferredDays'), packButtons);
+        baseRef.insertBefore(document.getElementById('speedyParcelsCount'), packButtons);
+    </script>
+    <script>
+
+
+
+
+        //<![CDATA[
+        document.observe("dom:loaded", function() {
+
+
+
+            setTimeout(function() {
+
+                packaging.setCreateLabelUrl("<?php echo $this->getCreateLabelUrl(); ?>");
+                var elems = document.getElementsByClassName('SavePackagesBtn');
+                //packaging.labelCreatedCallback(response);
+
+                var magentoCallback = packaging.confirmPackagingCallback;
+                for (var i = 0; i < elems.length; i++) {
+
+                    packaging.setConfirmPackagingCallback(function() {
+                        new Ajax.Request("<?php echo $this->getCheckDateUrl(); ?>", {
+                            onSuccess: function(transport) {
+                                var response = transport.responseText;
+                                parcelsCount = $F('speedy_parcels_count');
+                                if (response.isJSON()) {
+                                    response = response.evalJSON();
+                                    if (response.error) {
+                                        //this.messages.show().innerHTML = response.message;
+
+                                        var confirmBox = confirm(response.message);
+                                        if (confirmBox == true) {
+                                            packaging.paramsCreateLabelRequest['deferred_days'] = deferredDays;
+                                            <?php if (!$this->_isAbroad): ?>
+                                            packaging.paramsCreateLabelRequest['options_before_payment'] = optionsBeforePayment;
+                                            <?php endif; ?>
+                                            packaging.paramsCreateLabelRequest['parcels_count'] = parcelsCount;
+                                            magentoCallback();
+                                        }
+                                    } else if (response.ok) {
+                                        //this.labelCreatedCallback(response);
+                                        packaging.paramsCreateLabelRequest['deferred_days'] = deferredDays;
+                                        <?php if (!$this->_isAbroad): ?>
+                                        packaging.paramsCreateLabelRequest['options_before_payment'] = optionsBeforePayment;
+                                        <?php endif; ?>
+                                        packaging.paramsCreateLabelRequest['parcels_count'] = parcelsCount;
+                                        magentoCallback();
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+            }, 1000)
+
+
+
+
+
+        });
+        //]]>
+    </script>
+<?php endif; ?>

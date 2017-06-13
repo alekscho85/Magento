@@ -1,0 +1,45 @@
+<script type="text/javascript">
+    //<![CDATA[
+    function checkSpeedyCredentials() {
+
+        var speedyUsername = document.getElementById("carriers_speedyshippingmodule_username").value;
+        var speedyPassword = document.getElementById("carriers_speedyshippingmodule_password").value;
+
+
+        if (!speedyUsername) {
+
+            alert("<?php echo $this->__('enter_username_reminder') ?>")
+        } else if (!speedyPassword) {
+            alert("<?php echo $this->__('enter_password_reminder') ?>")
+        }
+        else {
+
+
+            new Ajax.Request('<?php echo $this->getAjaxCheckUrl() ?>', {
+                method: 'post',
+                parameters: {username: speedyUsername, password: speedyPassword},
+                onSuccess: function(transport) {
+
+                    var response = transport.responseText;
+
+                    if (response.isJSON()) {
+
+                        response = response.evalJSON();
+
+                        if (response.error) {
+                          alert("<?php echo $this->__('incorrect_user_and_pass') ?>");
+                        } else if (response.ok) {
+
+
+                          alert("<?php echo $this->__('correct_user_and_pass') ?>");
+                        }
+                    }
+                    
+                }
+            });
+        }
+    }
+    //]]>
+</script>
+
+<?php echo $this->getButtonHtml() ?>
