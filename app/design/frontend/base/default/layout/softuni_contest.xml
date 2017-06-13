@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <softuni_contest_contestant_add>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="customer">
+                <name>add-contestant</name>
+                <path>softuni-contest/contestant/add</path>
+                <label>Add Contestant</label>
+            </action>
+            <action method="addLink" translate="label" module="customer">
+                <name>list-contest</name>
+                <path>softuni-contest/contest/list</path>
+                <label>List contest</label>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="softuni_contest/contestant_add" name="softuni_contest.contestant.add" template="softuni/contest/contestant/add.phtml" />
+        </reference>
+    </softuni_contest_contestant_add>
+    <softuni_contest_contest_list>
+        <reference name="content">
+            <block type="softuni_contest/contest_list" name="softuni_contest.contest.list" template="softuni/contest/contest/list.phtml" />
+        </reference>
+    </softuni_contest_contest_list>
+</layout>
